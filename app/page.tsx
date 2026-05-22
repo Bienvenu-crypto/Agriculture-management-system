@@ -397,7 +397,7 @@ export default function Page() {
              {activeView === 'orders' && (
                <div className="space-y-8">
                  {marketplaceUser ? (
-                    <MarketplaceBrowse onPostListing={() => switchView('listings')} />
+                    <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} />
                  ) : checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
@@ -417,7 +417,7 @@ export default function Page() {
                  {checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
-                    <MarketplaceBrowse onPostListing={() => switchView('listings')} />
+                    <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} />
                  )}
                </div>
              )}
