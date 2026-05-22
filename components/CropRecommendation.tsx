@@ -159,12 +159,9 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
   };
 
   return (
-    <div className="bg-white p-8 rounded-[2.5rem] shadow-sm">
+    <div className="bg-white">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
-          <div className="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-600 font-black text-[10px] uppercase tracking-widest">
-            AI
-          </div>
           <div>
             <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none">Crop Intelligence</h2>
             <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">AI-driven output optimization</p>
@@ -221,7 +218,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
 
         <div className="relative min-h-[400px]">
           {loading ? (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 rounded-[2rem]">
+            <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Running analysis...</p>
             </div>
@@ -231,7 +228,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
               animate={{ opacity: 1, scale: 1 }}
               className="h-full flex flex-col"
             >
-              <div id="recommendation-result" className="flex-1 bg-emerald-50/50 rounded-[2rem] p-8 overflow-y-auto mb-4">
+              <div id="recommendation-result" className="flex-1 p-8 overflow-y-auto mb-4">
                 <div className="prose prose-sm max-w-none prose-emerald text-slate-700">
                   <ReactMarkdown>{result}</ReactMarkdown>
                 </div>
@@ -245,7 +242,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
               </button>
             </motion.div>
           ) : (
-            <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-50 rounded-[2rem] text-center p-8">
+            <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
               <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Awaiting Input Parameters</p>
               <p className="text-sm font-bold text-slate-400 max-w-[240px]">Enter soil and climate data or use "Auto-Detect" to generate localized crop recommendations.</p>
             </div>

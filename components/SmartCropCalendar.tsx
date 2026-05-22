@@ -1,6 +1,5 @@
 'use client';
 import React, { useState, useEffect, useCallback } from 'react';
-import { Calendar, Trash2, Clock, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { GoogleGenAI, Type } from "@google/genai";
 import { useAuth } from '@/components/AuthProvider';
@@ -190,12 +189,9 @@ Make the advice highly actionable for a smallholder farmer.`;
   };
 
   return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm relative overflow-hidden">
+    <div className="bg-white relative overflow-hidden">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600 font-black text-[10px] uppercase tracking-tighter">
-            CAL
-          </div>
           <div>
             <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Smart Crop Calendar</h2>
             <p className="text-sm text-slate-500 font-bold">AI crop management schedule</p>
@@ -207,15 +203,14 @@ Make the advice highly actionable for a smallholder farmer.`;
             className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-indigo-600 flex items-center gap-2"
             title="Calendar History"
           >
-            <Clock size={20} />
-            <span className="text-[10px] font-black uppercase tracking-widest hidden sm:inline">Archives</span>
+            <span className="text-[10px] font-black uppercase tracking-widest">Archives</span>
           </button>
         )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         <div className="lg:col-span-4">
-          <form onSubmit={handleSubmit} className="space-y-4 bg-slate-50 p-5 rounded-xl shadow-sm" autoComplete="off">
+          <form onSubmit={handleSubmit} className="space-y-4 p-5" autoComplete="off">
             <div>
               <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Crop Type</label>
               <input
@@ -253,9 +248,6 @@ Make the advice highly actionable for a smallholder farmer.`;
                   className="w-full bg-white rounded-xl px-4 py-2 text-sm font-bold focus:ring-2 focus:ring-indigo-500 outline-none appearance-none cursor-pointer shadow-sm"
                   required
                 />
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400">
-                  <Calendar size={16} />
-                </div>
               </div>
             </div>
             <div>
@@ -288,12 +280,12 @@ Make the advice highly actionable for a smallholder farmer.`;
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 20 }}
-                className="absolute inset-0 z-10 bg-white rounded-2xl flex flex-col pt-0"
+                className="absolute inset-0 z-50 flex flex-col pt-0 bg-white"
               >
-                <div className="flex items-center justify-between mb-4 bg-slate-50 p-4 rounded-xl">
+                <div className="flex items-center justify-between mb-4 p-4">
                   <h3 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Calendar Archive</h3>
                   <button onClick={() => setShowHistory(false)} className="text-slate-400 hover:text-indigo-600 transition-colors">
-                    <X size={20} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Close</span>
                   </button>
                 </div>
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2">
@@ -310,7 +302,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                           setData(item.data_json);
                           setShowHistory(false);
                         }}
-                        className="w-full text-left p-4 rounded-xl bg-slate-50 hover:bg-indigo-50 transition-colors group flex items-center justify-between cursor-pointer shadow-sm"
+                        className="w-full text-left p-4 transition-colors group flex items-center justify-between cursor-pointer"
                       >
                         <div>
                           <div className="flex items-center gap-2 mb-1">
@@ -321,9 +313,9 @@ Make the advice highly actionable for a smallholder farmer.`;
                         </div>
                         <button
                           onClick={(e) => deleteFromHistory(e, item.id)}
-                          className="p-2 text-slate-300 hover:text-red-500 transition-colors opacity-0 group-hover:opacity-100 relative z-10"
+                          className="p-2 text-slate-400 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100 relative z-10"
                         >
-                          <Trash2 size={16} />
+                          <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
                         </button>
                       </div>
                     ))
@@ -340,14 +332,14 @@ Make the advice highly actionable for a smallholder farmer.`;
           )}
 
           {!data && !loading && !error && (
-            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-slate-400 text-center bg-slate-50 rounded-xl p-6">
+            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-slate-400 text-center p-6">
               <p className="text-[10px] font-black uppercase tracking-widest mb-2 opacity-50">System Standby</p>
               <p className="text-sm font-bold max-w-xs text-slate-500">Enter your crop details to generate a customized, week-by-week farming schedule.</p>
             </div>
           )}
 
           {loading && (
-            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-indigo-400 text-center bg-indigo-50/50 rounded-xl p-6">
+            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-indigo-400 text-center p-6">
               <p className="text-xs font-black uppercase tracking-[0.3em] animate-pulse mb-2">Analyzing Data</p>
               <p className="text-sm font-bold text-indigo-800">Calculating optimal crop cycles...</p>
             </div>
@@ -359,13 +351,13 @@ Make the advice highly actionable for a smallholder farmer.`;
               animate={{ opacity: 1, y: 0 }}
               className="space-y-6"
             >
-              <div className="bg-indigo-50 rounded-xl p-4 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
+              <div className="p-4 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
                 <div>
                   <h3 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Harvest Window</h3>
                   <p className="font-black text-indigo-700 tracking-tighter text-xl">{data.estimatedYieldDate}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-                  <div className="bg-white px-4 py-3 rounded-lg text-xs text-indigo-800 max-w-md font-medium shadow-sm">
+                  <div className="px-4 py-3 text-xs text-indigo-800 max-w-md font-medium">
                     <span className="font-black block mb-1 uppercase text-[9px] tracking-widest opacity-50 text-indigo-950">System Guidance</span>
                     {data.generalAdvice}
                   </div>
@@ -424,7 +416,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                     <div className={`absolute -left-[9px] top-2 w-4 h-4 rounded-full border-4 border-white ${task.isCritical ? 'bg-red-500' : 'bg-indigo-500'}`}>
                     </div>
 
-                    <div className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+                    <div className="p-4 transition-shadow">
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
                         <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded">
                           {task.date}
