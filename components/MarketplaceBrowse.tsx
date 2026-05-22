@@ -74,10 +74,12 @@ const CATEGORIES = [
 
 export default function MarketplaceBrowse({ 
   viewMode = 'buyer', 
-  onPostListing 
+  onPostListing,
+  onLogout
 }: { 
   viewMode?: 'buyer' | 'seller';
   onPostListing?: () => void;
+  onLogout?: () => void;
 }) {
   const { user: appUser } = useAuth();
   const [listings, setListings] = useState<Listing[]>([]);
@@ -94,19 +96,17 @@ export default function MarketplaceBrowse({
   
   // Direct Payment checkout modal state
   const [checkoutListing, setCheckoutListing] = useState<Listing | null>(null);
-  const [checkoutQty, setCheckoutQty] = useState('10');
+  const [checkoutQty, setCheckoutQty] = useState<string>('1');
   const [checkoutPhone, setCheckoutPhone] = useState('');
   const [paymentStep, setPaymentStep] = useState<'form' | 'initiating' | 'pin_prompt' | 'verifying' | 'completed' | 'error'>('form');
   const [paymentError, setPaymentError] = useState('');
+  const [simulatedPin, setSimulatedPin] = useState('');
 
   const fetchSession = useCallback(async () => {
     try {
       const res = await fetch('/api/marketplace/auth/session');
       const data = await res.json();
       setMpUser(data.user);
-      if (data.user?.phone) {
-        setCheckoutPhone(data.user.phone);
-      }
     } catch (e) {}
   }, []);
 
@@ -232,14 +232,10 @@ export default function MarketplaceBrowse({
     
     // Step 1: Initiating
     setPaymentStep('initiating');
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    // Step 2: PIN Prompt
+    // Step 2: PIN Prompt (Waiting for physical phone)
     setPaymentStep('pin_prompt');
-    await new Promise((resolve) => setTimeout(resolve, 3500));
-
-    // Step 3: Verifying
-    setPaymentStep('verifying');
     
     try {
       const res = await fetch('/api/marketplace/payments', {
@@ -265,6 +261,16 @@ export default function MarketplaceBrowse({
     } catch (err) {
       setPaymentError('Network response error. Please try again.');
       setPaymentStep('error');
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/marketplace/auth/session', { method: 'DELETE' });
+      setMpUser(null);
+      if (onLogout) onLogout();
+    } catch (e) {
+      console.error('Logout failed', e);
     }
   };
 
@@ -309,6 +315,27 @@ export default function MarketplaceBrowse({
 
   return (
     <div className="space-y-8 pb-10">
+      {/* Marketplace Session Info */}
+      {mpUser && (
+        <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm text-xs font-semibold text-slate-700">
+          <div className="flex items-center gap-3">
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-[10px] ${mpUser.role === 'seller' ? 'bg-emerald-500' : 'bg-blue-500'}`}>
+              {mpUser.name.charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <span className="text-slate-400 font-bold">Logged in as</span> <strong className="text-slate-900">{mpUser.name}</strong> 
+              <span className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">({mpUser.role})</span>
+            </div>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-xl transition-all"
+          >
+            Sign Out / Switch
+          </button>
+        </div>
+      )}
+
       {/* Top Badge & Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-3">
@@ -957,17 +984,16 @@ export default function MarketplaceBrowse({
                     <div className="w-16 h-16 bg-amber-50 rounded-2xl flex items-center justify-center text-3xl mx-auto border border-amber-100 animate-bounce">
                       📲
                     </div>
-                    <div className="space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-600">Step 2 of 4</p>
-                      <h4 className="text-lg font-black text-slate-900 uppercase">Authorize Transaction</h4>
+                    <div className="space-y-4">
+                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-600">Action Required</p>
+                      <h4 className="text-lg font-black text-slate-900 uppercase">Check Your Phone</h4>
                       <p className="text-xs text-slate-500 font-bold leading-relaxed px-6">
-                        A prompt has been sent to your phone <span className="text-slate-900 font-black">{checkoutPhone}</span>.
+                        A real USSD prompt has been sent to <span className="text-slate-900 font-black">{checkoutPhone}</span>.
                       </p>
-                      <div className="p-4 bg-slate-50 rounded-2xl border border-slate-100 inline-block text-slate-600 mt-2">
-                        <p className="text-xs font-medium">Please enter your <strong className="text-slate-900">Mobile Money PIN</strong> on your mobile device to authorize transfer of:</p>
-                        <p className="text-base font-black text-slate-950 uppercase mt-1">
-                          {checkoutListing.currency} {((parseFloat(checkoutQty) || 0) * checkoutListing.price_per_kg).toLocaleString()}
-                        </p>
+                      <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 inline-block text-amber-800 mt-2">
+                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-amber-600" />
+                        <p className="text-xs font-medium">Please enter your Mobile Money PIN on your physical device to authorize.</p>
+                        <p className="text-[10px] font-black uppercase mt-2 opacity-70">Awaiting carrier confirmation...</p>
                       </div>
                     </div>
                   </div>

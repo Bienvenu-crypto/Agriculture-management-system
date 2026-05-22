@@ -701,7 +701,7 @@ function TradeToast({ trade, onDismiss }: { trade: Trade; onDismiss: () => void 
 }
 
 // ─── Main Marketplace Component ───────────────────────────────────────────────
-export default function Marketplace({ forcedTab }: { forcedTab?: string }) {
+export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: string; onLogout?: () => void }) {
   const [mpUser, setMpUser] = useState<MpUser | any>(null);
   const [loadingUser, setLoadingUser] = useState(true);
   const [activeTab, setActiveTab] = useState<'browse' | 'my-listings' | 'buy-orders' | 'trades' | 'advertising'>((forcedTab as any) || 'browse');
@@ -792,6 +792,7 @@ export default function Marketplace({ forcedTab }: { forcedTab?: string }) {
     setMpUser(null);
     setActiveTab('browse');
     setTrades([]);
+    if (onLogout) onLogout();
   };
 
   const confirmReceipt = async (tradeId: string) => {

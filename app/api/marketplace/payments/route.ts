@@ -62,10 +62,46 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: `Insufficient stock. Only ${listing.quantity_kg} KG available.` }, { status: 400 });
     }
 
-    // Simulate Payment Steps - Transaction Safe
     const updatedQty = listing.quantity_kg - parsedQty;
     const newStatus = updatedQty <= 0.01 ? 'sold' : 'active';
     const totalValue = parsedQty * listing.price_per_kg;
+
+    const tx_ref = crypto.randomUUID();
+
+    // Call Flutterwave API for Mobile Money Uganda
+    const flutterwaveKey = process.env.FLUTTERWAVE_SECRET_KEY;
+    
+    if (!flutterwaveKey || flutterwaveKey.includes('replace_this_with_your_real_key')) {
+      return NextResponse.json({ error: 'Please update .env.local with your real Flutterwave Secret Key to receive phone pushes.' }, { status: 400 });
+    }
+
+    const flwResponse = await fetch('https://api.flutterwave.com/v3/charges?type=mobile_money_uganda', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${flutterwaveKey}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        tx_ref: tx_ref,
+        amount: totalValue,
+        currency: 'UGX',
+        network: phone.startsWith('077') || phone.startsWith('078') || phone.startsWith('076') ? 'MTN' : 'AIRTEL',
+        email: buyer.email || 'customer@marketplace.com',
+        phone_number: phone,
+        redirect_url: 'http://localhost:3000',
+        meta: {
+          buyer_id: buyer.id,
+          listing_id: listing.id
+        }
+      })
+    });
+    
+    const flwData = await flwResponse.json();
+    
+    if (flwData.status !== 'success') {
+      return NextResponse.json({ error: flwData.message || 'Payment provider rejected the request.' }, { status: 400 });
+    }
+
 
     // Create buy order (fulfilled)
     const buyOrderId = crypto.randomUUID();

@@ -91,12 +91,12 @@ export default function Page() {
   }, []);
 
   const switchView = (viewId: string) => {
-    if (viewId === 'orders' && !marketplaceUser) {
+    if (viewId === 'orders' && (!marketplaceUser || marketplaceUser.role !== 'buyer')) {
       setMpAuthRole('buyer');
       setShowMpAuth(true);
       return;
     }
-    if ((viewId === 'listings' || viewId === 'advertising') && !marketplaceUser) {
+    if ((viewId === 'listings' || viewId === 'advertising') && (!marketplaceUser || marketplaceUser.role !== 'seller')) {
       setMpAuthRole('seller');
       setShowMpAuth(true);
       return;
@@ -396,8 +396,8 @@ export default function Page() {
 
              {activeView === 'orders' && (
                <div className="space-y-8">
-                 {marketplaceUser ? (
-                    <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} />
+                 {marketplaceUser && marketplaceUser.role === 'buyer' ? (
+                    <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
                  ) : checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
@@ -414,18 +414,26 @@ export default function Page() {
 
              {activeView === 'listings' && (
                <div className="space-y-8">
-                 {checkingMarketplace ? (
+                 {marketplaceUser && marketplaceUser.role === 'seller' ? (
+                    <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
+                 ) : checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
-                    <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} />
+                    <div className="space-y-8 max-w-2xl mx-auto text-center">
+                       <div className="space-y-2 mb-8">
+                         <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Seller Entry</h2>
+                         <p className="text-slate-500 font-medium">Log in as a seller to catalog and manage your crop offers.</p>
+                       </div>
+                       <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
+                     </div>
                  )}
                </div>
              )}
 
              {activeView === 'advertising' && (
                <div className="space-y-8">
-                 {marketplaceUser ? (
-                    <Marketplace forcedTab="advertising" />
+                 {marketplaceUser && marketplaceUser.role === 'seller' ? (
+                    <Marketplace forcedTab="advertising" onLogout={() => setMarketplaceUser(null)} />
                  ) : checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
