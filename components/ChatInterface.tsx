@@ -203,10 +203,10 @@ export default function ChatInterface({ location }: LocationProps) {
           } catch (err: any) {
             console.warn(`Chatbot attempt ${i + 1} failed:`, err);
             // Retry on 503 (High Demand) or 429 (Quota)
-            const isRetryable = err.status === 503 || err.status === 429 || 
-                                err.message?.includes('503') || err.message?.includes('429') ||
-                                err.message?.includes('demand') || err.message?.includes('quota');
-            
+            const isRetryable = err.status === 503 || err.status === 429 ||
+              err.message?.includes('503') || err.message?.includes('429') ||
+              err.message?.includes('demand') || err.message?.includes('quota');
+
             if (isRetryable && i < retries - 1) {
               const waitTime = initialDelay * Math.pow(2, i);
               console.log(`Retrying chatbot in ${waitTime}ms...`);
@@ -254,7 +254,7 @@ export default function ChatInterface({ location }: LocationProps) {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <select 
+          <select
             value={selectedLang}
             onChange={(e) => handleLangChange(e.target.value)}
             className="px-2 py-1.5 bg-white text-emerald-700 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-100 transition-colors cursor-pointer outline-none"
