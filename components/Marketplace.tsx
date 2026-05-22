@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
+import { ArrowRight, ChevronDown, Plus, MapPin, Search, Filter, Tag, ArrowUpRight, CheckCircle2, AlertCircle } from 'lucide-react';
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 export interface MpUser {
@@ -107,7 +108,12 @@ export function AuthModal({
       const body =
         mode === 'signup'
           ? { ...form, role }
-          : { email: form.email, password: form.password, phone: form.phone, role };
+          : { 
+              email: role === 'seller' ? form.email : undefined, 
+              phone: role === 'buyer' ? form.phone : form.phone, 
+              password: form.password, 
+              role 
+            };
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -128,7 +134,7 @@ export function AuthModal({
   };
 
   return (
-    <div className={!isInline ? "fixed inset-0 z-[200] flex items-center justify-center p-4" : ""}>
+    <div className={!isInline ? "fixed inset-0 z-[200] flex items-center justify-center p-4 overflow-y-auto" : ""}>
       {!isInline && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -142,7 +148,7 @@ export function AuthModal({
         initial={!isInline ? { opacity: 0, scale: 0.95, y: 20 } : {}}
         animate={!isInline ? { opacity: 1, scale: 1, y: 0 } : {}}
         exit={!isInline ? { opacity: 0, scale: 0.95, y: 20 } : {}}
-        className={`${!isInline ? 'relative w-full max-w-md bg-slate-50 p-8' : 'w-full bg-white'}`}
+        className={`${!isInline ? 'relative w-full max-w-md bg-slate-50 p-8 max-h-[90vh] overflow-y-auto rounded-[2rem]' : 'w-full bg-white max-h-[90vh] overflow-y-auto'}`}
       >
         {!isInline && (
           <button
@@ -189,6 +195,7 @@ export function AuthModal({
                 : 'Find the best crop deals from local farmers'}
           </p>
 
+
           <form onSubmit={handleSubmit} className="space-y-3">
             {mode === 'signup' && (
               <>
@@ -218,27 +225,31 @@ export function AuthModal({
               </>
             )}
 
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email</label>
-              <input
-                type="email"
-                required
-                value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
-                placeholder="you@example.com"
-              />
-            </div>
+            {role === 'seller' && (
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email</label>
+                <input
+                  type="email"
+                  required
+                  value={form.email}
+                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
+                  placeholder="you@example.com"
+                />
+              </div>
+            )}
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Phone Number</label>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                {role === 'buyer' ? 'Phone Number (Sign-in ID)' : 'Phone Number'}
+              </label>
               <input
                 type="tel"
-                required={mode === 'signup'}
+                required={mode === 'signup' || role === 'buyer'}
                 value={form.phone}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
-                placeholder="+256 700..."
+                placeholder={role === 'buyer' ? "e.g. 0700123456" : "+256 700..."}
               />
             </div>
 
@@ -295,7 +306,7 @@ export function AuthModal({
 
 export function InlineAuth({ onSuccess, defaultRole }: { onSuccess: (user: MpUser) => void; defaultRole: 'seller' | 'buyer' }) {
   return (
-    <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden max-w-lg mx-auto">
+    <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden max-w-lg max-h-[90vh] mx-auto">
       <AuthModal onClose={() => {}} onSuccess={onSuccess} defaultRole={defaultRole} isInline />
     </div>
   );
@@ -377,7 +388,7 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
     );
   }
 
-  if (!user) {
+  if (!user || user.role !== 'seller') {
     return (
       <AuthModal 
         onClose={onClose} 
@@ -577,7 +588,7 @@ export function AddBuyOrderModal({
     );
   }
 
-  if (!user) {
+  if (!user || user.role !== 'buyer') {
     return (
       <AuthModal 
         onClose={onClose} 
@@ -1067,26 +1078,26 @@ export default function Marketplace({ forcedTab }: { forcedTab?: string }) {
                             <p className="font-bold text-slate-900 text-sm">{listing.quantity_kg.toLocaleString()} kg</p>
                             <p className="text-xs text-emerald-700 font-bold">{listing.currency} {listing.price_per_kg.toLocaleString()}/kg</p>
                           </div>
-                          <button
-                            onClick={() => {
-                              if (!mpUser) {
-                                setAuthRole('buyer');
-                                setShowAuthModal(true);
-                                return;
-                              }
-                              if (mpUser.role !== 'buyer') {
-                                alert("Your account is registered as a Seller. Please log in with a Buyer account to purchase crops.");
-                                return;
-                              }
-                              recordClick(listing.id, listing.seller_id);
-                              setPrefillCrop(listing.crop);
-                              setPrefillCurrency(listing.currency);
-                              setShowAddBuyOrder(true);
-                            }}
-                            className="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors"
-                          >
-                            Buy
-                          </button>
+                          {(!mpUser || mpUser.role === 'buyer') ? (
+                            <button
+                              onClick={() => {
+                                if (!mpUser) {
+                                  setAuthRole('buyer');
+                                  setShowAuthModal(true);
+                                  return;
+                                }
+                                recordClick(listing.id, listing.seller_id);
+                                setPrefillCrop(listing.crop);
+                                setPrefillCurrency(listing.currency);
+                                setShowAddBuyOrder(true);
+                              }}
+                              className="bg-blue-600 text-white px-3 py-1.5 rounded-xl text-xs font-bold hover:bg-blue-700 transition-colors"
+                            >
+                              Buy
+                            </button>
+                          ) : (
+                            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer account only</span>
+                          )}
                         </div>
                       </motion.div>
                     ))}
@@ -1194,44 +1205,57 @@ export default function Marketplace({ forcedTab }: { forcedTab?: string }) {
                       <button onClick={() => setShowAddListing(true)} className="text-emerald-600 font-black text-[10px] uppercase tracking-widest hover:underline">Initialize First Listing</button>
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-12">
-                      {myListings.map(listing => (
-                        <div key={listing.id} className="group relative bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm hover:shadow-xl hover:border-emerald-200 transition-all duration-500 overflow-hidden">
-                          <div className="absolute top-0 right-0 p-4">
-                            <span className={`px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ${listing.status === 'active' ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-500'}`}>
-                              {listing.status}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-4 mb-6">
-                            <div className="w-14 h-14 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 text-xl font-black shadow-inner">
-                              {listing.crop[0]}
-                            </div>
-                            <div>
-                              <h5 className="text-lg font-black text-slate-900 uppercase tracking-tighter leading-none mb-1">{listing.crop}</h5>
-                              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">SKU: {listing.id.slice(0, 8)}</p>
-                            </div>
-                          </div>
-                          <div className="grid grid-cols-2 gap-4 p-4 bg-slate-50 rounded-2xl mb-6">
-                            <div>
-                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Volume</p>
-                              <p className="text-base font-black text-slate-900">{listing.quantity_kg.toLocaleString()} <span className="text-[10px] text-slate-500">KG</span></p>
-                            </div>
-                            <div>
-                              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Unit Price</p>
-                              <p className="text-base font-black text-emerald-600">{listing.currency} {listing.price_per_kg.toLocaleString()}</p>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                              Listed {format(new Date(listing.created_at), 'dd MMM')}
-                            </p>
-                            <button onClick={() => cancelListing(listing.id)}
-                              className="px-4 py-2 text-[9px] font-black text-red-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all uppercase tracking-widest">
-                              Remove Asset
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                    <div className="overflow-x-auto rounded-[2rem] border border-slate-200 bg-white shadow-sm mb-12">
+                      <table className="min-w-full border-separate border-spacing-y-3">
+                        <thead>
+                          <tr className="bg-slate-100 uppercase tracking-[0.25em] text-[9px] text-slate-500">
+                            <th className="px-5 py-4 text-left">Crop</th>
+                            <th className="px-5 py-4 text-left">Quantity</th>
+                            <th className="px-5 py-4 text-left">Unit Price</th>
+                            <th className="px-5 py-4 text-left">Status</th>
+                            <th className="px-5 py-4 text-left">Listed</th>
+                            <th className="px-5 py-4 text-left">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {myListings.map(listing => (
+                            <tr key={listing.id} className="bg-white border-b border-slate-100 hover:bg-slate-50 transition-colors">
+                              <td className="px-5 py-4 align-top">
+                                <div className="flex items-center gap-3">
+                                  <div className="w-11 h-11 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 font-black text-base">
+                                    {listing.crop[0]}
+                                  </div>
+                                  <div>
+                                    <p className="font-black text-slate-900 uppercase tracking-tight">{listing.crop}</p>
+                                    <p className="text-[10px] text-slate-500 uppercase tracking-[0.25em]">SKU {listing.id.slice(0, 8)}</p>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-5 py-4 align-top">
+                                <p className="font-black text-slate-900">{listing.quantity_kg.toLocaleString()} KG</p>
+                                <p className="text-[10px] text-slate-500 uppercase tracking-[0.25em]">Available</p>
+                              </td>
+                              <td className="px-5 py-4 align-top">
+                                <p className="font-black text-emerald-600">{listing.currency} {listing.price_per_kg.toLocaleString()}</p>
+                              </td>
+                              <td className="px-5 py-4 align-top">
+                                <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] ${listing.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                                  {listing.status}
+                                </span>
+                              </td>
+                              <td className="px-5 py-4 align-top text-[10px] text-slate-500 uppercase tracking-[0.25em]">
+                                {format(new Date(listing.created_at), 'dd MMM yyyy')}
+                              </td>
+                              <td className="px-5 py-4 align-top">
+                                <button onClick={() => cancelListing(listing.id)}
+                                  className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-red-500 border border-red-100 rounded-2xl hover:bg-red-50 transition-colors">
+                                  Remove
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   )}
 

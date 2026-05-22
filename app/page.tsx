@@ -16,7 +16,6 @@ import NotificationBell from '@/components/NotificationBell';
 import AboutPage from '@/components/AboutPage';
 import OrdersDashboard from '@/components/OrdersDashboard';
 import MarketplaceBrowse from '@/components/MarketplaceBrowse';
-import SellerPortal from '@/components/SellerPortal';
 import { useAuth } from '@/components/AuthProvider';
 import { motion, AnimatePresence } from 'motion/react';
 
@@ -32,6 +31,8 @@ export default function Page() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [marketplaceUser, setMarketplaceUser] = useState<any>(null);
   const [checkingMarketplace, setCheckingMarketplace] = useState(true);
+  const [showMpAuth, setShowMpAuth] = useState(false);
+  const [mpAuthRole, setMpAuthRole] = useState<'buyer' | 'seller'>('buyer');
   const [authModalMode, setAuthModalMode] = useState<'login' | 'signup'>('login');
   const [activeView, setActiveView] = useState<string>('about');
   const [location, setLocation] = useState<LocationState | null>(null);
@@ -90,6 +91,16 @@ export default function Page() {
   }, []);
 
   const switchView = (viewId: string) => {
+    if (viewId === 'orders' && !marketplaceUser) {
+      setMpAuthRole('buyer');
+      setShowMpAuth(true);
+      return;
+    }
+    if ((viewId === 'listings' || viewId === 'advertising') && !marketplaceUser) {
+      setMpAuthRole('seller');
+      setShowMpAuth(true);
+      return;
+    }
     setActiveView(viewId);
     setIsMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -403,18 +414,10 @@ export default function Page() {
 
              {activeView === 'listings' && (
                <div className="space-y-8">
-                 {marketplaceUser ? (
-                    <SellerPortal />
-                 ) : checkingMarketplace ? (
+                 {checkingMarketplace ? (
                     <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
-                    <div className="space-y-8 max-w-2xl mx-auto text-center">
-                      <div className="space-y-2 mb-8">
-                        <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Seller Hub</h2>
-                        <p className="text-slate-500 font-medium">Manage your farm inventory and connect with bulk buyers.</p>
-                      </div>
-                      <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
-                    </div>
+                    <MarketplaceBrowse onPostListing={() => switchView('listings')} />
                  )}
                </div>
              )}
@@ -457,8 +460,8 @@ export default function Page() {
             {activeView === 'weather' && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2 uppercase tracking-tighter">Climate Dynamics</h2>
-                  <p className="text-slate-500 text-lg uppercase tracking-widest text-xs font-bold">Hyper-local weather awareness for strategic planning</p>
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 uppercase">Climate Dynamics</h2>
+                  <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">Hyper-local weather awareness for strategic planning</p>
                 </div>
                 <WeatherWidget />
               </div>
@@ -468,10 +471,10 @@ export default function Page() {
             {activeView === 'iot' && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-black text-slate-900 tracking-tight mb-2 flex items-center gap-3 uppercase tracking-tighter">
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 flex items-center gap-3 uppercase">
                     Field Intelligence
                   </h2>
-                  <p className="text-slate-500 text-lg uppercase tracking-widest text-xs font-bold">Live telemetry from your smart agricultural nodes</p>
+                  <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">Live telemetry from your smart agricultural nodes</p>
                 </div>
                 <IoTDashboard location={location} />
               </div>
@@ -479,6 +482,24 @@ export default function Page() {
           </motion.div>
         </AnimatePresence>
       </div>
+       <AnimatePresence>
+         {showMpAuth && (
+           <MarketplaceAuthModal
+             onClose={() => setShowMpAuth(false)}
+             onSuccess={(u) => {
+               setMarketplaceUser(u);
+               setShowMpAuth(false);
+               // After success, complete the navigation
+               if (mpAuthRole === 'buyer') setActiveView('orders');
+               else if (activeView === 'listings' || activeView === 'advertising') {} // already on the way or handled by parent
+               else setActiveView('listings');
+             }}
+             defaultRole={mpAuthRole}
+           />
+         )}
+       </AnimatePresence>
     </main>
   );
 }
+
+import { AuthModal as MarketplaceAuthModal } from '@/components/Marketplace';

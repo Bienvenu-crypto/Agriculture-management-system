@@ -178,7 +178,7 @@ export default function AdminDashboard() {
       <aside className="fixed left-0 top-0 bottom-0 w-72 bg-white p-6 hidden lg:flex flex-col z-50 border-r border-slate-100">
         <div className="flex items-center gap-2 mb-10 px-2">
           <div className="w-2.5 h-2.5 bg-cyan-500 rounded-full" />
-          <span className="text-lg font-bold text-[#1A1C1E]">AAMS Portal</span>
+          <span className="text-lg font-bold text-[#1A1C1E]">AMS Portal</span>
         </div>
 
         <nav className="flex-1 space-y-1">
@@ -213,11 +213,11 @@ export default function AdminDashboard() {
             <h2 className="text-3xl font-extrabold text-[#1A1C1E] tracking-tight">
               {activeTab === 'overview' ? 'Dashboard Overview'
                 : activeTab === 'marketplace' ? 'Marketplace Manager'
-                : activeTab === 'listings' ? 'Active Listings'
-                : activeTab === 'orders' ? 'Buy Orders'
-                : activeTab === 'trades' ? 'Transaction Ledger'
-                : activeTab === 'chats' ? 'Service Logs'
-                : 'Farmer Manager'}
+                  : activeTab === 'listings' ? 'Active Listings'
+                    : activeTab === 'orders' ? 'Buy Orders'
+                      : activeTab === 'trades' ? 'Transaction Ledger'
+                        : activeTab === 'chats' ? 'Service Logs'
+                          : 'Farmer Manager'}
             </h2>
           </div>
 
@@ -361,12 +361,10 @@ export default function AdminDashboard() {
                                 </div>
                               </td>
                               <td className="px-6 py-4">
-                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${
-                                  chat.role === 'user' ? 'bg-blue-50 text-blue-600' : 'bg-emerald-50 text-emerald-600'
-                                }`}>
-                                  <span className={`w-1.5 h-1.5 rounded-full ${
-                                    chat.role === 'user' ? 'bg-blue-500' : 'bg-emerald-500'
-                                  }`} />
+                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${chat.role === 'user' ? 'bg-blue-50 text-blue-600' : 'bg-emerald-50 text-emerald-600'
+                                  }`}>
+                                  <span className={`w-1.5 h-1.5 rounded-full ${chat.role === 'user' ? 'bg-blue-500' : 'bg-emerald-500'
+                                    }`} />
                                   {chat.role}
                                 </span>
                               </td>
@@ -479,9 +477,8 @@ export default function AdminDashboard() {
                               <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-3">
-                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-black shrink-0 ${
-                                      u.role === 'seller' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'
-                                    }`}>
+                                    <div className={`w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-black shrink-0 ${u.role === 'seller' ? 'bg-emerald-100 text-emerald-700' : 'bg-blue-100 text-blue-700'
+                                      }`}>
                                       {u.name?.charAt(0).toUpperCase()}
                                     </div>
                                     <div>
@@ -491,12 +488,10 @@ export default function AdminDashboard() {
                                   </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${
-                                    u.role === 'seller' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'
-                                  }`}>
-                                    <span className={`w-1.5 h-1.5 rounded-full ${
-                                      u.role === 'seller' ? 'bg-emerald-500' : 'bg-blue-500'
-                                    }`} />
+                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${u.role === 'seller' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'
+                                    }`}>
+                                    <span className={`w-1.5 h-1.5 rounded-full ${u.role === 'seller' ? 'bg-emerald-500' : 'bg-blue-500'
+                                      }`} />
                                     {u.role}
                                   </span>
                                 </td>
@@ -506,9 +501,8 @@ export default function AdminDashboard() {
                                   </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${
-                                    u.is_subscribed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
-                                  }`}>
+                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${u.is_subscribed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                                    }`}>
                                     {u.is_subscribed ? 'Active' : 'Unpaid'}
                                   </span>
                                 </td>

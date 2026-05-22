@@ -15,6 +15,7 @@ import {
   Filter
 } from 'lucide-react';
 import { AddBuyOrderModal, AuthModal } from './Marketplace';
+import { useAuth } from './AuthProvider';
 
 interface Listing {
   id: string;
@@ -41,6 +42,7 @@ const CATEGORIES = [
 ];
 
 export default function MarketplaceBrowse({ onPostListing }: { onPostListing?: () => void }) {
+  const { user: appUser } = useAuth();
   const [listings, setListings] = useState<Listing[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [mpUser, setMpUser] = useState<any>(null);
@@ -100,7 +102,7 @@ export default function MarketplaceBrowse({ onPostListing }: { onPostListing?: (
   };
 
   const handleOrderClick = (listing?: Listing) => {
-    if (!mpUser) {
+    if (!mpUser || mpUser.role !== 'buyer') {
       setShowAuthModal(true);
       setPendingListing(listing || null);
       return;

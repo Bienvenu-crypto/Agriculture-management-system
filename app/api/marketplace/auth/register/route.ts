@@ -7,21 +7,29 @@ export async function POST(req: Request) {
   try {
     const { name, email, password, phone, district, role } = await req.json();
 
-    if (!name || !email || !password || !district || !role) {
+    // If buyer and email is missing, we use phone as the identifier
+    const effectiveEmail = email || (role === 'buyer' ? `${phone}@buyer.aams` : null);
+
+    if (!name || !effectiveEmail || !password || !district || !role) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    if (role === 'buyer' && !phone) {
+      return NextResponse.json({ error: 'Phone number is required for buyers' }, { status: 400 });
     }
 
     if (!['seller', 'buyer'].includes(role)) {
       return NextResponse.json({ error: 'Role must be seller or buyer' }, { status: 400 });
     }
 
-    // Same email can register as both seller AND buyer — unique by (email, role)
+    // Check for existing user by email OR phone (within the same role)
     const existing = db
-      .prepare('SELECT id FROM marketplace_users WHERE email = ? AND role = ?')
-      .get(email, role);
+      .prepare('SELECT id FROM marketplace_users WHERE (email = ? OR (phone = ? AND phone IS NOT NULL)) AND role = ?')
+      .get(effectiveEmail, phone || null, role);
+
     if (existing) {
       return NextResponse.json(
-        { error: `An account with this email already exists as a ${role}.` },
+        { error: `An account with this ${email ? 'email' : 'phone number'} already exists as a ${role}.` },
         { status: 400 }
       );
     }
@@ -31,7 +39,7 @@ export async function POST(req: Request) {
 
     db.prepare(
       'INSERT INTO marketplace_users (id, name, email, phone, district, role, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    ).run(userId, name, email, phone || null, district, role, passwordHash);
+    ).run(userId, name, effectiveEmail, phone || null, district, role, passwordHash);
 
     // Create session
     const sessionId = crypto.randomBytes(32).toString('hex');
