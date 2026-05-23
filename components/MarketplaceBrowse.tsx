@@ -2,25 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Search, 
-  MapPin, 
-  Tag, 
-  Plus, 
-  ChevronLeft, 
-  ChevronRight,
-  ChevronDown,
-  Filter,
-  CheckCircle2,
-  AlertCircle,
-  Clock,
-  Truck,
-  Trash2,
-  RefreshCw,
-  ShoppingBag,
-  CreditCard,
-  Phone
-} from 'lucide-react';
+// Removed lucide-react imports
 import { AddListingModal, AuthModal } from './Marketplace';
 import { useAuth } from './AuthProvider';
 import { format } from 'date-fns';
@@ -63,13 +45,13 @@ interface Trade {
 }
 
 const CATEGORIES = [
-  { name: 'All', icon: '✨' },
-  { name: 'Grains', icon: '🌾' },
-  { name: 'Vegetables', icon: '🥬' },
-  { name: 'Fruits', icon: '🍎' },
-  { name: 'Herbs', icon: '🌿' },
-  { name: 'Inputs', icon: '🧪' },
-  { name: 'Livestock', icon: '🐄' }
+  { name: 'All' },
+  { name: 'Grains' },
+  { name: 'Vegetables' },
+  { name: 'Fruits' },
+  { name: 'Herbs' },
+  { name: 'Inputs' },
+  { name: 'Livestock' }
 ];
 
 export default function MarketplaceBrowse({ 
@@ -158,19 +140,7 @@ export default function MarketplaceBrowse({
   }, [mpUser, fetchTrades]);
 
   const getCropEmoji = (crop: string) => {
-    const c = crop.toLowerCase();
-    if (c.includes('maize') || c.includes('corn')) return '🌽';
-    if (c.includes('tomato')) return '🍅';
-    if (c.includes('bean')) return '🫘';
-    if (c.includes('rice')) return '🌾';
-    if (c.includes('banana') || c.includes('matooke')) return '🍌';
-    if (c.includes('onion')) return '🧅';
-    if (c.includes('cabbage')) return '🥬';
-    if (c.includes('pepper')) return '🫑';
-    if (c.includes('moringa')) return '🌿';
-    if (c.includes('cow') || c.includes('beef')) return '🐄';
-    if (c.includes('chicken')) return '🐔';
-    return '📦';
+    return '';
   };
 
   const handleOrderClick = (listing: Listing) => {
@@ -291,19 +261,7 @@ export default function MarketplaceBrowse({
   };
 
   const getStatusIcon = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return <Clock className="w-3 h-3" />;
-      case 'in-transit':
-        return <Truck className="w-3 h-3" />;
-      case 'completed':
-      case 'delivered':
-        return <CheckCircle2 className="w-3 h-3" />;
-      case 'disputed':
-        return <AlertCircle className="w-3 h-3" />;
-      default:
-        return null;
-    }
+    return null;
   };
 
   // Filter listings for buyers to exclude their own products
@@ -345,9 +303,9 @@ export default function MarketplaceBrowse({
           <div className="space-y-1">
             <h2 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-3">
               {viewMode === 'seller' ? (
-                <><span>🚜</span> My Listings & Received Orders</>
+                <>My Listings & Received Orders</>
               ) : (
-                <><span>🛒</span> Browse & Buy Crops</>
+                <>Browse & Buy Crops</>
               )}
             </h2>
             <p className="text-slate-500 text-sm font-medium">
@@ -361,9 +319,8 @@ export default function MarketplaceBrowse({
         {viewMode === 'seller' ? (
           <button 
             onClick={() => setShowAddListingModal(true)}
-            className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
+            className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all active:scale-95 flex items-center gap-2"
           >
-            <Plus className="w-4 h-4" />
             Add a Crop
           </button>
         ) : null}
@@ -373,7 +330,7 @@ export default function MarketplaceBrowse({
       {viewMode === 'seller' && (
         <div className="space-y-12">
           {/* Listings Table */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/30 p-8 space-y-6">
+          <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
                 <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Crops Catalog</h3>
@@ -386,11 +343,10 @@ export default function MarketplaceBrowse({
 
             {loading ? (
               <div className="py-20 flex justify-center items-center">
-                <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin" />
+                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : listings.length === 0 ? (
               <div className="py-20 text-center space-y-4">
-                <div className="text-5xl opacity-30">🌾</div>
                 <div>
                   <p className="text-base font-black text-slate-900 uppercase">Catalog is empty</p>
                   <p className="text-xs text-slate-400 font-medium mt-1">Start adding crops to make your produce visible to buyers.</p>
@@ -447,10 +403,10 @@ export default function MarketplaceBrowse({
                         <td className="py-4 text-right pr-2">
                           <button
                             onClick={() => deleteListing(l.id)}
-                            className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition-colors"
+                            className="p-2 text-red-500 hover:text-red-700 transition-colors"
                             title="Cancel Listing"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
                           </button>
                         </td>
                       </tr>
@@ -462,7 +418,7 @@ export default function MarketplaceBrowse({
           </div>
 
           {/* Orders Received Table */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/30 p-8 space-y-6">
+          <div className="space-y-6">
             <div>
               <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Orders Received from Buyers</h3>
               <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
@@ -470,11 +426,10 @@ export default function MarketplaceBrowse({
 
             {loadingTrades ? (
               <div className="py-20 flex justify-center items-center">
-                <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin" />
+                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : sellerTrades.length === 0 ? (
               <div className="py-12 text-center text-slate-400 space-y-2">
-                <div className="text-4xl opacity-30">📥</div>
                 <p className="text-[10px] font-black uppercase tracking-widest">No Incoming Orders Yet</p>
                 <p className="text-xs text-slate-400 font-medium">When buyers purchase your crops directly, they will show up here.</p>
               </div>
@@ -554,35 +509,28 @@ export default function MarketplaceBrowse({
       {viewMode === 'buyer' && (
         <div className="space-y-12">
           {/* Search & Main Filters */}
-          <div className="bg-white p-2 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-wrap lg:flex-nowrap items-center gap-2">
+          <div className="p-2 flex flex-wrap lg:flex-nowrap items-center gap-2">
             <div className="flex-1 min-w-[300px] relative group">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
               <input 
                 type="text" 
                 placeholder="Search products, crops, farmers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-50/50 border-none rounded-[1.5rem] pl-16 pr-6 py-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                className="w-full bg-slate-50/50 border-none rounded-[1.5rem] px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
               />
             </div>
             
             <div className="flex items-center gap-2 px-2">
               <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                <MapPin className="w-4 h-4 text-emerald-500" />
                 Location
-                <ChevronDown className="w-3 h-3 ml-1" />
               </button>
               <div className="w-[1px] h-6 bg-slate-100" />
               <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                <Tag className="w-4 h-4 text-blue-500" />
                 Category
-                <ChevronDown className="w-3 h-3 ml-1" />
               </button>
               <div className="w-[1px] h-6 bg-slate-100" />
               <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                <Filter className="w-4 h-4 text-orange-500" />
                 Price
-                <ChevronDown className="w-3 h-3 ml-1" />
               </button>
             </div>
 
@@ -603,7 +551,6 @@ export default function MarketplaceBrowse({
                     : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
                 }`}
               >
-                <span className="text-sm leading-none">{cat.icon}</span>
                 {cat.name}
               </button>
             ))}
@@ -621,7 +568,7 @@ export default function MarketplaceBrowse({
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {loading ? (
                 Array.from({ length: 6 }).map((_, i) => (
-                  <div key={i} className="bg-white rounded-[2.5rem] border border-slate-100 h-[450px] animate-pulse overflow-hidden">
+                  <div key={i} className="h-[450px] animate-pulse overflow-hidden">
                     <div className="h-48 bg-slate-50" />
                     <div className="p-8 space-y-4">
                       <div className="h-6 bg-slate-50 w-3/4 rounded-full" />
@@ -631,8 +578,7 @@ export default function MarketplaceBrowse({
                   </div>
                 ))
               ) : buyerListings.length === 0 ? (
-                <div className="col-span-full py-20 text-center space-y-4 bg-white rounded-[3rem] border-2 border-dashed border-slate-100">
-                  <div className="text-6xl grayscale opacity-20">🚜</div>
+                <div className="col-span-full py-20 text-center space-y-4">
                   <div className="space-y-1">
                     <p className="text-lg font-black text-slate-900 uppercase tracking-tight">No crops available</p>
                     <p className="text-slate-400 text-sm font-medium">There are currently no active crop offers listed by other sellers.</p>
@@ -644,13 +590,10 @@ export default function MarketplaceBrowse({
                     key={listing.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white rounded-[2.5rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all duration-500 overflow-hidden group flex flex-col h-full"
+                    className="overflow-hidden group flex flex-col h-full"
                   >
                     {/* Card Top / Image Area */}
-                    <div className="h-48 bg-emerald-50/50 flex items-center justify-center relative">
-                      <div className="text-7xl group-hover:scale-110 transition-transform duration-500">
-                        {getCropEmoji(listing.crop)}
-                      </div>
+                    <div className="h-48 bg-slate-50/50 flex items-center justify-center relative">
                       {listing.is_promoted === 1 && (
                         <div className="absolute top-6 left-6">
                           <span className="bg-amber-100 text-amber-700 text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest border border-amber-200">Featured</span>
@@ -676,7 +619,6 @@ export default function MarketplaceBrowse({
                       </div>
 
                       <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
-                        <MapPin className="w-3.5 h-3.5 text-orange-400" />
                         {listing.seller_district || 'Unknown Location'}
                       </div>
 
@@ -730,7 +672,7 @@ export default function MarketplaceBrowse({
           </div>
 
           {/* Orders Made / Purchase History Table */}
-          <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/30 p-8 space-y-6">
+          <div className="space-y-6">
             <div>
               <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Purchase History</h3>
               <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Orders you have placed and paid over time</p>
@@ -738,11 +680,10 @@ export default function MarketplaceBrowse({
 
             {loadingTrades ? (
               <div className="py-20 flex justify-center items-center">
-                <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin" />
+                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : buyerTrades.length === 0 ? (
               <div className="py-12 text-center text-slate-400 space-y-2">
-                <div className="text-4xl opacity-30">🛍️</div>
                 <p className="text-[10px] font-black uppercase tracking-widest">No Purchases Made Yet</p>
                 <p className="text-xs text-slate-400 font-medium">Use the "Order Now" button on crop listings to place orders.</p>
               </div>
@@ -821,8 +762,8 @@ export default function MarketplaceBrowse({
       {/* Pagination (Only for Buyer browse page) */}
       {viewMode === 'buyer' && buyerListings.length > 0 && (
         <div className="flex justify-center items-center gap-2 pt-10">
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400">
-            <ChevronLeft className="w-5 h-5" />
+          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black uppercase tracking-widest">
+            Prev
           </button>
           {[1, 2, 3].map(p => (
             <button 
@@ -835,8 +776,8 @@ export default function MarketplaceBrowse({
               {p}
             </button>
           ))}
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400">
-            <ChevronRight className="w-5 h-5" />
+          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black uppercase tracking-widest">
+            Next
           </button>
         </div>
       )}
@@ -919,7 +860,6 @@ export default function MarketplaceBrowse({
                       <div>
                         <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Your Mobile Money Number</label>
                         <div className="relative">
-                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
                           <input 
                             type="tel" 
                             placeholder="e.g. 0770000000"
@@ -937,7 +877,7 @@ export default function MarketplaceBrowse({
 
                     {paymentError && (
                       <div className="p-3.5 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-wider rounded-xl flex gap-2 items-center">
-                        <AlertCircle className="w-4 h-4 text-red-600 flex-shrink-0" />
+                        <span className="font-black text-[12px] flex-shrink-0">!</span>
                         <span>{paymentError}</span>
                       </div>
                     )}
@@ -969,7 +909,7 @@ export default function MarketplaceBrowse({
                 {/* Flow Step 2: Initiating */}
                 {paymentStep === 'initiating' && (
                   <div className="py-8 text-center space-y-4">
-                    <RefreshCw className="w-10 h-10 text-emerald-600 animate-spin mx-auto" />
+                    <div className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</div>
                     <div className="space-y-1">
                       <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600">Step 1 of 4</p>
                       <h4 className="text-base font-black text-slate-900 uppercase">Initiating Payment Gateway</h4>
@@ -991,7 +931,7 @@ export default function MarketplaceBrowse({
                         A real USSD prompt has been sent to <span className="text-slate-900 font-black">{checkoutPhone}</span>.
                       </p>
                       <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 inline-block text-amber-800 mt-2">
-                        <RefreshCw className="w-6 h-6 animate-spin mx-auto mb-2 text-amber-600" />
+                        <div className="text-amber-600 font-black uppercase tracking-widest text-[10px] animate-pulse mb-2">Loading...</div>
                         <p className="text-xs font-medium">Please enter your Mobile Money PIN on your physical device to authorize.</p>
                         <p className="text-[10px] font-black uppercase mt-2 opacity-70">Awaiting carrier confirmation...</p>
                       </div>
@@ -1002,7 +942,7 @@ export default function MarketplaceBrowse({
                 {/* Flow Step 4: Verifying */}
                 {paymentStep === 'verifying' && (
                   <div className="py-8 text-center space-y-4">
-                    <RefreshCw className="w-10 h-10 text-emerald-600 animate-spin mx-auto" />
+                    <div className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</div>
                     <div className="space-y-1">
                       <p className="text-[10px] font-black uppercase tracking-[0.25em] text-blue-600">Step 3 of 4</p>
                       <h4 className="text-base font-black text-slate-900 uppercase">Verifying Clearance</h4>

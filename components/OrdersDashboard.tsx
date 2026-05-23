@@ -3,14 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
-import { 
-  FileDown, 
-  Clock, 
-  Truck, 
-  CheckCircle2, 
-  AlertCircle,
-  RefreshCw
-} from 'lucide-react';
+// Removed lucide-react imports
 
 interface Trade {
   id: string;
@@ -129,27 +122,14 @@ export default function OrdersDashboard() {
   };
 
   const getStatusIcon = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'pending':
-        return <Clock className="w-3 h-3" />;
-      case 'in-transit':
-      case 'in transit':
-        return <Truck className="w-3 h-3" />;
-      case 'delivered':
-      case 'completed':
-        return <CheckCircle2 className="w-3 h-3" />;
-      case 'disputed':
-        return <AlertCircle className="w-3 h-3" />;
-      default:
-        return null;
-    }
+    return null;
   };
 
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-4">
-          <RefreshCw className="w-8 h-8 text-emerald-600 animate-spin" />
+          <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Synchronizing Data</p>
         </div>
       </div>
@@ -165,7 +145,6 @@ export default function OrdersDashboard() {
             Orders
           </span>
           <div className="flex items-center gap-3">
-            <span className="text-3xl">📦</span>
             <div>
               <h2 className="text-3xl font-black text-slate-900 tracking-tight">My Orders</h2>
               <p className="text-slate-500 text-sm font-medium">Track your purchases and sales from the marketplace</p>
@@ -174,9 +153,8 @@ export default function OrdersDashboard() {
         </div>
         <button 
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-600 hover:bg-slate-50 transition-all shadow-sm"
+          className="flex items-center gap-2 px-4 py-2 border-b-2 border-transparent text-[10px] font-black uppercase tracking-widest text-slate-600 hover:border-slate-300 transition-all"
         >
-          <FileDown className="w-4 h-4 text-orange-500" />
           Download Report
         </button>
       </div>
@@ -189,7 +167,7 @@ export default function OrdersDashboard() {
           { label: 'In Transit', value: stats.inTransit, color: 'text-blue-500' },
           { label: 'Delivered', value: stats.delivered, color: 'text-emerald-500' }
         ].map((stat, idx) => (
-          <div key={idx} className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm text-center space-y-1">
+          <div key={idx} className="text-center space-y-1">
             <p className={`text-3xl font-black ${stat.color}`}>{stat.value}</p>
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
           </div>
@@ -224,8 +202,7 @@ export default function OrdersDashboard() {
       {/* Table Section */}
       <div className="bg-transparent overflow-hidden">
         {filteredTrades.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-3xl border border-slate-100">
-            <div className="text-4xl mb-4 opacity-20">📭</div>
+          <div className="text-center py-20">
             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">No Orders Found</p>
             <p className="text-sm font-bold text-slate-600">Your order history for this category is currently empty.</p>
           </div>
@@ -250,15 +227,9 @@ export default function OrdersDashboard() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="grid grid-cols-12 items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all group"
+                    className="grid grid-cols-12 items-center gap-4 py-4 border-b border-slate-100 transition-all group"
                   >
                     <div className="col-span-5 flex items-center gap-4">
-                      <div className="text-xl">
-                        {trade.crop.toLowerCase().includes('maize') ? '🌽' : 
-                         trade.crop.toLowerCase().includes('tomato') ? '🍅' : 
-                         trade.crop.toLowerCase().includes('bean') ? '🫘' : 
-                         trade.crop.toLowerCase().includes('moringa') ? '🌿' : '🌾'}
-                      </div>
                       <div>
                         <p className="text-sm font-black text-slate-900 tracking-tight leading-none mb-1">{trade.crop}</p>
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
@@ -285,7 +256,7 @@ export default function OrdersDashboard() {
                     <div className="col-span-1 flex justify-end gap-2">
                       <AnimatePresence mode="wait">
                         {isUpdating ? (
-                          <RefreshCw className="w-4 h-4 text-emerald-600 animate-spin" />
+                          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 animate-pulse">Updating...</span>
                         ) : (
                           <div className="flex gap-2">
                             {trade.status === 'pending' && isSeller && (
