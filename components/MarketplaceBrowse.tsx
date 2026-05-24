@@ -300,15 +300,15 @@ export default function MarketplaceBrowse({
       {/* Top Badge & Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-3">
-          <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-100">
+          <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black upercase tracking-[0.2em] border border-emerald-100">
             {viewMode === 'seller' ? 'Seller Portal' : 'Marketplace'}
           </span>
           <div className="space-y-1">
-            <h2 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+            <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
               {viewMode === 'seller' ? (
-                <>My Listings & Received Orders</>
+                <>My Listings and Received Orders</>
               ) : (
-                <>Browse & Buy Crops</>
+                <>Browse and Buy Crops</>
               )}
             </h2>
             <p className="text-slate-500 text-sm font-medium">
@@ -549,8 +549,8 @@ export default function MarketplaceBrowse({
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
                 className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${activeCategory === cat.name
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20'
-                    : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
+                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20'
+                  : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
                   }`}
               >
                 {cat.name}
