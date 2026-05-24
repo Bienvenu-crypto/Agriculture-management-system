@@ -177,15 +177,25 @@ export async function POST(req: Request) {
 // DELETE /api/marketplace/listings — cancel a listing
 export async function DELETE(req: Request) {
   try {
-    const seller = await getMarketplaceUser('seller');
-    if (!seller) {
+    const user = await getMarketplaceUser();
+    if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { id } = await req.json();
+
+    if (user.role === 'admin') {
+      db.prepare("UPDATE listings SET status = 'cancelled' WHERE id = ?").run(id);
+      return NextResponse.json({ ok: true });
+    }
+
+    if (user.role !== 'seller') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const listing = db
       .prepare('SELECT * FROM listings WHERE id = ? AND seller_id = ?')
-      .get(id, seller.id) as any;
+      .get(id, user.id) as any;
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
 
     db.prepare("UPDATE listings SET status = 'cancelled' WHERE id = ?").run(id);

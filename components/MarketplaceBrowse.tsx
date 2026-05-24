@@ -665,6 +665,15 @@ export default function MarketplaceBrowse({
                         >
                           Order Now
                         </button>
+                        {mpUser?.role === 'admin' && (
+                          <button
+                            onClick={() => deleteListing(listing.id)}
+                            className="bg-red-50 text-red-600 px-4 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-red-100 transition-all active:scale-[0.98]"
+                            title="Delete Listing (Admin)"
+                          >
+                            Delete
+                          </button>
+                        )}
                       </div>
                     </div>
                   </motion.div>

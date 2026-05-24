@@ -146,13 +146,25 @@ export async function POST(req: Request) {
 // DELETE — buyer cancels a buy order
 export async function DELETE(req: Request) {
   try {
-    const buyer = await getMarketplaceUser('buyer');
-    if (!buyer) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const user = await getMarketplaceUser();
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const { id } = await req.json();
+
+    if (user.role === 'admin') {
+      db.prepare("UPDATE buy_orders SET status = 'cancelled' WHERE id = ?").run(id);
+      return NextResponse.json({ ok: true });
+    }
+
+    if (user.role !== 'buyer') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const order = db
       .prepare('SELECT * FROM buy_orders WHERE id = ? AND buyer_id = ?')
-      .get(id, buyer.id) as any;
+      .get(id, user.id) as any;
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
 
     db.prepare("UPDATE buy_orders SET status = 'cancelled' WHERE id = ?").run(id);

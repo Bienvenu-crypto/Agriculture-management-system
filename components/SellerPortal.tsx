@@ -47,8 +47,9 @@ export default function SellerPortal() {
       const user = sessionData.user;
       setMpUser(user);
 
-      if (user && user.role === 'seller') {
-        const listingsRes = await fetch(`/api/marketplace/listings?seller_id=${user.id}`);
+      if (user && (user.role === 'seller' || user.role === 'admin')) {
+        const url = user.role === 'admin' ? '/api/marketplace/listings' : `/api/marketplace/listings?seller_id=${user.id}`;
+        const listingsRes = await fetch(url);
         const listingsData = await listingsRes.json();
         setMyListings(listingsData.listings || []);
       }
@@ -106,7 +107,7 @@ export default function SellerPortal() {
     );
   }
 
-  if (!mpUser || mpUser.role !== 'seller') {
+  if (!mpUser || (mpUser.role !== 'seller' && mpUser.role !== 'admin')) {
     return (
       <div className="max-w-4xl mx-auto py-12">
         <div className="bg-white rounded-[3rem] p-12 text-center border border-slate-100 shadow-xl space-y-8">
@@ -127,7 +128,7 @@ export default function SellerPortal() {
     );
   }
 
-  if (!mpUser.is_subscribed) {
+  if (!mpUser.is_subscribed && mpUser.role !== 'admin') {
     return (
       <div className="max-w-3xl mx-auto py-12 space-y-8">
         <div className="bg-emerald-600 rounded-[3rem] p-12 text-white overflow-hidden relative">
