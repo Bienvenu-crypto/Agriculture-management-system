@@ -33,7 +33,7 @@ export default function AdminDashboard() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'agrobot-admin-2026') {
+    if (password === 'admin2026') {
       setIsAuthenticated(true);
       setError('');
     } else {
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
   const fetchAllData = async () => {
     setDataLoading(true);
     try {
-      const res = await fetch(`/api/admin/data?secret=agrobot-admin-2026`);
+      const res = await fetch(`/api/admin/data?secret=admin2026`);
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setAdminData(data);
@@ -71,7 +71,7 @@ export default function AdminDashboard() {
   const handleDelete = async (type: string, id: string) => {
     if (!window.confirm(`Delete this ${type}? This cannot be undone.`)) return;
     try {
-      const res = await fetch(`/api/admin/data?secret=agrobot-admin-2026`, {
+      const res = await fetch(`/api/admin/data?secret=admin2026`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ type, id }),
@@ -90,7 +90,7 @@ export default function AdminDashboard() {
     if (!editingItem) return;
     setEditLoading(true);
     try {
-      const res = await fetch(`/api/admin/data?secret=agrobot-admin-2026`, {
+      const res = await fetch(`/api/admin/data?secret=admin2026`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -164,21 +164,21 @@ export default function AdminDashboard() {
         setIsMobileMenuOpen(false);
       }}
       className={`w-full text-left px-5 py-3.5 rounded-xl font-bold text-sm transition-all relative flex items-center gap-3 ${activeTab === id
-        ? 'bg-cyan-50 text-cyan-600'
-        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+        ? 'bg-cyan-500/10 text-cyan-400'
+        : 'text-slate-400 hover:text-white hover:bg-white/5'
         }`}
     >
-      {activeTab === id && <div className="w-1 h-5 bg-cyan-600 rounded-full mr-2" />}
+      {activeTab === id && <div className="w-1 h-5 bg-cyan-400 rounded-full mr-2" />}
       <span className="flex-1">{label}</span>
     </button>
   );
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] text-[#1A1C1E] font-sans">
-      <aside className="fixed left-0 top-0 bottom-0 w-72 bg-white p-6 hidden lg:flex flex-col z-50 border-r border-slate-100">
-        <div className="flex items-center gap-2 mb-10 px-2">
-          <div className="w-2.5 h-2.5 bg-cyan-500 rounded-full" />
-          <span className="text-lg font-bold text-[#1A1C1E]">AMS Portal</span>
+      <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[#0A0F1C] p-6 hidden lg:flex flex-col z-50 border-r border-white/5 shadow-2xl">
+        <div className="flex items-center gap-3 mb-10 px-2">
+          <div className="w-3 h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
+          <span className="text-lg font-black text-white tracking-widest uppercase">Admin Portal</span>
         </div>
 
         <nav className="flex-1 space-y-1">
@@ -191,12 +191,12 @@ export default function AdminDashboard() {
           <TabButton id="users" label="Farmer Manager" />
         </nav>
 
-        <div className="mt-auto pt-6 flex flex-col gap-2">
-          <Link href="/" className="px-5 py-3 text-sm font-bold text-slate-500 hover:text-cyan-600 transition-colors">
-            Exit to Application
+        <div className="mt-auto pt-6 flex flex-col gap-2 border-t border-white/5">
+          <Link href="/" className="px-5 py-3 text-sm font-bold text-slate-400 hover:text-cyan-400 hover:bg-white/5 rounded-xl transition-all">
+            Back to Application
           </Link>
-          <button onClick={handleLogout} className="w-full text-left px-5 py-3 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all">
-            Signed Termination
+          <button onClick={handleLogout} className="w-full text-left px-5 py-3 text-sm font-bold text-red-400 hover:bg-red-500/10 rounded-xl transition-all">
+            Logout
           </button>
         </div>
       </aside>
@@ -802,7 +802,7 @@ function StatCard({ label, val, grow, type, color }: any) {
     cyan: 'from-cyan-500 to-sky-400',
     red: 'from-rose-500 to-red-400'
   };
-  
+
   return (
     <div className={`bg-gradient-to-br ${gradients[color] || 'from-slate-600 to-slate-500'} rounded-[1.5rem] shadow-xl p-6 relative overflow-hidden flex flex-col justify-between min-h-[130px] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group`}>
       <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>

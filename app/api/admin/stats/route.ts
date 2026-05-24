@@ -5,7 +5,7 @@ export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const secret = searchParams.get('secret');
 
-  const expectedSecret = process.env.ADMIN_SECRET || 'agrobot-admin-2026';
+  const expectedSecret = process.env.ADMIN_SECRET || 'admin2026';
 
   if (secret !== expectedSecret) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -6,7 +6,7 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const secret = searchParams.get('secret');
 
-    if (secret !== 'agrobot-admin-2026') {
+    if (secret !== 'admin2026') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -37,7 +37,7 @@ export async function DELETE(req: Request) {
     const secret = searchParams.get('secret');
     const { type, id } = await req.json();
 
-    if (secret !== 'agrobot-admin-2026') {
+    if (secret !== 'admin2026') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -74,7 +74,7 @@ export async function PATCH(req: Request) {
     const secret = searchParams.get('secret');
     const { type, id, data } = await req.json();
 
-    if (secret !== 'agrobot-admin-2026') {
+    if (secret !== 'admin2026') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
