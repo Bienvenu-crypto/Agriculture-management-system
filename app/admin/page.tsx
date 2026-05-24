@@ -202,7 +202,7 @@ export default function AdminDashboard() {
       </aside>
 
       <div className="lg:pl-72 flex flex-col min-h-screen">
-        <header className="px-10 py-10 flex items-center justify-between">
+        <header className="px-10 py-8 flex items-center justify-between">
           <div className="flex items-center gap-6">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -210,15 +210,26 @@ export default function AdminDashboard() {
             >
               Menu
             </button>
-            <h2 className="text-3xl font-extrabold text-[#1A1C1E] tracking-tight">
-              {activeTab === 'overview' ? 'Dashboard Overview'
-                : activeTab === 'marketplace' ? 'Marketplace Manager'
-                  : activeTab === 'listings' ? 'Active Listings'
-                    : activeTab === 'orders' ? 'Buy Orders'
-                      : activeTab === 'trades' ? 'Transaction Ledger'
-                        : activeTab === 'chats' ? 'Service Logs'
-                          : 'Farmer Manager'}
-            </h2>
+            <div>
+              <h2 className="text-3xl font-extrabold text-[#1A1C1E] tracking-tight">
+                {activeTab === 'overview' ? 'Dashboard Overview'
+                  : activeTab === 'marketplace' ? 'Marketplace Manager'
+                    : activeTab === 'listings' ? 'Active Listings'
+                      : activeTab === 'orders' ? 'Buy Orders'
+                        : activeTab === 'trades' ? 'Transaction Ledger'
+                          : activeTab === 'chats' ? 'Service Logs'
+                            : 'Farmer Manager'}
+              </h2>
+              <p className="text-slate-500 text-base font-medium mt-1">
+                {activeTab === 'overview' ? 'Monitor global metrics and interaction flows'
+                  : activeTab === 'marketplace' ? 'Manage marketplace users and their subscriptions'
+                    : activeTab === 'listings' ? 'Review and manage active crop listings'
+                      : activeTab === 'orders' ? 'Track and manage open purchase requests'
+                        : activeTab === 'trades' ? 'Monitor all completed and pending transactions'
+                          : activeTab === 'chats' ? 'Review user interactions and system logs'
+                            : 'Manage registered farmers and application users'}
+              </p>
+            </div>
           </div>
 
           <div className="flex items-center gap-4">
@@ -262,7 +273,7 @@ export default function AdminDashboard() {
           )}
         </AnimatePresence>
 
-        <main className="p-10 lg:p-16 flex-1 overflow-x-hidden">
+        <main className="px-10 lg:px-16 pt-2 pb-16 flex-1 overflow-x-hidden">
           {dataLoading && adminData.chats.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-32 space-y-4">
               <div className="px-10 py-5 bg-slate-950 rounded-full text-cyan-400 font-black text-[10px] uppercase tracking-[0.5em] animate-pulse">
@@ -275,7 +286,7 @@ export default function AdminDashboard() {
 
               {activeTab === 'overview' && (
                 <div className="space-y-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <StatCard label="Total Interactions" val={adminData.chats.length} grow="2 new" type="LOGS" color="emerald" />
                     <StatCard label="Active Matches" val={adminData.trades.length} grow="1 new" type="TRADES" color="blue" />
                     <StatCard label="Market Listings" val={adminData.listings.length} grow="3 active" type="LISTINGS" color="amber" />
@@ -633,11 +644,12 @@ export default function AdminDashboard() {
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Value</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Date & Time</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.trades.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No trades recorded yet</td></tr>}
+                          {adminData.trades.length === 0 && <tr><td colSpan={7} className="px-6 py-16 text-center text-slate-300 text-sm">No trades recorded yet</td></tr>}
                           {adminData.trades.map((t: any) => (
                             <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
@@ -665,6 +677,10 @@ export default function AdminDashboard() {
                                   <span className={`w-1.5 h-1.5 rounded-full ${t.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
                                   {t.status}
                                 </span>
+                              </td>
+                              <td className="px-6 py-4 text-slate-500">
+                                <p className="font-bold text-slate-900 text-xs">{format(new Date(t.created_at), 'dd MMM yyyy')}</p>
+                                <p className="text-xs">{format(new Date(t.created_at), 'HH:mm')}</p>
                               </td>
                               <td className="px-6 py-4 text-right">
                                 <button onClick={() => handleDelete('trade', t.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
@@ -778,32 +794,26 @@ export default function AdminDashboard() {
 }
 
 function StatCard({ label, val, grow, type, color }: any) {
-  const borderColors: any = {
-    emerald: 'border-[#1E2B3C]', // Navy
-    blue: 'border-[#E6B143]', // Gold/Amber
-    amber: 'border-[#27AE60]', // Green
-    purple: 'border-[#6C5CE7]',
-    cyan: 'border-[#00BCD4]',
-    red: 'border-[#FF4757]'
-  }
-  const textColors: any = {
-    emerald: 'text-[#1E2B3C]',
-    blue: 'text-[#E6B143]',
-    amber: 'text-[#27AE60]',
-    purple: 'text-[#6C5CE7]',
-    cyan: 'text-[#00BCD4]',
-    red: 'text-[#FF4757]'
-  }
+  const gradients: any = {
+    emerald: 'from-emerald-500 to-teal-400',
+    blue: 'from-blue-600 to-cyan-500',
+    amber: 'from-amber-500 to-orange-400',
+    purple: 'from-purple-600 to-indigo-500',
+    cyan: 'from-cyan-500 to-sky-400',
+    red: 'from-rose-500 to-red-400'
+  };
+  
   return (
-    <div className={`bg-white rounded-[1.5rem] shadow-sm p-8 relative overflow-hidden flex flex-col justify-between min-h-[160px] hover:shadow-md transition-shadow`}>
-      <div className="flex items-start justify-between">
-        <p className={`text-4xl font-extrabold ${textColors[color] || 'text-[#1A1C1E]'} tracking-tight`}>{val}</p>
-        <span className={`px-2.5 py-1 rounded-full text-[9px] font-bold uppercase tracking-widest ${color === 'amber' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
+    <div className={`bg-gradient-to-br ${gradients[color] || 'from-slate-600 to-slate-500'} rounded-[1.5rem] shadow-xl p-6 relative overflow-hidden flex flex-col justify-between min-h-[130px] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300 group`}>
+      <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
+      <div className="relative z-10 flex items-start justify-between">
+        <p className={`text-4xl font-black text-white tracking-tighter drop-shadow-md`}>{val}</p>
+        <span className={`px-2.5 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-lg`}>
           {grow} {type.toLowerCase()}
         </span>
       </div>
-      <div>
-        <p className="text-[11px] font-black text-[#1A1C1E] uppercase tracking-[0.15em] opacity-100">{label}</p>
+      <div className="relative z-10 mt-4">
+        <p className="text-[11px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</p>
       </div>
     </div>
   );
