@@ -188,7 +188,7 @@ export default function AdminDashboard() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-[#1A1C1E] font-sans">
+    <div className="min-h-screen bg-white text-[#1A1C1E] font-sans">
       <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[#0A0F1C] p-6 hidden lg:flex flex-col z-50 border-r border-white/5 shadow-2xl">
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-3 h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.5)]" />

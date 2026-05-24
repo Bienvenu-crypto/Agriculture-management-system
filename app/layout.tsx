@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${jakarta.variable}`}>
-      <body suppressHydrationWarning className="font-sans antialiased bg-[#F8F9FA] text-slate-950">
+      <body suppressHydrationWarning className="font-sans antialiased bg-white text-slate-950">
         <AuthProvider>
           {children}
         </AuthProvider>
