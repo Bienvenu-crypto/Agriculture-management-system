@@ -8,10 +8,11 @@ import {
   ShieldCheck, 
   CreditCard,
   Trash2,
+  Pencil,
   ChevronRight,
   Loader2
 } from 'lucide-react';
-import { AddListingModal } from './Marketplace';
+import { AddListingModal, EditListingModal } from './Marketplace';
 
 interface MpUser {
   id: string;
@@ -29,6 +30,8 @@ interface Listing {
   currency: string;
   status: string;
   created_at: string;
+  category?: string;
+  description?: string | null;
 }
 
 export default function SellerPortal() {
@@ -36,6 +39,7 @@ export default function SellerPortal() {
   const [myListings, setMyListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddListing, setShowAddListing] = useState(false);
+  const [editingListing, setEditingListing] = useState<Listing | null>(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [isPaying, setIsPaying] = useState(false);
   const [momoNumber, setMomoNumber] = useState('');
@@ -288,8 +292,16 @@ export default function SellerPortal() {
                   </div>
                   <div className="flex items-center gap-2">
                     <button 
+                      onClick={() => setEditingListing(listing)}
+                      className="w-10 h-10 rounded-xl flex items-center justify-center text-amber-400 hover:text-amber-600 hover:bg-amber-50 transition-all"
+                      title="Edit listing"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </button>
+                    <button 
                       onClick={() => deleteListing(listing.id)}
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
+                      title="Delete listing"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -353,6 +365,13 @@ export default function SellerPortal() {
           <AddListingModal 
             onClose={() => setShowAddListing(false)} 
             onSuccess={() => { setShowAddListing(false); fetchData(); }} 
+          />
+        )}
+        {editingListing && (
+          <EditListingModal
+            listing={editingListing}
+            onClose={() => setEditingListing(null)}
+            onSuccess={() => { setEditingListing(null); fetchData(); }}
           />
         )}
       </AnimatePresence>

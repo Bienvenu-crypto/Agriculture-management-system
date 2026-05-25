@@ -509,6 +509,130 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
   );
 }
 
+// ─── Edit Listing Modal ──────────────────────────────────────────────────────
+export function EditListingModal({
+  listing,
+  onClose,
+  onSuccess,
+}: {
+  listing: { id: string; crop: string; quantity_kg: number; price_per_kg: number; currency: string; description?: string | null; category?: string };
+  onClose: () => void;
+  onSuccess: () => void;
+}) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [form, setForm] = useState({
+    crop: listing.crop,
+    quantity_kg: String(listing.quantity_kg),
+    price_per_kg: String(listing.price_per_kg),
+    currency: listing.currency || 'UGX',
+    description: listing.description || '',
+    category: listing.category || 'Grains',
+  });
+
+  const currencies = ['UGX', 'KES', 'RWF', 'TZS', 'NGN', 'GHS', 'ZAR', 'USD'];
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      const res = await fetch('/api/marketplace/listings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: listing.id,
+          crop: form.crop,
+          quantity_kg: parseFloat(form.quantity_kg),
+          price_per_kg: parseFloat(form.price_per_kg),
+          category: form.category,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      onSuccess();
+      onClose();
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
+      <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        className="relative w-full max-w-md bg-slate-50 p-8">
+        <button onClick={onClose} className="absolute top-4 right-4 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-widest transition-colors">Close</button>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="bg-amber-100 px-3 py-1.5 rounded-xl text-amber-600 font-black text-[10px] uppercase tracking-widest">Edit</div>
+          <div>
+            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Edit Listing</h2>
+            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">Update your crop details</p>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-3 gap-3">
+            <div className="col-span-2">
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Crop Name</label>
+              <input type="text" required value={form.crop} onChange={e => setForm({ ...form, crop: e.target.value })}
+                className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold"
+                placeholder="e.g. Maize" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Currency</label>
+              <select
+                value={form.currency}
+                disabled
+                className="w-full bg-slate-100 px-4 py-2.5 rounded-xl outline-none text-sm font-bold appearance-none text-slate-400 cursor-not-allowed"
+              >
+                {currencies.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <p className="text-[9px] text-slate-400 mt-1">Cannot change currency</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Quantity (kg)</label>
+              <input type="number" required min="0.1" step="0.1" value={form.quantity_kg} onChange={e => setForm({ ...form, quantity_kg: e.target.value })}
+                className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold"
+                placeholder="500" />
+            </div>
+            <div>
+              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Price/kg</label>
+              <input type="number" required min="1" value={form.price_per_kg} onChange={e => setForm({ ...form, price_per_kg: e.target.value })}
+                className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold"
+                placeholder="1200" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Category</label>
+            <select
+              value={form.category}
+              onChange={e => setForm({ ...form, category: e.target.value })}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold appearance-none"
+            >
+              {['Grains', 'Vegetables', 'Fruits', 'Herbs', 'Inputs', 'Livestock'].map(c => (
+                <option key={c} value={c}>{c}</option>
+              ))}
+            </select>
+          </div>
+          {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">{error}</div>}
+          <button type="submit" disabled={loading}
+            className="w-full bg-amber-500 text-white py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-amber-600 transition-colors disabled:opacity-70 shadow-lg shadow-amber-500/20">
+            {loading ? 'Saving...' : 'Save Changes'}
+          </button>
+        </form>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── Add Buy Order Modal ─────────────────────────────────────────────────────
 export function AddBuyOrderModal({
   onClose,
