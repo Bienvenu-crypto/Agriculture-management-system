@@ -225,3 +225,31 @@ export async function PATCH(req: Request) {
     return NextResponse.json({ error: 'Failed to update listing' }, { status: 500 });
   }
 }
+
+// PUT /api/marketplace/listings — update a listing details
+export async function PUT(req: Request) {
+  try {
+    const user = await getMarketplaceUser();
+    if (!user || user.role !== 'seller') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const { id, crop, quantity_kg, price_per_kg, category } = await req.json();
+    if (!id || !crop || !quantity_kg || !price_per_kg) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+    }
+
+    const listing = db
+      .prepare('SELECT * FROM listings WHERE id = ? AND seller_id = ?')
+      .get(id, user.id) as any;
+    if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
+
+    db.prepare(
+      "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ? WHERE id = ?"
+    ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', id);
+    
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update listing' }, { status: 500 });
+  }
+}

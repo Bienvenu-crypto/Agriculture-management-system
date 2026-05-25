@@ -125,6 +125,31 @@ export default function OrdersDashboard() {
     return null;
   };
 
+  const getCropImage = (crop: string) => {
+    const images: Record<string, string> = {
+      'maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=800',
+      'coffee': 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800',
+      'beans': 'https://images.unsplash.com/photo-1551462147-37885acc36f1?auto=format&fit=crop&q=80&w=800',
+      'tomatoes': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
+      'tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
+      'cassava': 'https://images.unsplash.com/photo-1621245053096-74fc21d3f947?auto=format&fit=crop&q=80&w=800',
+      'bananas': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=800',
+      'matooke': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=800',
+      'rice': 'https://images.unsplash.com/photo-1586201375761-83865001e8ac?auto=format&fit=crop&q=80&w=800',
+      'wheat': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=800',
+      'potatoes': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=800',
+      'soybeans': 'https://images.unsplash.com/photo-1589304044569-b7b514c6e1c2?auto=format&fit=crop&q=80&w=800',
+      'sorghum': 'https://images.unsplash.com/photo-1590740623351-404fb85514de?auto=format&fit=crop&q=80&w=800',
+      'millet': 'https://images.pexels.com/photos/4016550/pexels-photo-4016550.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'cabbage': 'https://images.unsplash.com/photo-1518977956812-cd3dbadaaf31?auto=format&fit=crop&q=80&w=800'
+    };
+    const key = crop.toLowerCase();
+    for (const k in images) {
+      if (key.includes(k)) return images[k];
+    }
+    return 'https://images.unsplash.com/photo-1595841696677-6489ff3f8cd1?auto=format&fit=crop&q=80&w=800';
+  };
+
   if (loading) {
     return (
       <div className="p-8 flex items-center justify-center min-h-[400px]">
@@ -199,7 +224,7 @@ export default function OrdersDashboard() {
         </div>
       </div>
 
-      {/* Table Section */}
+      {/* Cards Section */}
       <div className="bg-transparent overflow-hidden">
         {filteredTrades.length === 0 ? (
           <div className="text-center py-20">
@@ -208,15 +233,7 @@ export default function OrdersDashboard() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-12 gap-4 px-6 mb-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">
-              <div className="col-span-5">Order</div>
-              <div className="col-span-2">Date</div>
-              <div className="col-span-2">Amount</div>
-              <div className="col-span-2 text-center">Status</div>
-              <div className="col-span-1 text-right">Action</div>
-            </div>
-
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
               {filteredTrades.map((trade, idx) => {
                 const isSeller = mpUser?.id === trade.seller_id;
                 const isUpdating = updatingId === trade.id;
@@ -227,58 +244,72 @@ export default function OrdersDashboard() {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: idx * 0.05 }}
-                    className="grid grid-cols-12 items-center gap-4 py-4 border-b border-slate-100 transition-all group"
+                    className="bg-white border border-slate-100 rounded-[1.25rem] p-6 shadow-lg hover:shadow-xl transition-all flex flex-col group relative"
                   >
-                    <div className="col-span-5 flex items-center gap-4">
+                    <div className="flex justify-between items-start mb-4">
                       <div>
-                        <p className="text-sm font-black text-slate-900 tracking-tight leading-none mb-1">{trade.crop}</p>
+                        <p className="text-xl font-black text-slate-700 tracking-tight leading-none mb-1">{trade.crop}</p>
                         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                          Order #{trade.id.split('-').pop()} • {isSeller ? `Buyer: ${trade.buyer_name}` : `Seller: ${trade.seller_name}`}
+                          Order #{trade.id.split('-').pop()}
                         </p>
                       </div>
-                    </div>
-
-                    <div className="col-span-2 text-sm font-bold text-slate-600">
-                      {format(new Date(trade.created_at), 'MMM d, yyyy')}
-                    </div>
-
-                    <div className="col-span-2 text-sm font-black text-slate-900 uppercase">
-                      {trade.currency} {trade.total_value.toLocaleString()}
-                    </div>
-
-                    <div className="col-span-2 flex justify-center">
-                      <span className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(trade.status)}`}>
-                        {getStatusIcon(trade.status)}
+                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(trade.status)}`}>
                         {trade.status}
                       </span>
                     </div>
 
-                    <div className="col-span-1 flex justify-end gap-2">
+                    <div className="space-y-4 flex-1">
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Role</span>
+                        <span className="text-xs font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-md">{isSeller ? 'Selling' : 'Buying'}</span>
+                      </div>
+                      
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{isSeller ? 'Buyer' : 'Seller'}</span>
+                        <span className="text-xs font-bold text-slate-600">{isSeller ? trade.buyer_name : trade.seller_name}</span>
+                      </div>
+
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
+                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
+                          {trade.currency} {trade.total_value.toLocaleString()}
+                        </span>
+                      </div>
+
+                      <div className="flex justify-between items-center py-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
+                        <span className="text-xs font-bold text-slate-600">
+                          {format(new Date(trade.created_at), 'MMM d, yyyy')}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
                       <AnimatePresence mode="wait">
                         {isUpdating ? (
-                          <span className="text-[10px] font-black uppercase tracking-widest text-emerald-600 animate-pulse">Updating...</span>
+                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse py-2">Updating...</span>
                         ) : (
-                          <div className="flex gap-2">
+                          <>
+                            <button className="px-4 py-2 bg-slate-50 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 hover:text-slate-700 transition-colors flex-1 text-center border border-slate-200">
+                              Details
+                            </button>
                             {trade.status === 'pending' && isSeller && (
                               <button 
                                 onClick={() => handleUpdateStatus(trade.id, 'in-transit')}
-                                className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors shadow-sm"
+                                className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors shadow-sm flex-1 text-center"
                               >
-                                Ship
+                                Ship Order
                               </button>
                             )}
                             {trade.status === 'in-transit' && !isSeller && (
                               <button 
                                 onClick={() => handleUpdateStatus(trade.id, 'completed')}
-                                className="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-sm"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-sm flex-1 text-center"
                               >
                                 Confirm
                               </button>
                             )}
-                            <button className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-[9px] font-black uppercase text-slate-400 hover:text-slate-600 transition-colors">
-                              View
-                            </button>
-                          </div>
+                          </>
                         )}
                       </AnimatePresence>
                     </div>

@@ -146,6 +146,31 @@ export default function MarketplaceBrowse({
     return '';
   };
 
+  const getCropImage = (crop: string) => {
+    const images: Record<string, string> = {
+      'maize': 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?auto=format&fit=crop&q=80&w=800',
+      'coffee': 'https://images.unsplash.com/photo-1511920170033-f8396924c348?auto=format&fit=crop&q=80&w=800',
+      'beans': 'https://images.unsplash.com/photo-1551462147-37885acc36f1?auto=format&fit=crop&q=80&w=800',
+      'tomatoes': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
+      'tomato': 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&q=80&w=800',
+      'cassava': 'https://images.unsplash.com/photo-1621245053096-74fc21d3f947?auto=format&fit=crop&q=80&w=800',
+      'bananas': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=800',
+      'matooke': 'https://images.unsplash.com/photo-1528825871115-3581a5387919?auto=format&fit=crop&q=80&w=800',
+      'rice': 'https://images.unsplash.com/photo-1586201375761-83865001e8ac?auto=format&fit=crop&q=80&w=800',
+      'wheat': 'https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&q=80&w=800',
+      'potatoes': 'https://images.unsplash.com/photo-1518977676601-b53f82aba655?auto=format&fit=crop&q=80&w=800',
+      'soybeans': 'https://images.unsplash.com/photo-1589304044569-b7b514c6e1c2?auto=format&fit=crop&q=80&w=800',
+      'sorghum': 'https://images.unsplash.com/photo-1590740623351-404fb85514de?auto=format&fit=crop&q=80&w=800',
+      'millet': 'https://images.pexels.com/photos/4016550/pexels-photo-4016550.jpeg?auto=compress&cs=tinysrgb&w=800',
+      'cabbage': 'https://images.unsplash.com/photo-1518977956812-cd3dbadaaf31?auto=format&fit=crop&q=80&w=800'
+    };
+    const key = crop.toLowerCase();
+    for (const k in images) {
+      if (key.includes(k)) return images[k];
+    }
+    return 'https://images.unsplash.com/photo-1595841696677-6489ff3f8cd1?auto=format&fit=crop&q=80&w=800'; // Default farm/crops image
+  };
+
   const handleOrderClick = (listing: Listing) => {
     if (!mpUser || mpUser.role !== 'buyer') {
       setShowAuthModal(true);
@@ -362,48 +387,48 @@ export default function MarketplaceBrowse({
                 </button>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-3">
-                      <th className="pb-3 pl-2">Crop Name</th>
-                      <th className="pb-3">Category</th>
-                      <th className="pb-3">Stock (KG)</th>
-                      <th className="pb-3">Price / KG</th>
-                      <th className="pb-3">Promotion</th>
-                      <th className="pb-3">Created Date</th>
-                      <th className="pb-3 text-right pr-2">Actions</th>
+              <div className="overflow-hidden bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full text-left">
+                  <thead className="bg-[#0B1223] text-slate-400">
+                    <tr>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest rounded-tl-2xl">Crop Name</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Category</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Stock (KG)</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Price / KG</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Promotion</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Created Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right rounded-tr-2xl">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
                     {listings.map((l) => (
-                      <tr key={l.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 pl-2 font-black text-slate-950 flex items-center gap-3">
+                      <tr key={l.id} className="hover:bg-slate-50/70 transition-colors">
+                        <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(l.crop)}</span>
                           <span className="uppercase tracking-tight">{l.crop}</span>
                         </td>
-                        <td className="py-4">
+                        <td className="px-6 py-4">
                           <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider">
                             {l.category || 'Grains'}
                           </span>
                         </td>
-                        <td className="py-4 font-black">
+                        <td className="px-6 py-4 font-black">
                           {l.quantity_kg.toLocaleString()} KG
                         </td>
-                        <td className="py-4 font-black text-emerald-600 uppercase">
+                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
                           {l.currency} {l.price_per_kg.toLocaleString()}
                         </td>
-                        <td className="py-4">
+                        <td className="px-6 py-4">
                           {l.is_promoted === 1 ? (
                             <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest border border-amber-200">Featured</span>
                           ) : (
                             <span className="text-slate-400 text-[10px] uppercase font-bold">Standard</span>
                           )}
                         </td>
-                        <td className="py-4 text-xs text-slate-500 font-bold">
+                        <td className="px-6 py-4 text-xs text-slate-500 font-bold">
                           {format(new Date(l.created_at), 'MMM d, yyyy')}
                         </td>
-                        <td className="py-4 text-right pr-2">
+                        <td className="px-6 py-4 text-right">
                           <button
                             onClick={() => deleteListing(l.id)}
                             className="p-2 text-red-500 hover:text-red-700 transition-colors"
@@ -437,71 +462,68 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">When buyers purchase your crops directly, they will show up here.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-3">
-                      <th className="pb-3 pl-2">Ordered Crop</th>
-                      <th className="pb-3">Buyer Details</th>
-                      <th className="pb-3">Quantity</th>
-                      <th className="pb-3">Total Paid</th>
-                      <th className="pb-3">Payment Phone</th>
-                      <th className="pb-3 text-center">Shipping Status</th>
-                      <th className="pb-3">Order Date</th>
-                      <th className="pb-3 text-right pr-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
-                    {sellerTrades.map((t) => (
-                      <tr key={t.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 pl-2 font-black text-slate-950">
-                          <div className="flex items-center gap-2">
-                            <span>{getCropEmoji(t.crop)}</span>
-                            <span className="uppercase tracking-tight">{t.crop}</span>
-                          </div>
-                        </td>
-                        <td className="py-4">
-                          <div className="leading-tight">
-                            <p className="font-bold text-slate-900">{t.buyer_name}</p>
-                            <p className="text-[10px] text-slate-400 font-bold mt-0.5">{t.buyer_phone || 'No phone'}</p>
-                          </div>
-                        </td>
-                        <td className="py-4 font-black">
-                          {t.quantity_kg.toLocaleString()} KG
-                        </td>
-                        <td className="py-4 font-black text-emerald-600 uppercase">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sellerTrades.map((t) => (
+                  <div key={t.id} className="bg-white border border-slate-100 rounded-[1.25rem] p-6 shadow-lg hover:shadow-xl transition-all flex flex-col relative">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-2xl">{getCropEmoji(t.crop)}</span>
+                          <h4 className="text-xl font-black text-slate-700 tracking-tight uppercase">{t.crop}</h4>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                          Order #{t.id.split('-').pop()}
+                        </p>
+                      </div>
+                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
+                        {t.status}
+                      </span>
+                    </div>
+
+                    <div className="space-y-4 flex-1">
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer</span>
+                        <div className="text-right">
+                          <p className="text-xs font-bold text-slate-600">{t.buyer_name}</p>
+                          <p className="text-[9px] text-slate-400 font-bold">{t.buyer_phone || 'No phone'}</p>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</span>
+                        <span className="text-xs font-black text-slate-600">{t.quantity_kg.toLocaleString()} KG</span>
+                      </div>
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
+                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
                           {t.currency} {t.total_value.toLocaleString()}
-                        </td>
-                        <td className="py-4 text-xs font-bold text-slate-600">
-                          {t.payment_phone || 'Direct'}
-                        </td>
-                        <td className="py-4 text-center">
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
-                            {getStatusIcon(t.status)}
-                            {t.status}
-                          </span>
-                        </td>
-                        <td className="py-4 text-xs text-slate-500 font-bold">
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center py-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
+                        <span className="text-xs font-bold text-slate-600">
                           {format(new Date(t.created_at), 'MMM d, yyyy')}
-                        </td>
-                        <td className="py-4 text-right pr-2">
-                          {t.status === 'pending' ? (
-                            <button
-                              onClick={() => handleUpdateStatus(t.id, 'in-transit')}
-                              className="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
-                            >
-                              Ship Order
-                            </button>
-                          ) : (
-                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
-                              {t.status === 'in-transit' ? 'In Transit' : 'Completed'}
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
+                      {t.status === 'pending' ? (
+                        <button
+                          onClick={() => handleUpdateStatus(t.id, 'in-transit')}
+                          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                        >
+                          Ship Order
+                        </button>
+                      ) : (
+                        <div className="w-full text-center py-2 bg-slate-50 rounded-xl border border-slate-100">
+                          <span className="text-slate-500 text-[9px] uppercase font-black tracking-widest">
+                            {t.status === 'in-transit' ? 'In Transit' : 'Completed'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>
@@ -595,9 +617,13 @@ export default function MarketplaceBrowse({
                     className="overflow-hidden group flex flex-col h-full"
                   >
                     {/* Card Top / Image Area */}
-                    <div className="h-48 bg-slate-50/50 flex items-center justify-center relative">
+                    <div 
+                      className="h-48 bg-slate-50/50 flex items-center justify-center relative bg-cover bg-center"
+                      style={{ backgroundImage: `url(${getCropImage(listing.crop)})` }}
+                    >
+                      <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-all"></div>
                       {listing.is_promoted === 1 && (
-                        <div className="absolute top-6 left-6">
+                        <div className="absolute top-6 left-6 z-10">
                           <span className="bg-amber-100 text-amber-700 text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest border border-amber-200">Featured</span>
                         </div>
                       )}
@@ -699,71 +725,68 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">Use the "Order Now" button on crop listings to place orders.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="text-[10px] font-black text-slate-400 uppercase tracking-widest border-b border-slate-100 pb-3">
-                      <th className="pb-3 pl-2">Ordered Crop</th>
-                      <th className="pb-3">Seller Details</th>
-                      <th className="pb-3">Quantity</th>
-                      <th className="pb-3">Total Paid</th>
-                      <th className="pb-3">Paid Via Phone</th>
-                      <th className="pb-3 text-center">Shipping Status</th>
-                      <th className="pb-3">Order Date</th>
-                      <th className="pb-3 text-right pr-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
-                    {buyerTrades.map((t) => (
-                      <tr key={t.id} className="hover:bg-slate-50/50 transition-colors">
-                        <td className="py-4 pl-2 font-black text-slate-950">
-                          <div className="flex items-center gap-2">
-                            <span>{getCropEmoji(t.crop)}</span>
-                            <span className="uppercase tracking-tight">{t.crop}</span>
-                          </div>
-                        </td>
-                        <td className="py-4">
-                          <div className="leading-tight">
-                            <p className="font-bold text-slate-900">{t.seller_name}</p>
-                            <p className="text-[10px] text-slate-400 font-bold mt-0.5">{t.seller_phone || 'No phone'}</p>
-                          </div>
-                        </td>
-                        <td className="py-4 font-black">
-                          {t.quantity_kg.toLocaleString()} KG
-                        </td>
-                        <td className="py-4 font-black text-emerald-600 uppercase">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {buyerTrades.map((t) => (
+                  <div key={t.id} className="bg-white border border-slate-100 rounded-[1.25rem] p-6 shadow-lg hover:shadow-xl transition-all flex flex-col relative">
+                    <div className="flex justify-between items-start mb-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-2xl">{getCropEmoji(t.crop)}</span>
+                          <h4 className="text-xl font-black text-slate-700 tracking-tight uppercase">{t.crop}</h4>
+                        </div>
+                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                          Order #{t.id.split('-').pop()}
+                        </p>
+                      </div>
+                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
+                        {t.status}
+                      </span>
+                    </div>
+
+                    <div className="space-y-4 flex-1">
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Seller</span>
+                        <div className="text-right">
+                          <p className="text-xs font-bold text-slate-600">{t.seller_name}</p>
+                          <p className="text-[9px] text-slate-400 font-bold">{t.seller_phone || 'No phone'}</p>
+                        </div>
+                      </div>
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</span>
+                        <span className="text-xs font-black text-slate-600">{t.quantity_kg.toLocaleString()} KG</span>
+                      </div>
+                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
+                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
                           {t.currency} {t.total_value.toLocaleString()}
-                        </td>
-                        <td className="py-4 text-xs font-bold text-slate-600">
-                          {t.payment_phone || 'N/A'}
-                        </td>
-                        <td className="py-4 text-center">
-                          <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
-                            {getStatusIcon(t.status)}
-                            {t.status}
-                          </span>
-                        </td>
-                        <td className="py-4 text-xs text-slate-500 font-bold">
+                        </span>
+                      </div>
+                      <div className="flex justify-between items-center py-3">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
+                        <span className="text-xs font-bold text-slate-600">
                           {format(new Date(t.created_at), 'MMM d, yyyy')}
-                        </td>
-                        <td className="py-4 text-right pr-2">
-                          {t.status === 'in-transit' ? (
-                            <button
-                              onClick={() => handleUpdateStatus(t.id, 'completed')}
-                              className="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
-                            >
-                              Confirm Delivery
-                            </button>
-                          ) : (
-                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
-                              {t.status === 'pending' ? 'Awaiting Shipment' : 'Completed'}
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
+                      {t.status === 'in-transit' ? (
+                        <button
+                          onClick={() => handleUpdateStatus(t.id, 'completed')}
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                        >
+                          Confirm Delivery
+                        </button>
+                      ) : (
+                        <div className="w-full text-center py-2 bg-slate-50 rounded-xl border border-slate-100">
+                          <span className="text-slate-500 text-[9px] uppercase font-black tracking-widest">
+                            {t.status === 'pending' ? 'Pending Shipping' : 'Completed'}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>

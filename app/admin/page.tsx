@@ -359,7 +359,7 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.chats.length} Logs</span>
                   </div>
-                  <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
@@ -420,7 +420,7 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
                   </div>
-                  <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
@@ -482,7 +482,7 @@ export default function AdminDashboard() {
                       </div>
                       <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
                     </div>
-                    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                       <div className="overflow-x-auto">
                         <table className="w-full">
                           <thead>
@@ -556,7 +556,7 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.listings.length} Listings</span>
                   </div>
-                  <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
@@ -602,7 +602,7 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.orders.length} Orders</span>
                   </div>
-                  <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
@@ -648,7 +648,7 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.trades.length} Trades</span>
                   </div>
-                  <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
