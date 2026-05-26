@@ -73,6 +73,7 @@ export default function MarketplaceBrowse({
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [page, setPage] = useState(1);
+  const [activeLocation, setActiveLocation] = useState<string>('All');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showAddListingModal, setShowAddListingModal] = useState(false);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
@@ -299,6 +300,14 @@ export default function MarketplaceBrowse({
 
   // Filter listings for buyers to exclude their own products
   const buyerListings = listings.filter(l => !mpUser || l.seller_id !== mpUser.id);
+
+  const uniqueDistricts = Array.from(new Set(buyerListings.map(l => l.seller_district || 'Unknown'))).filter(Boolean).sort();
+
+  const filteredByLocationListings = activeLocation === 'All' 
+    ? buyerListings 
+    : buyerListings.filter(l => (l.seller_district || 'Unknown') === activeLocation);
+
+  const sortedBuyerListings = [...filteredByLocationListings];
   // Buyer's purchases
   const buyerTrades = trades.filter(t => mpUser && t.buyer_id === mpUser.id);
   // Seller's received orders
@@ -559,17 +568,16 @@ export default function MarketplaceBrowse({
             </div>
 
             <div className="flex items-center gap-2 px-2">
-              <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                Location
-              </button>
-              <div className="w-[1px] h-6 bg-slate-100" />
-              <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                Category
-              </button>
-              <div className="w-[1px] h-6 bg-slate-100" />
-              <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
-                Price
-              </button>
+              <select
+                value={activeLocation}
+                onChange={(e) => setActiveLocation(e.target.value)}
+                className="bg-emerald-600 text-white outline-none text-[10px] font-black uppercase tracking-widest cursor-pointer px-5 py-3 rounded-xl hover:bg-emerald-700 transition-all"
+              >
+                <option value="All" className="bg-white text-slate-900">LOCATION</option>
+                {uniqueDistricts.map(district => (
+                  <option key={district} value={district} className="bg-white text-slate-900">{district}</option>
+                ))}
+              </select>
             </div>
 
             <button className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-emerald-700 transition-all active:scale-95">
@@ -598,7 +606,7 @@ export default function MarketplaceBrowse({
             <div className="flex justify-between items-center px-2">
               <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter">Available Crops for Purchase</h3>
               <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
-                Showing {buyerListings.length} of {totalCount} listings
+                Showing {sortedBuyerListings.length} of {totalCount} listings
               </p>
             </div>
 
@@ -614,7 +622,7 @@ export default function MarketplaceBrowse({
                     </div>
                   </div>
                 ))
-              ) : buyerListings.length === 0 ? (
+              ) : sortedBuyerListings.length === 0 ? (
                 <div className="col-span-full py-20 text-center space-y-4">
                   <div className="space-y-1">
                     <p className="text-lg font-black text-slate-900 uppercase tracking-tight">No crops available</p>
@@ -622,7 +630,7 @@ export default function MarketplaceBrowse({
                   </div>
                 </div>
               ) : (
-                buyerListings.map((listing) => (
+                sortedBuyerListings.map((listing) => (
                   <motion.div
                     key={listing.id}
                     initial={{ opacity: 0, y: 20 }}
