@@ -49,7 +49,8 @@ const CATEGORIES = [
   { name: 'Grains' },
   { name: 'Vegetables' },
   { name: 'Fruits' },
-  { name: 'Herbs' },
+  { name: 'Fresh Products' },
+  { name: 'Flour and Baking' },
   { name: 'Inputs' },
   { name: 'Livestock' }
 ];
