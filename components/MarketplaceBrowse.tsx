@@ -303,8 +303,8 @@ export default function MarketplaceBrowse({
 
   const uniqueDistricts = Array.from(new Set(buyerListings.map(l => l.seller_district || 'Unknown'))).filter(Boolean).sort();
 
-  const filteredByLocationListings = activeLocation === 'All' 
-    ? buyerListings 
+  const filteredByLocationListings = activeLocation === 'All'
+    ? buyerListings
     : buyerListings.filter(l => (l.seller_district || 'Unknown') === activeLocation);
 
   const sortedBuyerListings = [...filteredByLocationListings];
@@ -580,7 +580,7 @@ export default function MarketplaceBrowse({
               </select>
             </div>
 
-            </div>
+          </div>
 
           {/* Category Chips */}
           <div className="flex flex-wrap gap-2">
