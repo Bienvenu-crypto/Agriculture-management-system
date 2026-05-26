@@ -1330,10 +1330,10 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                       <button onClick={() => setShowAddListing(true)} className="text-emerald-600 font-black text-[10px] uppercase tracking-widest hover:underline">Initialize First Listing</button>
                     </div>
                   ) : (
-                    <div className="overflow-x-auto rounded-[2rem] border border-slate-200 bg-white shadow-sm mb-12">
+                    <div className="overflow-x-auto rounded-none border border-slate-200 bg-white shadow-sm mb-12">
                       <table className="min-w-full border-separate border-spacing-y-3">
                         <thead>
-                          <tr className="bg-slate-100 uppercase tracking-[0.25em] text-[9px] text-slate-500">
+                          <tr className="bg-[#8B4513] uppercase tracking-[0.25em] text-[9px] text-white/90">
                             <th className="px-5 py-4 text-left">Crop</th>
                             <th className="px-5 py-4 text-left">Quantity</th>
                             <th className="px-5 py-4 text-left">Unit Price</th>
@@ -1611,7 +1611,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                 return (
                   <div className="overflow-x-auto bg-transparent">
                     <table className="w-full text-left">
-                      <thead className="bg-gradient-to-r from-emerald-600 to-blue-600 text-white">
+                      <thead className="bg-[#8B4513] text-white">
                         <tr className="bg-white/10">
                           <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-emerald-50 text-left">Crop</th>
                           <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-emerald-50 text-left">Quantity</th>

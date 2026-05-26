@@ -359,15 +359,15 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.chats.length} Logs</span>
                   </div>
-                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                  <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-900 text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">User</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Role</th>
+                          <tr className="bg-[#8B4513] text-white text-left">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">User</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Role</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 min-w-[300px]">Message</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Time</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Time</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
                           </tr>
                         </thead>
@@ -420,14 +420,14 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
                   </div>
-                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                  <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-900 text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Farmer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">District</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Joined</th>
+                          <tr className="bg-[#8B4513] text-white text-left">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Farmer</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">District</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Joined</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
@@ -482,15 +482,15 @@ export default function AdminDashboard() {
                       </div>
                       <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
                     </div>
-                    <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                    <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                       <div className="overflow-x-auto">
                         <table className="w-full">
                           <thead>
-                            <tr className="bg-slate-900 text-left">
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Participant</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Role</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">District</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Subscription</th>
+                            <tr className="bg-[#8B4513] text-white text-left">
+                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Participant</th>
+                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Role</th>
+                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">District</th>
+                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Subscription</th>
                               <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
                             </tr>
                           </thead>
@@ -556,16 +556,16 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.listings.length} Listings</span>
                   </div>
-                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                  <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-900 text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Crop</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Seller</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Price / kg</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                          <tr className="bg-[#8B4513] text-white text-left">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Seller</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Quantity</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Price / kg</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
@@ -602,16 +602,16 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.orders.length} Orders</span>
                   </div>
-                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                  <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-900 text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Crop</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Max Price / kg</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                          <tr className="bg-[#8B4513] text-white text-left">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Buyer</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Quantity</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Max Price / kg</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
@@ -648,17 +648,17 @@ export default function AdminDashboard() {
                     </div>
                     <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.trades.length} Trades</span>
                   </div>
-                  <div className="bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
+                  <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
                       <table className="w-full">
                         <thead>
-                          <tr className="bg-slate-900 text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Commodity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Seller</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Value</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Status</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400">Date & Time</th>
+                          <tr className="bg-[#8B4513] text-white text-left">
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Commodity</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Seller</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Buyer</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Value</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Date & Time</th>
                             <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
                           </tr>
                         </thead>
@@ -848,18 +848,18 @@ function PulseItem({ label, val, type }: any) {
 function MarketTable({ label, data, type, badge, col, onEdit, onDelete }: any) {
   const accentColor = col === 'emerald' ? 'bg-emerald-600' : 'bg-blue-600';
   return (
-    <div className="bg-white rounded-2xl shadow-sm overflow-hidden flex flex-col h-full">
-      <div className="px-6 py-5 flex items-center justify-between bg-slate-900">
+    <div className="bg-white rounded-none shadow-sm overflow-hidden flex flex-col h-full">
+      <div className="px-6 py-5 flex items-center justify-between bg-[#8B4513]">
         <h4 className="font-black text-white uppercase tracking-widest text-[11px]">{label}</h4>
         <span className={`px-3 py-1 ${accentColor} text-white text-[9px] font-black uppercase tracking-widest rounded-full`}>{data.length} Total</span>
       </div>
       <div className="flex-1 overflow-y-auto max-h-[400px]">
         <table className="w-full text-left">
           <thead>
-            <tr className="bg-slate-50 text-left">
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Crop</th>
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Qty</th>
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400">Price/kg</th>
+            <tr className="bg-[#8B4513] text-white text-left">
+              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
+              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Qty</th>
+              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Price/kg</th>
               <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
             </tr>
           </thead>

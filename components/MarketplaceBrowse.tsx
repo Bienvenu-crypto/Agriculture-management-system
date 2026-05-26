@@ -388,17 +388,17 @@ export default function MarketplaceBrowse({
                 </button>
               </div>
             ) : (
-              <div className="overflow-hidden bg-white rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
                 <table className="w-full text-left">
-                  <thead className="bg-[#0B1223] text-slate-400">
+                  <thead className="bg-[#8B4513] text-white/90">
                     <tr>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest rounded-tl-2xl">Crop Name</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop Name</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Category</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Stock (KG)</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Price / KG</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Promotion</th>
                       <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Created Date</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right rounded-tr-2xl">Actions</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
