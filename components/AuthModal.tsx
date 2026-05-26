@@ -6,7 +6,7 @@ import { useAuth } from './AuthProvider';
 
 interface AuthModalProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: () => void;  
   initialMode?: 'login' | 'signup';
 }
 

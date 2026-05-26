@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 // Removed lucide-react imports
-import { AddListingModal, AuthModal } from './Marketplace';
+import { AddListingModal, AuthModal, EditListingModal } from './Marketplace';
 import { useAuth } from './AuthProvider';
 import { format } from 'date-fns';
 
@@ -75,6 +75,7 @@ export default function MarketplaceBrowse({
   const [page, setPage] = useState(1);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showAddListingModal, setShowAddListingModal] = useState(false);
+  const [editingListing, setEditingListing] = useState<Listing | null>(null);
 
   // Direct Payment checkout modal state
   const [checkoutListing, setCheckoutListing] = useState<Listing | null>(null);
@@ -429,13 +430,22 @@ export default function MarketplaceBrowse({
                           {format(new Date(l.created_at), 'MMM d, yyyy')}
                         </td>
                         <td className="px-6 py-4 text-right">
-                          <button
-                            onClick={() => deleteListing(l.id)}
-                            className="p-2 text-red-500 hover:text-red-700 transition-colors"
-                            title="Cancel Listing"
-                          >
-                            <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
-                          </button>
+                          <div className="flex justify-end gap-2 items-center">
+                            <button
+                              onClick={() => setEditingListing(l)}
+                              className="p-2 text-slate-500 hover:text-emerald-600 transition-colors shrink-0"
+                              title="Edit Listing"
+                            >
+                              <span className="text-[10px] font-black uppercase tracking-widest">Edit</span>
+                            </button>
+                            <button
+                              onClick={() => deleteListing(l.id)}
+                              className="p-2 text-red-500 hover:text-red-700 transition-colors shrink-0"
+                              title="Cancel Listing"
+                            >
+                              <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
@@ -833,6 +843,17 @@ export default function MarketplaceBrowse({
             onClose={() => setShowAddListingModal(false)}
             onSuccess={() => {
               setShowAddListingModal(false);
+              fetchListings();
+            }}
+          />
+        )}
+
+        {editingListing && (
+          <EditListingModal
+            listing={editingListing}
+            onClose={() => setEditingListing(null)}
+            onSuccess={() => {
+              setEditingListing(null);
               fetchListings();
             }}
           />
