@@ -563,7 +563,7 @@ export default function MarketplaceBrowse({
                 placeholder="Search products, crops, farmers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-slate-50/50 border-none rounded-[1.5rem] px-6 py-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                className="w-full h-14 bg-slate-50/50 border-2 border-emerald-200 rounded-2xl px-6 text-sm font-bold focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all placeholder:text-slate-400"
               />
             </div>
 
@@ -571,7 +571,7 @@ export default function MarketplaceBrowse({
               <select
                 value={activeLocation}
                 onChange={(e) => setActiveLocation(e.target.value)}
-                className="bg-emerald-600 text-white outline-none text-[10px] font-black uppercase tracking-widest cursor-pointer px-5 py-3 rounded-xl hover:bg-emerald-700 transition-all"
+                className="h-14 bg-emerald-600 text-white outline-none text-[10px] font-black uppercase tracking-widest cursor-pointer px-6 rounded-2xl hover:bg-emerald-700 transition-all"
               >
                 <option value="All" className="bg-white text-slate-900">LOCATION</option>
                 {uniqueDistricts.map(district => (
@@ -580,10 +580,7 @@ export default function MarketplaceBrowse({
               </select>
             </div>
 
-            <button className="bg-emerald-600 text-white px-8 py-4 rounded-2xl font-black uppercase text-[10px] tracking-[0.2em] hover:bg-emerald-700 transition-all active:scale-95">
-              Search
-            </button>
-          </div>
+            </div>
 
           {/* Category Chips */}
           <div className="flex flex-wrap gap-2">
