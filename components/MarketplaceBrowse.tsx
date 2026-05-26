@@ -331,26 +331,21 @@ export default function MarketplaceBrowse({
         </div>
       )}
 
-      {/* Top Badge & Header */}
+      {/* Header */}
       <div className="flex justify-between items-start">
-        <div className="space-y-3">
-          <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-[10px] font-black upercase tracking-[0.2em] border border-emerald-100">
-            {viewMode === 'seller' ? 'Seller Portal' : 'Marketplace'}
-          </span>
-          <div className="space-y-1">
-            <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-              {viewMode === 'seller' ? (
-                <>My Listings and Received Orders</>
-              ) : (
-                <>Browse and Buy Crops</>
-              )}
-            </h2>
-            <p className="text-slate-500 text-sm font-medium">
-              {viewMode === 'seller'
-                ? 'List crops for sale and view incoming purchases from buyers.'
-                : 'Browse fresh agricultural output from local farmers and order instantly.'}
-            </p>
-          </div>
+        <div className="space-y-1">
+          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+            {viewMode === 'seller' ? (
+              <>My Listings and Received Orders</>
+            ) : (
+              <>Browse and Buy Crops</>
+            )}
+          </h2>
+          <p className="text-slate-500 text-sm font-medium">
+            {viewMode === 'seller'
+              ? 'List crops for sale and view incoming purchases from buyers.'
+              : 'Browse fresh agricultural output from local farmers and order instantly.'}
+          </p>
         </div>
 
         {viewMode === 'seller' ? (
