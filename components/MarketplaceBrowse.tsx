@@ -312,7 +312,7 @@ export default function MarketplaceBrowse({
     <div className="space-y-8 pb-10">
       {/* Marketplace Session Info */}
       {mpUser && (
-        <div className="flex items-center justify-between p-4 bg-white rounded-2xl border border-slate-100 shadow-sm text-xs font-semibold text-slate-700">
+        <div className="flex items-center justify-between text-xs font-semibold text-slate-700">
           <div className="flex items-center gap-3">
             <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-black text-[10px] ${mpUser.role === 'seller' ? 'bg-emerald-500' : 'bg-blue-500'}`}>
               {mpUser.name.charAt(0).toUpperCase()}
@@ -324,7 +324,7 @@ export default function MarketplaceBrowse({
           </div>
           <button
             onClick={handleLogout}
-            className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-700 hover:bg-red-50 px-4 py-2 rounded-xl transition-all"
+            className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-700 hover:underline transition-all"
           >
             Sign Out / Switch
           </button>
