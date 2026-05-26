@@ -31,6 +31,14 @@ export default function AdminDashboard() {
   const [editingItem, setEditingItem] = useState<{ type: string, item: any } | null>(null);
   const [editLoading, setEditLoading] = useState(false);
 
+  // Search States
+  const [searchChats, setSearchChats] = useState('');
+  const [searchUsers, setSearchUsers] = useState('');
+  const [searchMarketplace, setSearchMarketplace] = useState('');
+  const [searchListings, setSearchListings] = useState('');
+  const [searchOrders, setSearchOrders] = useState('');
+  const [searchTrades, setSearchTrades] = useState('');
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === 'admin2026') {
@@ -357,7 +365,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Conversation Logs</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.chats.length} total interactions recorded</p>
                     </div>
-                    <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.chats.length} Logs</span>
+                    <div className="flex items-center gap-4">
+                      <input type="text" placeholder="Search logs..." value={searchChats} onChange={(e) => setSearchChats(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.chats.length} Logs</span>
+                    </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -375,7 +386,7 @@ export default function AdminDashboard() {
                           {adminData.chats.length === 0 && (
                             <tr><td colSpan={5} className="px-6 py-16 text-center text-slate-300 text-sm font-medium">No conversations recorded yet</td></tr>
                           )}
-                          {adminData.chats.map((chat: any) => (
+                          {adminData.chats.filter((c: any) => c.user_email?.toLowerCase().includes(searchChats.toLowerCase()) || c.content?.toLowerCase().includes(searchChats.toLowerCase())).map((chat: any) => (
                             <tr key={chat.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
@@ -418,7 +429,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Farmer Directory</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.appUsers.length} registered farmers</p>
                     </div>
-                    <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
+                    <div className="flex items-center gap-4">
+                      <input type="text" placeholder="Search farmers..." value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
+                    </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -435,7 +449,7 @@ export default function AdminDashboard() {
                           {adminData.appUsers.length === 0 && (
                             <tr><td colSpan={4} className="px-6 py-16 text-center text-slate-300 text-sm font-medium">No farmers registered yet</td></tr>
                           )}
-                          {adminData.appUsers.map((u: any) => (
+                          {adminData.appUsers.filter((u: any) => u.name?.toLowerCase().includes(searchUsers.toLowerCase()) || u.email?.toLowerCase().includes(searchUsers.toLowerCase())).map((u: any) => (
                             <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
@@ -480,7 +494,10 @@ export default function AdminDashboard() {
                         <h3 className="text-xl font-black text-slate-900 mb-1">Market Participants</h3>
                         <p className="text-slate-400 text-xs font-medium">{adminData.marketplaceUsers.length} registered traders</p>
                       </div>
-                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
+                      <div className="flex items-center gap-4">
+                        <input type="text" placeholder="Search participants..." value={searchMarketplace} onChange={(e) => setSearchMarketplace(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                        <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
+                      </div>
                     </div>
                     <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                       <div className="overflow-x-auto">
@@ -498,7 +515,7 @@ export default function AdminDashboard() {
                             {adminData.marketplaceUsers.length === 0 && (
                               <tr><td colSpan={5} className="px-6 py-16 text-center text-slate-300 text-sm">No market participants yet</td></tr>
                             )}
-                            {adminData.marketplaceUsers.map((u: any) => (
+                            {adminData.marketplaceUsers.filter((u: any) => u.name?.toLowerCase().includes(searchMarketplace.toLowerCase()) || u.email?.toLowerCase().includes(searchMarketplace.toLowerCase())).map((u: any) => (
                               <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-3">
@@ -554,7 +571,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Active Listings</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.listings.length} crop listings on the market</p>
                     </div>
-                    <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.listings.length} Listings</span>
+                    <div className="flex items-center gap-4">
+                      <input type="text" placeholder="Search listings..." value={searchListings} onChange={(e) => setSearchListings(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.listings.length} Listings</span>
+                    </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -571,7 +591,7 @@ export default function AdminDashboard() {
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                           {adminData.listings.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No active listings</td></tr>}
-                          {adminData.listings.map((item: any) => (
+                          {adminData.listings.filter((item: any) => item.crop?.toLowerCase().includes(searchListings.toLowerCase()) || item.seller_name?.toLowerCase().includes(searchListings.toLowerCase())).map((item: any) => (
                             <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4 font-semibold text-slate-900">{item.crop}</td>
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.seller_name}</td>
@@ -600,7 +620,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Buy Orders</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.orders.length} open purchase requests</p>
                     </div>
-                    <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.orders.length} Orders</span>
+                    <div className="flex items-center gap-4">
+                      <input type="text" placeholder="Search orders..." value={searchOrders} onChange={(e) => setSearchOrders(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.orders.length} Orders</span>
+                    </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -617,7 +640,7 @@ export default function AdminDashboard() {
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                           {adminData.orders.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No buy orders yet</td></tr>}
-                          {adminData.orders.map((item: any) => (
+                          {adminData.orders.filter((item: any) => item.crop?.toLowerCase().includes(searchOrders.toLowerCase()) || item.buyer_name?.toLowerCase().includes(searchOrders.toLowerCase())).map((item: any) => (
                             <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4 font-semibold text-slate-900">{item.crop}</td>
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.buyer_name}</td>
@@ -646,7 +669,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Transaction Ledger</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.trades.length} completed and pending trades</p>
                     </div>
-                    <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.trades.length} Trades</span>
+                    <div className="flex items-center gap-4">
+                      <input type="text" placeholder="Search trades..." value={searchTrades} onChange={(e) => setSearchTrades(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.trades.length} Trades</span>
+                    </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
                     <div className="overflow-x-auto">
@@ -664,7 +690,7 @@ export default function AdminDashboard() {
                         </thead>
                         <tbody className="divide-y divide-slate-50">
                           {adminData.trades.length === 0 && <tr><td colSpan={7} className="px-6 py-16 text-center text-slate-300 text-sm">No trades recorded yet</td></tr>}
-                          {adminData.trades.map((t: any) => (
+                          {adminData.trades.filter((t: any) => t.crop?.toLowerCase().includes(searchTrades.toLowerCase()) || t.seller_name?.toLowerCase().includes(searchTrades.toLowerCase()) || t.buyer_name?.toLowerCase().includes(searchTrades.toLowerCase())).map((t: any) => (
                             <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <p className="font-semibold text-slate-900 text-sm uppercase">{t.crop}</p>

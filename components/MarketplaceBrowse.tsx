@@ -77,6 +77,10 @@ export default function MarketplaceBrowse({
   const [showAddListingModal, setShowAddListingModal] = useState(false);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
 
+  const [catalogSearch, setCatalogSearch] = useState('');
+  const [ordersReceivedSearch, setOrdersReceivedSearch] = useState('');
+  const [purchaseHistorySearch, setPurchaseHistorySearch] = useState('');
+
   // Direct Payment checkout modal state
   const [checkoutListing, setCheckoutListing] = useState<Listing | null>(null);
   const [checkoutQty, setCheckoutQty] = useState<string>('1');
@@ -300,6 +304,10 @@ export default function MarketplaceBrowse({
   // Seller's received orders
   const sellerTrades = trades.filter(t => mpUser && t.seller_id === mpUser.id);
 
+  const filteredCatalog = listings.filter(l => l.crop.toLowerCase().includes(catalogSearch.toLowerCase()));
+  const filteredOrdersReceived = sellerTrades.filter(t => t.crop.toLowerCase().includes(ordersReceivedSearch.toLowerCase()) || t.buyer_name.toLowerCase().includes(ordersReceivedSearch.toLowerCase()));
+  const filteredPurchaseHistory = buyerTrades.filter(t => t.crop.toLowerCase().includes(purchaseHistorySearch.toLowerCase()) || t.seller_name.toLowerCase().includes(purchaseHistorySearch.toLowerCase()));
+
   return (
     <div className="space-y-8 pb-10">
       {/* Marketplace Session Info */}
@@ -365,9 +373,18 @@ export default function MarketplaceBrowse({
                 <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Crops Catalog</h3>
                 <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
               </div>
-              <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-100">
-                {listings.length} crops active
-              </span>
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Search catalog..."
+                  value={catalogSearch}
+                  onChange={(e) => setCatalogSearch(e.target.value)}
+                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                />
+                <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-none text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+                  {filteredCatalog.length} crops active
+                </span>
+              </div>
             </div>
 
             {loading ? (
@@ -402,7 +419,7 @@ export default function MarketplaceBrowse({
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
-                    {listings.map((l) => (
+                    {filteredCatalog.map((l) => (
                       <tr key={l.id} className="hover:bg-slate-50/70 transition-colors">
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(l.crop)}</span>
@@ -457,9 +474,20 @@ export default function MarketplaceBrowse({
 
           {/* Orders Received Table */}
           <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Orders Received from Buyers</h3>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
+            <div className="flex justify-between items-center border-b border-slate-50 pb-4">
+              <div>
+                <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Orders Received from Buyers</h3>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Search orders..."
+                  value={ordersReceivedSearch}
+                  onChange={(e) => setOrdersReceivedSearch(e.target.value)}
+                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                />
+              </div>
             </div>
 
             {loadingTrades ? (
@@ -472,68 +500,68 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">When buyers purchase your crops directly, they will show up here.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {sellerTrades.map((t) => (
-                  <div key={t.id} className="bg-white border border-slate-100 rounded-[1.25rem] p-6 shadow-lg hover:shadow-xl transition-all flex flex-col relative">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
+              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full text-left">
+                  <thead className="bg-[#8B4513] text-white/90">
+                    <tr>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Order ID</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Buyer</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Quantity</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Amount</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
+                    {filteredOrdersReceived.map((t) => (
+                      <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
+                        <td className="px-6 py-4 font-black text-slate-950 uppercase">
+                          #{t.id.split('-').pop()}
+                        </td>
+                        <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(t.crop)}</span>
-                          <h4 className="text-xl font-black text-slate-700 tracking-tight uppercase">{t.crop}</h4>
-                        </div>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                          Order #{t.id.split('-').pop()}
-                        </p>
-                      </div>
-                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
-                        {t.status}
-                      </span>
-                    </div>
-
-                    <div className="space-y-4 flex-1">
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Buyer</span>
-                        <div className="text-right">
-                          <p className="text-xs font-bold text-slate-600">{t.buyer_name}</p>
-                          <p className="text-[9px] text-slate-400 font-bold">{t.buyer_phone || 'No phone'}</p>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</span>
-                        <span className="text-xs font-black text-slate-600">{t.quantity_kg.toLocaleString()} KG</span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
-                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
+                          <span className="uppercase tracking-tight">{t.crop}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-900">{t.buyer_name}</span>
+                            <span className="text-[10px] text-slate-500">{t.buyer_phone || 'No phone'}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 font-black">
+                          {t.quantity_kg.toLocaleString()} KG
+                        </td>
+                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
                           {t.currency} {t.total_value.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-3">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
-                        <span className="text-xs font-bold text-slate-600">
-                          {format(new Date(t.created_at), 'MMM d, yyyy')}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
-                      {t.status === 'pending' ? (
-                        <button
-                          onClick={() => handleUpdateStatus(t.id, 'in-transit')}
-                          className="w-full bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
-                        >
-                          Ship Order
-                        </button>
-                      ) : (
-                        <div className="w-full text-center py-2 bg-slate-50 rounded-xl border border-slate-100">
-                          <span className="text-slate-500 text-[9px] uppercase font-black tracking-widest">
-                            {t.status === 'in-transit' ? 'In Transit' : 'Completed'}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2 py-1 rounded-none text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(t.status)}`}>
+                            {t.status}
                           </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                        </td>
+                        <td className="px-6 py-4 text-xs text-slate-500 font-bold">
+                          {format(new Date(t.created_at), 'MMM d, yyyy')}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          {t.status === 'pending' ? (
+                            <button
+                              onClick={() => handleUpdateStatus(t.id, 'in-transit')}
+                              className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                            >
+                              Ship Order
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
+                              {t.status === 'in-transit' ? 'In Transit' : 'Completed'}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
@@ -627,7 +655,7 @@ export default function MarketplaceBrowse({
                     className="overflow-hidden group flex flex-col h-full"
                   >
                     {/* Card Top / Image Area */}
-                    <div 
+                    <div
                       className="h-48 bg-slate-50/50 flex items-center justify-center relative bg-cover bg-center"
                       style={{ backgroundImage: `url(${getCropImage(listing.crop)})` }}
                     >
@@ -720,9 +748,20 @@ export default function MarketplaceBrowse({
 
           {/* Orders Made / Purchase History Table */}
           <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Purchase History</h3>
-              <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Orders you have placed and paid over time</p>
+            <div className="flex justify-between items-center border-b border-slate-50 pb-4">
+              <div>
+                <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Purchase History</h3>
+                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Orders you have placed and paid over time</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <input
+                  type="text"
+                  placeholder="Search history..."
+                  value={purchaseHistorySearch}
+                  onChange={(e) => setPurchaseHistorySearch(e.target.value)}
+                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                />
+              </div>
             </div>
 
             {loadingTrades ? (
@@ -735,68 +774,68 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">Use the "Order Now" button on crop listings to place orders.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {buyerTrades.map((t) => (
-                  <div key={t.id} className="bg-white border border-slate-100 rounded-[1.25rem] p-6 shadow-lg hover:shadow-xl transition-all flex flex-col relative">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
+              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full text-left">
+                  <thead className="bg-[#8B4513] text-white/90">
+                    <tr>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Order ID</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Seller</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Quantity</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Amount</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
+                    {filteredPurchaseHistory.map((t) => (
+                      <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
+                        <td className="px-6 py-4 font-black text-slate-950 uppercase">
+                          #{t.id.split('-').pop()}
+                        </td>
+                        <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(t.crop)}</span>
-                          <h4 className="text-xl font-black text-slate-700 tracking-tight uppercase">{t.crop}</h4>
-                        </div>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
-                          Order #{t.id.split('-').pop()}
-                        </p>
-                      </div>
-                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(t.status)}`}>
-                        {t.status}
-                      </span>
-                    </div>
-
-                    <div className="space-y-4 flex-1">
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Seller</span>
-                        <div className="text-right">
-                          <p className="text-xs font-bold text-slate-600">{t.seller_name}</p>
-                          <p className="text-[9px] text-slate-400 font-bold">{t.seller_phone || 'No phone'}</p>
-                        </div>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Quantity</span>
-                        <span className="text-xs font-black text-slate-600">{t.quantity_kg.toLocaleString()} KG</span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
-                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
+                          <span className="uppercase tracking-tight">{t.crop}</span>
+                        </td>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-900">{t.seller_name}</span>
+                            <span className="text-[10px] text-slate-500">{t.seller_phone || 'No phone'}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 font-black">
+                          {t.quantity_kg.toLocaleString()} KG
+                        </td>
+                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
                           {t.currency} {t.total_value.toLocaleString()}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-3">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
-                        <span className="text-xs font-bold text-slate-600">
-                          {format(new Date(t.created_at), 'MMM d, yyyy')}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
-                      {t.status === 'in-transit' ? (
-                        <button
-                          onClick={() => handleUpdateStatus(t.id, 'completed')}
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-colors shadow-sm"
-                        >
-                          Confirm Delivery
-                        </button>
-                      ) : (
-                        <div className="w-full text-center py-2 bg-slate-50 rounded-xl border border-slate-100">
-                          <span className="text-slate-500 text-[9px] uppercase font-black tracking-widest">
-                            {t.status === 'pending' ? 'Pending Shipping' : 'Completed'}
+                        </td>
+                        <td className="px-6 py-4">
+                          <span className={`px-2 py-1 rounded-none text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(t.status)}`}>
+                            {t.status}
                           </span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
+                        </td>
+                        <td className="px-6 py-4 text-xs text-slate-500 font-bold">
+                          {format(new Date(t.created_at), 'MMM d, yyyy')}
+                        </td>
+                        <td className="px-6 py-4 text-right">
+                          {t.status === 'in-transit' ? (
+                            <button
+                              onClick={() => handleUpdateStatus(t.id, 'completed')}
+                              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                            >
+                              Confirm Delivery
+                            </button>
+                          ) : (
+                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
+                              {t.status === 'pending' ? 'Pending Shipping' : 'Completed'}
+                            </span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             )}
           </div>
