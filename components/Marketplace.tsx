@@ -109,8 +109,7 @@ export function AuthModal({
         mode === 'signup'
           ? { ...form, role }
           : { 
-              email: role === 'seller' ? form.email : undefined, 
-              phone: role === 'buyer' ? form.phone : form.phone, 
+              email: form.email, 
               password: form.password, 
               role 
             };
@@ -225,33 +224,33 @@ export function AuthModal({
               </>
             )}
 
-            {role === 'seller' && (
+            <div>
+              <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Email</label>
+              <input
+                type="email"
+                required
+                value={form.email}
+                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
+                placeholder="you@example.com"
+              />
+            </div>
+
+            {mode === 'signup' && (
               <div>
-                <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Email</label>
+                <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">
+                  Phone Number
+                </label>
                 <input
-                  type="email"
+                  type="tel"
                   required
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value })}
                   className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
-                  placeholder="you@example.com"
+                  placeholder="+256 700..."
                 />
               </div>
             )}
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">
-                {role === 'buyer' ? 'Phone Number (Sign-in ID)' : 'Phone Number'}
-              </label>
-              <input
-                type="tel"
-                required={mode === 'signup' || role === 'buyer'}
-                value={form.phone}
-                onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition-all text-sm shadow-sm"
-                placeholder={role === 'buyer' ? "e.g. 0700123456" : "+256 700..."}
-              />
-            </div>
 
             <div>
               <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Password</label>

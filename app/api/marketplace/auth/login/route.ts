@@ -7,13 +7,13 @@ export async function POST(req: Request) {
   try {
     const { email, password, role, phone } = await req.json();
 
-    if ((!email && !phone) || !password || !role) {
+    if (!email || !password || !role) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const user = db
-      .prepare('SELECT * FROM marketplace_users WHERE (email = ? OR phone = ?) AND role = ?')
-      .get(email || null, phone || email || null, role) as any;
+      .prepare('SELECT * FROM marketplace_users WHERE email = ? AND role = ?')
+      .get(email, role) as any;
 
     if (!user || !(await verifyPassword(password, user.password_hash))) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
