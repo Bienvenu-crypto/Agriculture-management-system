@@ -181,10 +181,10 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8 relative z-10">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-xl font-black text-slate-900 tracking-tighter uppercase leading-none">
+            <h2 className="text-xl font-black text-slate-900 tracking-tighter capitalize leading-none">
               Field Node
             </h2>
-            <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest ${
+            <div className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[9px] font-black capitalize tracking-widest ${
               isSimulating ? 'bg-orange-50 text-orange-600' : 'bg-emerald-50 text-emerald-600'
             }`}>
               <div className={`w-1.5 h-1.5 rounded-full ${isSimulating ? 'bg-orange-500' : 'bg-emerald-500 animate-pulse'}`} />
@@ -198,7 +198,7 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
           <button
             onClick={handleAutoDetect}
             disabled={detecting}
-            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95 disabled:opacity-50"
+            className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-2xl text-[10px] font-black capitalize tracking-widest hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-500/20 active:scale-95 disabled:opacity-50"
           >
             {detecting ? (
               <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -222,7 +222,7 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
              <div className={`p-2 rounded-xl ${moistureWarning ? 'bg-red-100 text-red-600' : 'bg-blue-100 text-blue-600'}`}>
                <Droplets size={16} />
              </div>
-             <span className={`text-[9px] font-black uppercase tracking-widest ${moistureWarning ? 'text-red-500' : 'text-blue-500'}`}>Moisture</span>
+             <span className={`text-[9px] font-black capitalize tracking-widest ${moistureWarning ? 'text-red-500' : 'text-blue-500'}`}>Moisture</span>
           </div>
           <div className="flex items-baseline gap-1">
             <span className="text-4xl font-black text-slate-900 tracking-tighter">{Math.round(current.moisture)}</span>
@@ -235,7 +235,7 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
             <div className="p-2 rounded-xl bg-orange-100 text-orange-600">
               <Thermometer size={16} />
             </div>
-            <span className="text-[9px] font-black uppercase tracking-widest text-orange-500">Temp</span>
+            <span className="text-[9px] font-black capitalize tracking-widest text-orange-500">Temp</span>
           </div>
           <div className="flex items-baseline gap-1">
             <span className="text-4xl font-black text-slate-900 tracking-tighter">{Math.round(current.temperature)}</span>
@@ -248,7 +248,7 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
             <div className="p-2 rounded-xl bg-emerald-100 text-emerald-600">
               <FlaskConical size={16} />
             </div>
-            <span className="text-[9px] font-black uppercase tracking-widest text-emerald-500">pH</span>
+            <span className="text-[9px] font-black capitalize tracking-widest text-emerald-500">pH</span>
           </div>
           <div className="flex items-baseline gap-1">
             <span className="text-4xl font-black text-slate-900 tracking-tighter">{current.ph}</span>
@@ -276,14 +276,14 @@ export default function IoTDashboard({ location }: IoTDashboardProps) {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 bg-white/95 backdrop-blur-sm z-50 flex items-center justify-center p-6">
             <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} className="w-full max-w-sm bg-white rounded-[2rem] shadow-2xl p-8">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest">Manual Log</h3>
+                <h3 className="text-sm font-black text-slate-900 capitalize tracking-widest">Manual Log</h3>
                 <button onClick={() => setShowManualForm(false)} className="text-slate-400 hover:text-slate-900"><X size={20} /></button>
               </div>
               <form onSubmit={handleManualSubmit} className="space-y-4" autoComplete="off">
                 <input type="number" required autoComplete="off" value={manualData.moisture} onChange={e => setManualData({...manualData, moisture: e.target.value})} className="w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-slate-300" placeholder="Soil Moisture (%)" />
                 <input type="number" required autoComplete="off" value={manualData.temperature} onChange={e => setManualData({...manualData, temperature: e.target.value})} className="w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-slate-300" placeholder="Temperature (°C)" />
                 <input type="number" step="0.1" required autoComplete="off" value={manualData.ph} onChange={e => setManualData({...manualData, ph: e.target.value})} className="w-full bg-slate-50 rounded-2xl px-5 py-4 text-sm font-bold placeholder:text-slate-300" placeholder="Soil pH" />
-                <button type="submit" className="w-full bg-slate-900 text-white rounded-2xl py-4 font-black text-[10px] uppercase tracking-widest hover:bg-emerald-600 transition-all">Save Environmental Record</button>
+                <button type="submit" className="w-full bg-slate-900 text-white rounded-2xl py-4 font-black text-[10px] capitalize tracking-widest hover:bg-emerald-600 transition-all">Save Environmental Record</button>
               </form>
             </motion.div>
           </motion.div>

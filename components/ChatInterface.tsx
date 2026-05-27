@@ -257,7 +257,7 @@ export default function ChatInterface({ location }: LocationProps) {
           <select
             value={selectedLang}
             onChange={(e) => handleLangChange(e.target.value)}
-            className="px-2 py-1.5 bg-white text-emerald-700 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-100 transition-colors cursor-pointer outline-none"
+            className="px-2 py-1.5 bg-white text-emerald-700 rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-emerald-100 transition-colors cursor-pointer outline-none"
           >
             {languages.map(lang => (
               <option key={lang.code} value={lang.code}>{lang.name}</option>
@@ -270,14 +270,14 @@ export default function ChatInterface({ location }: LocationProps) {
                   setShowHistory(!showHistory);
                   if (!showHistory) fetchHistory();
                 }}
-                className="px-3 py-1.5 bg-white text-emerald-700 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-100 transition-colors"
+                className="px-3 py-1.5 bg-white text-emerald-700 rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-emerald-100 transition-colors"
               >
                 {showHistory ? 'Close History' : 'History'}
               </button>
               <button
                 onClick={saveConversation}
                 disabled={isSaving || messages.length <= 1}
-                className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors disabled:opacity-50"
+                className="px-3 py-1.5 bg-emerald-600 text-white rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-emerald-700 transition-colors disabled:opacity-50"
               >
                 {isSaving ? 'Saving...' : 'Save Chat'}
               </button>
@@ -335,7 +335,7 @@ export default function ChatInterface({ location }: LocationProps) {
               className="absolute inset-0 bg-white z-20 flex flex-col"
             >
               <div className="p-4 bg-gray-50 flex items-center justify-between">
-                <h3 className="text-xs font-black uppercase tracking-widest text-emerald-900">Chat History</h3>
+                <h3 className="text-xs font-black capitalize tracking-widest text-emerald-900">Chat History</h3>
                 <button
                   onClick={() => {
                     setMessages([{
@@ -346,7 +346,7 @@ export default function ChatInterface({ location }: LocationProps) {
                     setShowHistory(false);
                     window.location.reload();
                   }}
-                  className="text-[10px] font-black text-emerald-600 uppercase tracking-widest hover:underline"
+                  className="text-[10px] font-black text-emerald-600 capitalize tracking-widest hover:underline"
                 >
                   New Chat
                 </button>
@@ -364,7 +364,7 @@ export default function ChatInterface({ location }: LocationProps) {
                       className="w-full text-left p-4 rounded-xl bg-gray-50/50 hover:bg-emerald-50 transition-colors group shadow-sm"
                     >
                       <div className="flex justify-between items-start mb-1">
-                        <span className="text-[9px] font-black text-emerald-600 uppercase tracking-widest">
+                        <span className="text-[9px] font-black text-emerald-600 capitalize tracking-widest">
                           {new Date(session.started_at).toLocaleDateString()}
                         </span>
                       </div>
@@ -414,7 +414,7 @@ export default function ChatInterface({ location }: LocationProps) {
         <div className="flex items-center gap-2">
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-3 py-2 text-[10px] font-black text-gray-400 hover:text-emerald-600 transition-colors uppercase tracking-widest"
+            className="px-3 py-2 text-[10px] font-black text-gray-400 hover:text-emerald-600 transition-colors capitalize tracking-widest"
           >
             Upload
           </button>

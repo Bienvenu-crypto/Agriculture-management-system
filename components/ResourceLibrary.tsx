@@ -76,14 +76,14 @@ export default function ResourceLibrary() {
     <>
       <div className="bg-white p-6 rounded-2xl shadow-sm">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="font-black text-slate-900 uppercase tracking-tighter text-lg">
+          <h3 className="font-black text-slate-900 capitalize tracking-tighter text-lg">
             Knowledge Vault
           </h3>
           <a
             href="https://www.fao.org/publications/en"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] font-black text-emerald-600 hover:text-emerald-700 uppercase tracking-[0.2em]"
+            className="text-[10px] font-black text-emerald-600 hover:text-emerald-700 capitalize tracking-[0.2em]"
           >
             Full Catalog
           </a>
@@ -96,7 +96,7 @@ export default function ResourceLibrary() {
               onClick={() => setSelectedResource(resource)}
               className="cursor-pointer w-full text-left group flex items-start gap-4 p-3 rounded-xl hover:bg-slate-50 transition-colors"
             >
-              <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 font-black text-[9px] uppercase tracking-tighter ${resource.bg} ${resource.color}`}>
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 font-black text-[9px] capitalize tracking-tighter ${resource.bg} ${resource.color}`}>
                 {resource.type}
               </div>
               <div className="flex-1 min-w-0">
@@ -104,12 +104,12 @@ export default function ResourceLibrary() {
                   {resource.title}
                 </h4>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-[9px] font-black uppercase tracking-widest text-slate-400">
+                  <span className="text-[9px] font-black capitalize tracking-widest text-slate-400">
                     Source: {resource.source}
                   </span>
                 </div>
               </div>
-              <div className="text-[10px] font-black text-slate-300 group-hover:text-emerald-500 transition-colors self-center uppercase tracking-widest">
+              <div className="text-[10px] font-black text-slate-300 group-hover:text-emerald-500 transition-colors self-center capitalize tracking-widest">
                 Read
               </div>
             </button>
@@ -135,17 +135,17 @@ export default function ResourceLibrary() {
             >
               <div className="flex items-center justify-between p-4 bg-white z-10 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center font-black text-[9px] uppercase tracking-tighter ${selectedResource.bg} ${selectedResource.color}`}>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center font-black text-[9px] capitalize tracking-tighter ${selectedResource.bg} ${selectedResource.color}`}>
                     {selectedResource.type}
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">{selectedResource.title}</h3>
-                    <p className="text-xs text-slate-500 font-bold uppercase tracking-widest">{selectedResource.source}</p>
+                    <p className="text-xs text-slate-500 font-bold capitalize tracking-widest">{selectedResource.source}</p>
                   </div>
                 </div>
                 <button
                   onClick={() => setSelectedResource(null)}
-                  className="cursor-pointer px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 uppercase tracking-[0.2em] transition-colors"
+                  className="cursor-pointer px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 capitalize tracking-[0.2em] transition-colors"
                 >
                   Close
                 </button>

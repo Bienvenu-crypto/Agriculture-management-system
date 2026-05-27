@@ -193,7 +193,7 @@ Make the advice highly actionable for a smallholder farmer.`;
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div>
-            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter">Smart Crop Calendar</h2>
+            <h2 className="text-xl font-black text-slate-900 capitalize tracking-tighter">Smart Crop Calendar</h2>
             <p className="text-sm text-slate-500 font-bold">AI crop management schedule</p>
           </div>
         </div>
@@ -203,7 +203,7 @@ Make the advice highly actionable for a smallholder farmer.`;
             className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-indigo-600 flex items-center gap-2"
             title="Calendar History"
           >
-            <span className="text-[10px] font-black uppercase tracking-widest">Archives</span>
+            <span className="text-[10px] font-black capitalize tracking-widest">Archives</span>
           </button>
         )}
       </div>
@@ -212,7 +212,7 @@ Make the advice highly actionable for a smallholder farmer.`;
         <div className="lg:col-span-4">
           <form onSubmit={handleSubmit} className="space-y-4 p-5" autoComplete="off">
             <div>
-              <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Crop Type</label>
+              <label className="block text-[10px] font-black text-slate-600 capitalize tracking-widest mb-1">Crop Type</label>
               <input
                 type="text"
                 name="crop"
@@ -225,7 +225,7 @@ Make the advice highly actionable for a smallholder farmer.`;
               />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Planting Date</label>
+              <label className="block text-[10px] font-black text-slate-600 capitalize tracking-widest mb-1">Planting Date</label>
               <div className="relative">
                 <input
                   type="text"
@@ -251,7 +251,7 @@ Make the advice highly actionable for a smallholder farmer.`;
               </div>
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-600 uppercase tracking-widest mb-1">Region</label>
+              <label className="block text-[10px] font-black text-slate-600 capitalize tracking-widest mb-1">Region</label>
               <input
                 type="text"
                 name="region"
@@ -266,7 +266,7 @@ Make the advice highly actionable for a smallholder farmer.`;
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-indigo-600 text-white rounded-xl py-3 font-black text-[10px] uppercase tracking-[0.2em] hover:bg-indigo-700 transition-colors disabled:opacity-70 mt-2"
+              className="w-full bg-indigo-600 text-white rounded-xl py-3 font-black text-[10px] capitalize tracking-[0.2em] hover:bg-indigo-700 transition-colors disabled:opacity-70 mt-2"
             >
               {loading ? 'Processing...' : 'Generate Schedule'}
             </button>
@@ -283,9 +283,9 @@ Make the advice highly actionable for a smallholder farmer.`;
                 className="absolute inset-0 z-50 flex flex-col pt-0 bg-white"
               >
                 <div className="flex items-center justify-between mb-4 p-4">
-                  <h3 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Calendar Archive</h3>
+                  <h3 className="text-[10px] font-black text-indigo-900 capitalize tracking-widest">Calendar Archive</h3>
                   <button onClick={() => setShowHistory(false)} className="text-slate-400 hover:text-indigo-600 transition-colors">
-                    <span className="text-[10px] font-black uppercase tracking-widest">Close</span>
+                    <span className="text-[10px] font-black capitalize tracking-widest">Close</span>
                   </button>
                 </div>
                 <div className="flex-1 overflow-y-auto space-y-3 pr-2">
@@ -306,8 +306,8 @@ Make the advice highly actionable for a smallholder farmer.`;
                       >
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <span className="text-[10px] font-black text-indigo-600 uppercase tracking-widest">{item.crop}</span>
-                            <span className="text-[8px] text-slate-400 font-bold uppercase tracking-widest">• {new Date(item.timestamp).toLocaleDateString()}</span>
+                            <span className="text-[10px] font-black text-indigo-600 capitalize tracking-widest">{item.crop}</span>
+                            <span className="text-[8px] text-slate-400 font-bold capitalize tracking-widest">• {new Date(item.timestamp).toLocaleDateString()}</span>
                           </div>
                           <p className="text-xs text-slate-600 font-medium">{item.region} · Planted on {item.planting_date}</p>
                         </div>
@@ -315,7 +315,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                           onClick={(e) => deleteFromHistory(e, item.id)}
                           className="p-2 text-slate-400 hover:text-red-600 transition-colors opacity-0 group-hover:opacity-100 relative z-10"
                         >
-                          <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
+                          <span className="text-[10px] font-black capitalize tracking-widest">Delete</span>
                         </button>
                       </div>
                     ))
@@ -326,21 +326,21 @@ Make the advice highly actionable for a smallholder farmer.`;
           </AnimatePresence>
 
           {error && (
-            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-xs mb-4 flex items-start gap-2 font-bold uppercase tracking-wide">
+            <div className="bg-red-50 text-red-600 p-4 rounded-xl text-xs mb-4 flex items-start gap-2 font-bold capitalize tracking-wide">
               <p>{error}</p>
             </div>
           )}
 
           {!data && !loading && !error && (
             <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-slate-400 text-center p-6">
-              <p className="text-[10px] font-black uppercase tracking-widest mb-2 opacity-50">System Standby</p>
+              <p className="text-[10px] font-black capitalize tracking-widest mb-2 opacity-50">System Standby</p>
               <p className="text-sm font-bold max-w-xs text-slate-500">Enter your crop details to generate a customized, week-by-week farming schedule.</p>
             </div>
           )}
 
           {loading && (
             <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-indigo-400 text-center p-6">
-              <p className="text-xs font-black uppercase tracking-[0.3em] animate-pulse mb-2">Analyzing Data</p>
+              <p className="text-xs font-black capitalize tracking-[0.3em] animate-pulse mb-2">Analyzing Data</p>
               <p className="text-sm font-bold text-indigo-800">Calculating optimal crop cycles...</p>
             </div>
           )}
@@ -353,12 +353,12 @@ Make the advice highly actionable for a smallholder farmer.`;
             >
               <div className="p-4 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
                 <div>
-                  <h3 className="text-[10px] font-black text-indigo-900 uppercase tracking-widest">Harvest Window</h3>
+                  <h3 className="text-[10px] font-black text-indigo-900 capitalize tracking-widest">Harvest Window</h3>
                   <p className="font-black text-indigo-700 tracking-tighter text-xl">{data.estimatedYieldDate}</p>
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="px-4 py-3 text-xs text-indigo-800 max-w-md font-medium">
-                    <span className="font-black block mb-1 uppercase text-[9px] tracking-widest opacity-50 text-indigo-950">System Guidance</span>
+                    <span className="font-black block mb-1 capitalize text-[9px] tracking-widest opacity-50 text-indigo-950">System Guidance</span>
                     {data.generalAdvice}
                   </div>
                   <div className="flex gap-2">
@@ -393,12 +393,12 @@ Make the advice highly actionable for a smallholder farmer.`;
                         });
                         doc.save(`crop_calendar_${formData.crop.toLowerCase()}.pdf`);
                       }}
-                      className="px-4 py-2 bg-white text-indigo-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-indigo-50 transition-colors shadow-sm"
+                      className="px-4 py-2 bg-white text-indigo-600 rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-indigo-50 transition-colors shadow-sm"
                     >
                       PDF
                     </button>
                     {isSaving && (
-                      <div className="px-4 py-2 text-[10px] text-indigo-400 font-black uppercase tracking-widest animate-pulse">Saving...</div>
+                      <div className="px-4 py-2 text-[10px] text-indigo-400 font-black capitalize tracking-widest animate-pulse">Saving...</div>
                     )}
                   </div>
                 </div>
@@ -418,16 +418,16 @@ Make the advice highly actionable for a smallholder farmer.`;
 
                     <div className="p-4 transition-shadow">
                       <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                        <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-1 rounded">
+                        <span className="text-[9px] font-black text-slate-500 capitalize tracking-widest bg-slate-100 px-2 py-1 rounded">
                           {task.date}
                         </span>
-                        <span className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded ${task.isCritical ? 'bg-red-50 text-red-600' : 'bg-indigo-50 text-indigo-600'}`}>
+                        <span className={`text-[9px] font-black capitalize tracking-widest px-2 py-1 rounded ${task.isCritical ? 'bg-red-50 text-red-600' : 'bg-indigo-50 text-indigo-600'}`}>
                           {task.phase}
                         </span>
                       </div>
                       <h4 className="font-black text-slate-950 tracking-tighter text-lg leading-none mb-1 flex items-center gap-2">
                         {task.task}
-                        {task.isCritical && <span className="text-[8px] font-black text-red-600 bg-red-50 px-1 rounded uppercase tracking-tighter">Critical</span>}
+                        {task.isCritical && <span className="text-[8px] font-black text-red-600 bg-red-50 px-1 rounded capitalize tracking-tighter">Critical</span>}
                       </h4>
                       <p className="text-slate-600 text-sm font-medium">{task.description}</p>
                     </div>

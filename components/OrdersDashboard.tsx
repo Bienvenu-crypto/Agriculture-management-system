@@ -154,8 +154,8 @@ export default function OrdersDashboard() {
     return (
       <div className="p-8 flex items-center justify-center min-h-[400px]">
         <div className="flex flex-col items-center gap-4">
-          <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
-          <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400">Synchronizing Data</p>
+          <span className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</span>
+          <p className="text-[10px] font-black capitalize tracking-[0.4em] text-slate-400">Synchronizing Data</p>
         </div>
       </div>
     );
@@ -166,7 +166,7 @@ export default function OrdersDashboard() {
       {/* Header Badge */}
       <div className="flex justify-between items-start">
         <div className="space-y-4">
-          <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-widest">
+          <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black capitalize tracking-widest">
             Orders
           </span>
           <div className="flex items-center gap-3">
@@ -178,7 +178,7 @@ export default function OrdersDashboard() {
         </div>
         <button 
           onClick={() => window.print()}
-          className="flex items-center gap-2 px-4 py-2 border-b-2 border-transparent text-[10px] font-black uppercase tracking-widest text-slate-600 hover:border-slate-300 transition-all"
+          className="flex items-center gap-2 px-4 py-2 border-b-2 border-transparent text-[10px] font-black capitalize tracking-widest text-slate-600 hover:border-slate-300 transition-all"
         >
           Download Report
         </button>
@@ -194,7 +194,7 @@ export default function OrdersDashboard() {
         ].map((stat, idx) => (
           <div key={idx} className="text-center space-y-1">
             <p className={`text-3xl font-black ${stat.color}`}>{stat.value}</p>
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
+            <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest">{stat.label}</p>
           </div>
         ))}
       </div>
@@ -211,7 +211,7 @@ export default function OrdersDashboard() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              className={`pb-4 text-[13px] font-black uppercase tracking-widest transition-all relative ${
+              className={`pb-4 text-[13px] font-black capitalize tracking-widest transition-all relative ${
                 activeTab === tab.id ? 'text-emerald-600' : 'text-slate-400 hover:text-slate-600'
               }`}
             >
@@ -228,7 +228,7 @@ export default function OrdersDashboard() {
       <div className="bg-transparent overflow-hidden">
         {filteredTrades.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">No Orders Found</p>
+            <p className="text-[10px] font-black capitalize tracking-widest text-slate-400 mb-1">No Orders Found</p>
             <p className="text-sm font-bold text-slate-600">Your order history for this category is currently empty.</p>
           </div>
         ) : (
@@ -249,35 +249,35 @@ export default function OrdersDashboard() {
                     <div className="flex justify-between items-start mb-4">
                       <div>
                         <p className="text-xl font-black text-slate-700 tracking-tight leading-none mb-1">{trade.crop}</p>
-                        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                        <p className="text-[10px] text-slate-400 font-bold capitalize tracking-widest">
                           Order #{trade.id.split('-').pop()}
                         </p>
                       </div>
-                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black uppercase tracking-widest ${getStatusStyle(trade.status)}`}>
+                      <span className={`px-3 py-1.5 rounded-xl border text-[9px] font-black capitalize tracking-widest ${getStatusStyle(trade.status)}`}>
                         {trade.status}
                       </span>
                     </div>
 
                     <div className="space-y-4 flex-1">
                       <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Role</span>
+                        <span className="text-[10px] font-black capitalize tracking-widest text-slate-400">Role</span>
                         <span className="text-xs font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-md">{isSeller ? 'Selling' : 'Buying'}</span>
                       </div>
                       
                       <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{isSeller ? 'Buyer' : 'Seller'}</span>
+                        <span className="text-[10px] font-black capitalize tracking-widest text-slate-400">{isSeller ? 'Buyer' : 'Seller'}</span>
                         <span className="text-xs font-bold text-slate-600">{isSeller ? trade.buyer_name : trade.seller_name}</span>
                       </div>
 
                       <div className="flex justify-between items-center py-3 border-b border-slate-50">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Amount</span>
-                        <span className="text-sm font-black text-emerald-600 uppercase tracking-tight">
+                        <span className="text-[10px] font-black capitalize tracking-widest text-slate-400">Amount</span>
+                        <span className="text-sm font-black text-emerald-600 capitalize tracking-tight">
                           {trade.currency} {trade.total_value.toLocaleString()}
                         </span>
                       </div>
 
                       <div className="flex justify-between items-center py-3">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Date</span>
+                        <span className="text-[10px] font-black capitalize tracking-widest text-slate-400">Date</span>
                         <span className="text-xs font-bold text-slate-600">
                           {format(new Date(trade.created_at), 'MMM d, yyyy')}
                         </span>
@@ -287,16 +287,16 @@ export default function OrdersDashboard() {
                     <div className="pt-6 mt-4 flex justify-end gap-3 border-t border-slate-50">
                       <AnimatePresence mode="wait">
                         {isUpdating ? (
-                          <span className="text-[10px] font-black uppercase tracking-widest text-slate-600 animate-pulse py-2">Updating...</span>
+                          <span className="text-[10px] font-black capitalize tracking-widest text-slate-600 animate-pulse py-2">Updating...</span>
                         ) : (
                           <>
-                            <button className="px-4 py-2 bg-slate-50 text-slate-500 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 hover:text-slate-700 transition-colors flex-1 text-center border border-slate-200">
+                            <button className="px-4 py-2 bg-slate-50 text-slate-500 rounded-xl text-[10px] font-black capitalize tracking-widest hover:bg-slate-100 hover:text-slate-700 transition-colors flex-1 text-center border border-slate-200">
                               Details
                             </button>
                             {trade.status === 'pending' && isSeller && (
                               <button 
                                 onClick={() => handleUpdateStatus(trade.id, 'in-transit')}
-                                className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-colors shadow-sm flex-1 text-center"
+                                className="px-4 py-2 bg-emerald-600 text-white rounded-xl text-[10px] font-black capitalize tracking-widest hover:bg-emerald-700 transition-colors shadow-sm flex-1 text-center"
                               >
                                 Ship Order
                               </button>
@@ -304,7 +304,7 @@ export default function OrdersDashboard() {
                             {trade.status === 'in-transit' && !isSeller && (
                               <button 
                                 onClick={() => handleUpdateStatus(trade.id, 'completed')}
-                                className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-blue-700 transition-colors shadow-sm flex-1 text-center"
+                                className="px-4 py-2 bg-blue-600 text-white rounded-xl text-[10px] font-black capitalize tracking-widest hover:bg-blue-700 transition-colors shadow-sm flex-1 text-center"
                               >
                                 Confirm
                               </button>

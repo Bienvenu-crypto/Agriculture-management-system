@@ -163,8 +163,8 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div className="flex items-center gap-4">
           <div>
-            <h2 className="text-xl font-black text-slate-900 uppercase tracking-tighter leading-none">Crop Intelligence</h2>
-            <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">AI-driven output optimization</p>
+            <h2 className="text-xl font-black text-slate-900 capitalize tracking-tighter leading-none">Crop Intelligence</h2>
+            <p className="text-xs text-slate-500 font-bold capitalize tracking-widest mt-1">AI-driven output optimization</p>
           </div>
         </div>
       </div>
@@ -173,27 +173,27 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
         <form onSubmit={handleSubmit} className="space-y-6" autoComplete="off">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Nitrogen (N)</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Nitrogen (N)</label>
               <input type="number" name="nitrogen" autoComplete="off" value={formData.nitrogen} onChange={handleChange} placeholder="mg/kg" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Phosphorus (P)</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Phosphorus (P)</label>
               <input type="number" name="phosphorus" autoComplete="off" value={formData.phosphorus} onChange={handleChange} placeholder="mg/kg" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Potassium (K)</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Potassium (K)</label>
               <input type="number" name="potassium" autoComplete="off" value={formData.potassium} onChange={handleChange} placeholder="mg/kg" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Soil pH</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Soil pH</label>
               <input type="number" step="0.1" name="ph" autoComplete="off" value={formData.ph} onChange={handleChange} placeholder="0.0 - 14.0" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Rainfall (mm)</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Rainfall (mm)</label>
               <input type="number" name="rainfall" autoComplete="off" value={formData.rainfall} onChange={handleChange} placeholder="mm/year" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
             <div>
-              <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Temp (°C)</label>
+              <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Temp (°C)</label>
               <input type="number" name="temperature" autoComplete="off" value={formData.temperature} onChange={handleChange} placeholder="°C" className="w-full bg-slate-50 border border-black/5 rounded-2xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-emerald-500 outline-none transition-all" required />
             </div>
           </div>
@@ -201,7 +201,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
             type="button"
             onClick={handleAutoDetect}
             disabled={detecting || loading}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-50 text-emerald-700 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-100 transition-all mb-3"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-emerald-50 text-emerald-700 rounded-2xl text-[10px] font-black capitalize tracking-widest hover:bg-emerald-100 transition-all mb-3"
           >
             <div className={`w-2 h-2 rounded-full ${detecting ? 'bg-orange-500 animate-pulse' : 'bg-emerald-500'}`} />
             {detecting ? 'Detecting Environmental Data...' : 'Auto-Detect Environment'}
@@ -210,7 +210,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
           <button
             type="submit"
             disabled={loading || detecting}
-            className="w-full bg-slate-900 text-white rounded-2xl py-4 font-black text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-600 transition-all disabled:opacity-50"
+            className="w-full bg-slate-900 text-white rounded-2xl py-4 font-black text-[10px] capitalize tracking-[0.2em] hover:bg-emerald-600 transition-all disabled:opacity-50"
           >
             {loading ? 'Processing Data...' : 'Recommend Crops'}
           </button>
@@ -220,7 +220,7 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
           {loading ? (
             <div className="absolute inset-0 flex flex-col items-center justify-center">
               <div className="w-12 h-12 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin mb-4" />
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest animate-pulse">Running analysis...</p>
+              <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest animate-pulse">Running analysis...</p>
             </div>
           ) : result ? (
             <motion.div
@@ -236,14 +236,14 @@ Based on these parameters, recommend the top 3 most suitable crops to plant. For
 
               <button
                 onClick={downloadPDF}
-                className="w-full bg-emerald-600 text-white rounded-2xl py-3 font-black text-[10px] uppercase tracking-widest hover:bg-emerald-700 transition-all shadow-lg flex items-center justify-center gap-2"
+                className="w-full bg-emerald-600 text-white rounded-2xl py-3 font-black text-[10px] capitalize tracking-widest hover:bg-emerald-700 transition-all shadow-lg flex items-center justify-center gap-2"
               >
                 Download PDF Report
               </button>
             </motion.div>
           ) : (
             <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
-              <p className="text-[10px] font-black text-slate-300 uppercase tracking-widest mb-4">Awaiting Input Parameters</p>
+              <p className="text-[10px] font-black text-slate-300 capitalize tracking-widest mb-4">Awaiting Input Parameters</p>
               <p className="text-sm font-bold text-slate-400 max-w-[240px]">Enter soil and climate data or use "Auto-Detect" to generate localized crop recommendations.</p>
             </div>
           )}

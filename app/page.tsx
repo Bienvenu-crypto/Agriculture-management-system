@@ -149,7 +149,7 @@ export default function Page() {
           <div className="space-y-1">
             <button
               onClick={() => toggleMenu('advisory')}
-              className="w-full text-left px-6 py-2 text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
+              className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
             >
               Advisory
               <span>{expandedMenus.advisory ? '−' : '+'}</span>
@@ -187,14 +187,14 @@ export default function Page() {
             <div className="space-y-1">
               <button
                 onClick={() => toggleMenu('crops')}
-                className="w-full text-left px-6 py-2 text-[11px] font-black uppercase tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
+                className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
               >
                 Crops
                 <span>{expandedMenus.crops ? '−' : '+'}</span>
               </button>
               {expandedMenus.crops && (
                 <div className="space-y-1 pl-4">
-                  <div className="px-4 py-2 text-[10px] font-black text-slate-600 uppercase tracking-widest">Marketplace</div>
+                  <div className="px-4 py-2 text-[10px] font-black text-slate-600 capitalize tracking-widest">Marketplace</div>
                   <button
                     onClick={() => switchView('orders')}
                     className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'text-blue-400 bg-blue-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
@@ -246,13 +246,13 @@ export default function Page() {
           <div className="mt-auto pt-8 space-y-3">
             <button
               onClick={() => openAuthModal('login')}
-              className="px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-slate-300 bg-white/5 w-full hover:bg-white/10"
+              className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest text-slate-300 bg-white/5 w-full hover:bg-white/10"
             >
               Sign In
             </button>
             <button
               onClick={() => openAuthModal('signup')}
-              className="px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-white bg-emerald-600 w-full hover:bg-emerald-500"
+              className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest text-white bg-emerald-600 w-full hover:bg-emerald-500"
             >
               Register
             </button>
@@ -282,7 +282,7 @@ export default function Page() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => logout()}
-                className="px-6 py-2.5 bg-pink-500 shadow-xl shadow-pink-500/20 text-white rounded-full text-[10px] font-black uppercase tracking-[0.3em] hover:bg-pink-600 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-pink-500 shadow-xl shadow-pink-500/20 text-white rounded-full text-[10px] font-black capitalize tracking-[0.3em] hover:bg-pink-600 transition-all flex items-center gap-2"
               >
                 Sign Out
               </button>
@@ -305,7 +305,7 @@ export default function Page() {
           <div className="flex items-center gap-3">
             {user && <NotificationBell />}
             <button
-              className="px-3 py-1.5 text-[10px] font-black text-slate-600 bg-slate-50 rounded-xl uppercase tracking-widest"
+              className="px-3 py-1.5 text-[10px] font-black text-slate-600 bg-slate-50 rounded-xl capitalize tracking-widest"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? 'Close' : 'Menu'}
@@ -323,14 +323,14 @@ export default function Page() {
             >
               <div className="flex flex-col gap-2 py-4">
                 <button onClick={() => switchView('about')} className={`w-full text-left px-5 py-3 rounded-xl text-sm font-black ${activeView === 'about' ? 'bg-emerald-600 text-white' : 'bg-slate-50'}`}>About</button>
-                <div className="px-5 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Advisory</div>
+                <div className="px-5 py-2 text-[10px] font-black text-slate-400 capitalize tracking-widest">Advisory</div>
                 <button onClick={() => switchView('chatbot')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'chatbot' ? 'text-emerald-600' : ''}`}>Chatbot</button>
                 {user && (
                   <>
                     <button onClick={() => switchView('recommendation')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'recommendation' ? 'text-emerald-600' : ''}`}>Recommendation</button>
                     <button onClick={() => switchView('calendar')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'calendar' ? 'text-emerald-600' : ''}`}>Calendar</button>
 
-                    <div className="px-5 py-2 text-[10px] font-black text-slate-400 uppercase tracking-widest">Crops</div>
+                    <div className="px-5 py-2 text-[10px] font-black text-slate-400 capitalize tracking-widest">Crops</div>
                     <button onClick={() => switchView('orders')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'orders' ? 'text-emerald-600' : ''}`}>Orders</button>
                     <button onClick={() => switchView('listings')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'listings' ? 'text-emerald-600' : ''}`}>Listings</button>
                     <button onClick={() => switchView('advertising')} className={`w-full text-left px-8 py-2.5 rounded-xl text-sm font-bold ${activeView === 'advertising' ? 'text-emerald-600' : ''}`}>Advertising</button>
@@ -340,11 +340,11 @@ export default function Page() {
                 <button onClick={() => switchView('weather')} className={`w-full text-left px-5 py-3 rounded-xl text-sm font-black mt-2 ${activeView === 'weather' ? 'bg-emerald-600 text-white' : 'bg-slate-50'}`}>Weather</button>
 
                 {user ? (
-                  <button onClick={() => logout()} className="px-5 py-3 text-sm font-black text-red-600 uppercase tracking-widest mt-4">Sign Out</button>
+                  <button onClick={() => logout()} className="px-5 py-3 text-sm font-black text-red-600 capitalize tracking-widest mt-4">Sign Out</button>
                 ) : (
                   <div className="grid grid-cols-2 gap-2 mt-4">
-                    <button onClick={() => openAuthModal('login')} className="px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest bg-slate-50">Sign In</button>
-                    <button onClick={() => openAuthModal('signup')} className="px-4 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-white bg-emerald-600">Register</button>
+                    <button onClick={() => openAuthModal('login')} className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest bg-slate-50">Sign In</button>
+                    <button onClick={() => openAuthModal('signup')} className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest text-white bg-emerald-600">Register</button>
                   </div>
                 )}
               </div>
@@ -399,11 +399,11 @@ export default function Page() {
                  {marketplaceUser && marketplaceUser.role === 'buyer' ? (
                     <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
                  ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
                     <div className="space-y-8 max-w-2xl mx-auto text-center">
                       <div className="space-y-2 mb-8">
-                        <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Marketplace Entry</h2>
+                        <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Marketplace Entry</h2>
                         <p className="text-slate-500 font-medium">Join our community of buyers to access fresh agricultural output.</p>
                       </div>
                       <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="buyer" />
@@ -417,11 +417,11 @@ export default function Page() {
                  {marketplaceUser && marketplaceUser.role === 'seller' ? (
                     <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
                  ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
                     <div className="space-y-8 max-w-2xl mx-auto text-center">
                        <div className="space-y-2 mb-8">
-                         <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Seller Entry</h2>
+                         <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Seller Entry</h2>
                          <p className="text-slate-500 font-medium">Log in as a seller to catalog and manage your crop offers.</p>
                        </div>
                        <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
@@ -435,11 +435,11 @@ export default function Page() {
                  {marketplaceUser && marketplaceUser.role === 'seller' ? (
                     <Marketplace forcedTab="advertising" onLogout={() => setMarketplaceUser(null)} />
                  ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black uppercase text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
                  ) : (
                     <div className="space-y-8 max-w-2xl mx-auto text-center">
                       <div className="space-y-2 mb-8">
-                        <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Advertising Hub</h2>
+                        <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Advertising Hub</h2>
                         <p className="text-slate-500 font-medium">Sign in as a Seller to promote your products and track market performance.</p>
                       </div>
                       <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
@@ -456,10 +456,10 @@ export default function Page() {
                   <div className="bg-white rounded-[3rem] p-20 text-center border border-slate-100 shadow-xl space-y-8 max-w-2xl mx-auto">
                     <div className="w-24 h-24 bg-orange-50 rounded-[2rem] flex items-center justify-center mx-auto text-4xl">📊</div>
                     <div className="space-y-2">
-                      <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Dashboard Access</h2>
+                      <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Dashboard Access</h2>
                       <p className="text-slate-500 font-medium">Sign in to track your trade history and marketplace statistics.</p>
                     </div>
-                    <button onClick={() => openAuthModal('login')} className="bg-orange-600 text-white px-10 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-orange-700 transition-all">Sign In to View</button>
+                    <button onClick={() => openAuthModal('login')} className="bg-orange-600 text-white px-10 py-4 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-orange-700 transition-all">Sign In to View</button>
                   </div>
                 )}
               </div>
@@ -468,8 +468,8 @@ export default function Page() {
             {activeView === 'weather' && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 uppercase">Climate Dynamics</h2>
-                  <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">Hyper-local weather awareness for strategic planning</p>
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 capitalize">Climate Dynamics</h2>
+                  <p className="text-slate-500 text-xs capitalize tracking-widest font-bold">Hyper-local weather awareness for strategic planning</p>
                 </div>
                 <WeatherWidget />
               </div>
@@ -479,10 +479,10 @@ export default function Page() {
             {activeView === 'iot' && (
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 flex items-center gap-3 uppercase">
+                  <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 flex items-center gap-3 capitalize">
                     Field Intelligence
                   </h2>
-                  <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">Live telemetry from your smart agricultural nodes</p>
+                  <p className="text-slate-500 text-xs capitalize tracking-widest font-bold">Live telemetry from your smart agricultural nodes</p>
                 </div>
                 <IoTDashboard location={location} />
               </div>

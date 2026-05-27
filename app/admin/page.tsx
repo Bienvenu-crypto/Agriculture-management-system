@@ -125,7 +125,7 @@ export default function AdminDashboard() {
         <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-[150px] animate-pulse"></div>
         <div className="absolute bottom-[10%] right-[20%] w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-        <Link href="/" className="absolute top-10 left-10 text-[10px] font-black text-white hover:bg-emerald-600 uppercase tracking-[0.3em] transition-all z-10 px-6 py-3 rounded-full bg-emerald-500 shadow-md shadow-emerald-500/20 border border-emerald-600 flex items-center gap-2">
+        <Link href="/" className="absolute top-10 left-10 text-[10px] font-black text-white hover:bg-emerald-600 capitalize tracking-[0.3em] transition-all z-10 px-6 py-3 rounded-full bg-emerald-500 shadow-md shadow-emerald-500/20 border border-emerald-600 flex items-center gap-2">
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Return Home
         </Link>
@@ -143,8 +143,8 @@ export default function AdminDashboard() {
             </div>
           </div>
           
-          <h1 className="text-3xl font-black text-center text-slate-900 mb-2 uppercase tracking-tighter">Admin Portal</h1>
-          <p className="text-[10px] font-bold text-slate-400 text-center mb-10 px-4 uppercase tracking-[0.3em]">System Authorization Required</p>
+          <h1 className="text-3xl font-black text-center text-slate-900 mb-2 capitalize tracking-tighter">Admin Portal</h1>
+          <p className="text-[10px] font-bold text-slate-400 text-center mb-10 px-4 capitalize tracking-[0.3em]">System Authorization Required</p>
 
           <form onSubmit={handleLogin} className="space-y-6" autoComplete="off">
             <div className="relative group">
@@ -154,14 +154,14 @@ export default function AdminDashboard() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="ENTER ACCESS TOKEN"
                 autoComplete="new-password"
-                className="w-full px-6 py-5 rounded-2xl bg-slate-50 text-slate-900 border border-slate-200 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 outline-none transition-all font-black text-[10px] uppercase tracking-[0.4em] placeholder:text-slate-400 text-center"
+                className="w-full px-6 py-5 rounded-2xl bg-slate-50 text-slate-900 border border-slate-200 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 outline-none transition-all font-black text-[10px] capitalize tracking-[0.4em] placeholder:text-slate-400 text-center"
               />
             </div>
             
             {error && (
               <motion.p 
                 initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
-                className="text-red-500 text-[10px] font-black uppercase tracking-widest text-center bg-red-50 py-2 rounded-lg border border-red-100"
+                className="text-red-500 text-[10px] font-black capitalize tracking-widest text-center bg-red-50 py-2 rounded-lg border border-red-100"
               >
                 {error}
               </motion.p>
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
 
             <button
               type="submit"
-              className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.4em] hover:bg-slate-800 active:scale-[0.98] transition-all shadow-xl shadow-slate-900/10"
+              className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[11px] capitalize tracking-[0.4em] hover:bg-slate-800 active:scale-[0.98] transition-all shadow-xl shadow-slate-900/10"
             >
               Authenticate
             </button>
@@ -200,7 +200,7 @@ export default function AdminDashboard() {
       <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[#0A0F1C] p-6 hidden lg:flex flex-col z-50 border-r border-white/5 shadow-2xl">
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-3 h-3 bg-cyan-500 rounded-full shadow-[0_0_15px_rgba(6,182,212,0.5)]" />
-          <span className="text-lg font-black text-white tracking-widest uppercase">Admin Portal</span>
+          <span className="text-lg font-black text-white tracking-widest capitalize">Admin Portal</span>
         </div>
 
         <nav className="flex-1 space-y-1">
@@ -264,7 +264,7 @@ export default function AdminDashboard() {
             </button>
             <div className="hidden sm:flex items-center gap-2 bg-emerald-50 px-4 py-2 rounded-full">
               <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
-              <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Active</span>
+              <span className="text-[10px] font-bold text-emerald-700 capitalize tracking-widest">Active</span>
             </div>
           </div>
         </header>
@@ -276,8 +276,8 @@ export default function AdminDashboard() {
               className="fixed inset-0 z-50 bg-slate-900 p-8 lg:hidden flex flex-col"
             >
               <div className="flex items-center justify-between mb-12">
-                <span className="text-xl font-black text-white uppercase tracking-tighter leading-none">Management</span>
-                <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 font-black text-[10px] uppercase tracking-widest">Close</button>
+                <span className="text-xl font-black text-white capitalize tracking-tighter leading-none">Management</span>
+                <button onClick={() => setIsMobileMenuOpen(false)} className="text-slate-400 font-black text-[10px] capitalize tracking-widest">Close</button>
               </div>
               <nav className="space-y-2 mb-12">
                 <TabButton id="overview" label="Overview" />
@@ -288,7 +288,7 @@ export default function AdminDashboard() {
                 <TabButton id="chats" label="Chat Logs" />
                 <TabButton id="users" label="User Manager" />
               </nav>
-              <button onClick={handleLogout} className="mt-auto block text-red-500 font-black text-[10px] uppercase tracking-widest">
+              <button onClick={handleLogout} className="mt-auto block text-red-500 font-black text-[10px] capitalize tracking-widest">
                 Log Termination
               </button>
             </motion.div>
@@ -298,10 +298,10 @@ export default function AdminDashboard() {
         <main className="px-10 lg:px-16 pt-2 pb-16 flex-1 overflow-x-hidden">
           {dataLoading && adminData.chats.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-32 space-y-4">
-              <div className="px-10 py-5 bg-slate-950 rounded-full text-cyan-400 font-black text-[10px] uppercase tracking-[0.5em] animate-pulse">
+              <div className="px-10 py-5 bg-slate-950 rounded-full text-cyan-400 font-black text-[10px] capitalize tracking-[0.5em] animate-pulse">
                 Analyzing
               </div>
-              <p className="text-slate-400 font-bold uppercase text-[9px] tracking-[0.3em]">Extracting Strategic Database Layers...</p>
+              <p className="text-slate-400 font-bold capitalize text-[9px] tracking-[0.3em]">Extracting Strategic Database Layers...</p>
             </div>
           ) : (
             <div className="space-y-16">
@@ -320,11 +320,11 @@ export default function AdminDashboard() {
                   <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
                     <div className="xl:col-span-2 py-10">
                       <div className="flex items-center justify-between mb-12">
-                        <h3 className="text-base font-black tracking-[0.4em] flex items-center gap-4 uppercase text-slate-950">
+                        <h3 className="text-base font-black tracking-[0.4em] flex items-center gap-4 capitalize text-slate-950">
                           <div className="w-1.5 h-6 bg-cyan-500 rounded-full"></div>
                           Interaction Flow
                         </h3>
-                        <button onClick={() => setActiveTab('chats')} className="text-[10px] font-black text-cyan-600 hover:tracking-[0.2em] transition-all flex items-center gap-1 uppercase tracking-widest">Global View</button>
+                        <button onClick={() => setActiveTab('chats')} className="text-[10px] font-black text-cyan-600 hover:tracking-[0.2em] transition-all flex items-center gap-1 capitalize tracking-widest">Global View</button>
                       </div>
                       <div className="space-y-6">
                         {adminData.chats.slice(0, 6).map((chat: any) => (
@@ -332,12 +332,12 @@ export default function AdminDashboard() {
                             <div className={`mt-2 w-2 h-2 rounded-full shrink-0 ${chat.role === 'user' ? 'bg-cyan-400' : 'bg-emerald-400'}`}></div>
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center justify-between mb-2">
-                                <p className="text-base font-black text-slate-900 truncate uppercase tracking-tighter">{chat.user_email}</p>
-                                <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">{format(new Date(chat.timestamp), 'HH:mm')}</span>
+                                <p className="text-base font-black text-slate-900 truncate capitalize tracking-tighter">{chat.user_email}</p>
+                                <span className="text-[9px] font-black text-slate-300 capitalize tracking-widest">{format(new Date(chat.timestamp), 'HH:mm')}</span>
                               </div>
                               <p className="text-sm text-slate-500 line-clamp-2 leading-relaxed font-medium">{chat.content}</p>
                             </div>
-                            <button onClick={() => handleDelete('chat', chat.id)} className="px-5 py-2.5 bg-red-50 text-[9px] font-black text-red-400 hover:text-red-600 hover:bg-red-100 transition-all uppercase tracking-[0.2em] rounded-full">Terminate</button>
+                            <button onClick={() => handleDelete('chat', chat.id)} className="px-5 py-2.5 bg-red-50 text-[9px] font-black text-red-400 hover:text-red-600 hover:bg-red-100 transition-all capitalize tracking-[0.2em] rounded-full">Terminate</button>
                           </div>
                         ))}
                       </div>
@@ -367,7 +367,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                       <input type="text" placeholder="Search logs..." value={searchChats} onChange={(e) => setSearchChats(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.chats.length} Logs</span>
+                      <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.chats.length} Logs</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -375,11 +375,11 @@ export default function AdminDashboard() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-[#8B4513] text-white text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">User</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Role</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 min-w-[300px]">Message</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Time</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">User</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Role</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 min-w-[300px]">Message</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Time</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Action</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -397,7 +397,7 @@ export default function AdminDashboard() {
                                 </div>
                               </td>
                               <td className="px-6 py-4">
-                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${chat.role === 'user' ? 'bg-blue-50 text-blue-600' : 'bg-emerald-50 text-emerald-600'
+                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize tracking-wider ${chat.role === 'user' ? 'bg-blue-50 text-blue-600' : 'bg-emerald-50 text-emerald-600'
                                   }`}>
                                   <span className={`w-1.5 h-1.5 rounded-full ${chat.role === 'user' ? 'bg-blue-500' : 'bg-emerald-500'
                                     }`} />
@@ -411,7 +411,7 @@ export default function AdminDashboard() {
                                 {format(new Date(chat.timestamp), 'MMM dd, HH:mm')}
                               </td>
                               <td className="px-6 py-4 text-right">
-                                <button onClick={() => handleDelete('chat', chat.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                <button onClick={() => handleDelete('chat', chat.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                               </td>
                             </tr>
                           ))}
@@ -431,7 +431,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                       <input type="text" placeholder="Search farmers..." value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -439,10 +439,10 @@ export default function AdminDashboard() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-[#8B4513] text-white text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Farmer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">District</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Joined</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Farmer</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">District</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Joined</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -463,7 +463,7 @@ export default function AdminDashboard() {
                                 </div>
                               </td>
                               <td className="px-6 py-4">
-                                <span className="px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md uppercase tracking-wide">
+                                <span className="px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md capitalize tracking-wide">
                                   {u.district || 'Unknown'}
                                 </span>
                               </td>
@@ -472,8 +472,8 @@ export default function AdminDashboard() {
                               </td>
                               <td className="px-6 py-4 text-right">
                                 <div className="flex justify-end gap-2">
-                                  <button onClick={() => setEditingItem({ type: 'app-user', item: u })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Edit</button>
-                                  <button onClick={() => handleDelete('app-user', u.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                  <button onClick={() => setEditingItem({ type: 'app-user', item: u })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Edit</button>
+                                  <button onClick={() => handleDelete('app-user', u.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                                 </div>
                               </td>
                             </tr>
@@ -496,7 +496,7 @@ export default function AdminDashboard() {
                       </div>
                       <div className="flex items-center gap-4">
                         <input type="text" placeholder="Search participants..." value={searchMarketplace} onChange={(e) => setSearchMarketplace(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                        <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
+                        <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
                       </div>
                     </div>
                     <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -504,11 +504,11 @@ export default function AdminDashboard() {
                         <table className="w-full">
                           <thead>
                             <tr className="bg-[#8B4513] text-white text-left">
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Participant</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Role</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">District</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Subscription</th>
-                              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                              <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Participant</th>
+                              <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Role</th>
+                              <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">District</th>
+                              <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Subscription</th>
+                              <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Actions</th>
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-50">
@@ -530,7 +530,7 @@ export default function AdminDashboard() {
                                   </div>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${u.role === 'seller' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'
+                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize tracking-wide ${u.role === 'seller' ? 'bg-emerald-50 text-emerald-600' : 'bg-blue-50 text-blue-600'
                                     }`}>
                                     <span className={`w-1.5 h-1.5 rounded-full ${u.role === 'seller' ? 'bg-emerald-500' : 'bg-blue-500'
                                       }`} />
@@ -538,20 +538,20 @@ export default function AdminDashboard() {
                                   </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className="px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md uppercase tracking-wide">
+                                  <span className="px-2.5 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold rounded-md capitalize tracking-wide">
                                     {u.district || 'Unknown'}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wide ${u.is_subscribed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize tracking-wide ${u.is_subscribed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
                                     }`}>
                                     {u.is_subscribed ? 'Active' : 'Unpaid'}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4 text-right">
                                   <div className="flex justify-end gap-2">
-                                    <button onClick={() => setEditingItem({ type: 'marketplace-user', item: u })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Edit</button>
-                                    <button onClick={() => handleDelete('marketplace-user', u.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                    <button onClick={() => setEditingItem({ type: 'marketplace-user', item: u })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Edit</button>
+                                    <button onClick={() => handleDelete('marketplace-user', u.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                                   </div>
                                 </td>
                               </tr>
@@ -573,7 +573,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                       <input type="text" placeholder="Search listings..." value={searchListings} onChange={(e) => setSearchListings(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.listings.length} Listings</span>
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.listings.length} Listings</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -581,12 +581,12 @@ export default function AdminDashboard() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-[#8B4513] text-white text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Seller</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Quantity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Price / kg</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Crop</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Seller</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Quantity</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Price / kg</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -597,11 +597,11 @@ export default function AdminDashboard() {
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.seller_name}</td>
                               <td className="px-6 py-4 text-slate-600 text-sm">{item.quantity_kg} kg</td>
                               <td className="px-6 py-4 font-bold text-slate-900 text-sm">{item.currency} {item.price_per_kg?.toLocaleString()}</td>
-                              <td className="px-6 py-4"><span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-md uppercase">{item.status}</span></td>
+                              <td className="px-6 py-4"><span className="px-2.5 py-1 bg-emerald-50 text-emerald-600 text-[10px] font-bold rounded-md capitalize">{item.status}</span></td>
                               <td className="px-6 py-4 text-right">
                                 <div className="flex justify-end gap-2">
-                                  <button onClick={() => setEditingItem({ type: 'listing', item })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Edit</button>
-                                  <button onClick={() => handleDelete('listing', item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                  <button onClick={() => setEditingItem({ type: 'listing', item })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Edit</button>
+                                  <button onClick={() => handleDelete('listing', item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                                 </div>
                               </td>
                             </tr>
@@ -622,7 +622,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                       <input type="text" placeholder="Search orders..." value={searchOrders} onChange={(e) => setSearchOrders(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.orders.length} Orders</span>
+                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.orders.length} Orders</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -630,12 +630,12 @@ export default function AdminDashboard() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-[#8B4513] text-white text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Buyer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Quantity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Max Price / kg</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Crop</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Buyer</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Quantity</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Max Price / kg</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Actions</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -646,11 +646,11 @@ export default function AdminDashboard() {
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.buyer_name}</td>
                               <td className="px-6 py-4 text-slate-600 text-sm">{item.quantity_kg} kg</td>
                               <td className="px-6 py-4 font-bold text-slate-900 text-sm">{item.currency} {item.max_price_per_kg?.toLocaleString()}</td>
-                              <td className="px-6 py-4"><span className={`px-2.5 py-1 text-[10px] font-bold rounded-md uppercase ${item.status === 'open' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-500'}`}>{item.status}</span></td>
+                              <td className="px-6 py-4"><span className={`px-2.5 py-1 text-[10px] font-bold rounded-md capitalize ${item.status === 'open' ? 'bg-blue-50 text-blue-600' : 'bg-slate-100 text-slate-500'}`}>{item.status}</span></td>
                               <td className="px-6 py-4 text-right">
                                 <div className="flex justify-end gap-2">
-                                  <button onClick={() => setEditingItem({ type: 'order', item })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Edit</button>
-                                  <button onClick={() => handleDelete('order', item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                  <button onClick={() => setEditingItem({ type: 'order', item })} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Edit</button>
+                                  <button onClick={() => handleDelete('order', item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                                 </div>
                               </td>
                             </tr>
@@ -671,7 +671,7 @@ export default function AdminDashboard() {
                     </div>
                     <div className="flex items-center gap-4">
                       <input type="text" placeholder="Search trades..." value={searchTrades} onChange={(e) => setSearchTrades(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black uppercase tracking-widest rounded-full">{adminData.trades.length} Trades</span>
+                      <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.trades.length} Trades</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -679,13 +679,13 @@ export default function AdminDashboard() {
                       <table className="w-full">
                         <thead>
                           <tr className="bg-[#8B4513] text-white text-left">
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Commodity</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Seller</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Buyer</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Value</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Status</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-white/90">Date & Time</th>
-                            <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Action</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Commodity</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Seller</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Buyer</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Value</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Status</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-white/90">Date & Time</th>
+                            <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Action</th>
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -693,7 +693,7 @@ export default function AdminDashboard() {
                           {adminData.trades.filter((t: any) => t.crop?.toLowerCase().includes(searchTrades.toLowerCase()) || t.seller_name?.toLowerCase().includes(searchTrades.toLowerCase()) || t.buyer_name?.toLowerCase().includes(searchTrades.toLowerCase())).map((t: any) => (
                             <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
-                                <p className="font-semibold text-slate-900 text-sm uppercase">{t.crop}</p>
+                                <p className="font-semibold text-slate-900 text-sm capitalize">{t.crop}</p>
                                 <p className="text-slate-400 text-xs">{t.quantity_kg} kg</p>
                               </td>
                               <td className="px-6 py-4">
@@ -713,7 +713,7 @@ export default function AdminDashboard() {
                                 <p className="text-slate-400 text-xs">{t.agreed_price_per_kg}/kg</p>
                               </td>
                               <td className="px-6 py-4">
-                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase ${t.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
+                                <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize ${t.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
                                   <span className={`w-1.5 h-1.5 rounded-full ${t.status === 'completed' ? 'bg-emerald-500' : 'bg-amber-500'}`} />
                                   {t.status}
                                 </span>
@@ -723,7 +723,7 @@ export default function AdminDashboard() {
                                 <p className="text-xs">{format(new Date(t.created_at), 'HH:mm')}</p>
                               </td>
                               <td className="px-6 py-4 text-right">
-                                <button onClick={() => handleDelete('trade', t.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg uppercase tracking-wider transition-all">Delete</button>
+                                <button onClick={() => handleDelete('trade', t.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg capitalize tracking-wider transition-all">Delete</button>
                               </td>
                             </tr>
                           ))}
@@ -749,30 +749,30 @@ export default function AdminDashboard() {
             >
               <div className="p-8 sm:p-10 flex items-center justify-between bg-slate-50/50">
                 <div className="flex items-center gap-4">
-                  <div className="px-5 py-2 bg-slate-900 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest">MOD</div>
+                  <div className="px-5 py-2 bg-slate-900 text-white rounded-2xl font-black text-[10px] capitalize tracking-widest">MOD</div>
                   <div>
-                    <h3 className="text-2xl font-black text-slate-900 uppercase tracking-tighter leading-none">Modify Asset</h3>
-                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mt-1">{editingItem.type.replace('-', ' ')}</p>
+                    <h3 className="text-2xl font-black text-slate-900 capitalize tracking-tighter leading-none">Modify Asset</h3>
+                    <p className="text-slate-400 text-[10px] font-black capitalize tracking-widest mt-1">{editingItem.type.replace('-', ' ')}</p>
                   </div>
                 </div>
-                <button onClick={() => setEditingItem(null)} className="px-5 py-2 bg-white text-[10px] font-black text-slate-400 hover:text-slate-950 uppercase tracking-widest rounded-2xl transition-all shadow-sm">Close</button>
+                <button onClick={() => setEditingItem(null)} className="px-5 py-2 bg-white text-[10px] font-black text-slate-400 hover:text-slate-950 capitalize tracking-widest rounded-2xl transition-all shadow-sm">Close</button>
               </div>
 
               <form onSubmit={handleUpdate} className="p-8 sm:p-10 space-y-6" autoComplete="off">
                 {editingItem.type.includes('user') && (
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">Display Name</label>
+                      <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">Display Name</label>
                       <input type="text" autoComplete="off" value={editingItem.item.name} onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, name: e.target.value } })}
                         className="w-full px-6 py-4 rounded-2xl bg-slate-50 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900 shadow-sm" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">Primary Email</label>
+                      <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">Primary Email</label>
                       <input type="email" autoComplete="off" value={editingItem.item.email} onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, email: e.target.value } })}
                         className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">District / Location</label>
+                      <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">District / Location</label>
                       <input type="text" autoComplete="off" value={editingItem.item.district || ''}
                         onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, district: e.target.value } })}
                         className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900" />
@@ -780,8 +780,8 @@ export default function AdminDashboard() {
                     {editingItem.type === 'marketplace-user' && (
                       <div className="flex items-center justify-between p-6 bg-slate-50 rounded-2xl border border-slate-100">
                         <div>
-                          <p className="text-xs font-black text-slate-900 uppercase tracking-widest">Subscription Paid</p>
-                          <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Authorize access to market features</p>
+                          <p className="text-xs font-black text-slate-900 capitalize tracking-widest">Subscription Paid</p>
+                          <p className="text-[10px] text-slate-400 font-bold capitalize tracking-widest mt-0.5">Authorize access to market features</p>
                         </div>
                         <button
                           type="button"
@@ -798,18 +798,18 @@ export default function AdminDashboard() {
                 {(editingItem.type === 'listing' || editingItem.type === 'order') && (
                   <div className="space-y-6">
                     <div className="space-y-2">
-                      <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">Product Description</label>
+                      <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">Product Description</label>
                       <input type="text" autoComplete="off" value={editingItem.item.crop} onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, crop: e.target.value } })}
                         className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">Stock (kg)</label>
+                        <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">Stock (kg)</label>
                         <input type="number" autoComplete="off" value={editingItem.item.quantity_kg} onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, quantity_kg: e.target.value } })}
                           className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900" />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[0.65rem] font-black text-slate-400 uppercase tracking-widest px-1">{editingItem.type === 'listing' ? 'UGX / kg' : 'Max UGX / kg'}</label>
+                        <label className="text-[0.65rem] font-black text-slate-400 capitalize tracking-widest px-1">{editingItem.type === 'listing' ? 'UGX / kg' : 'Max UGX / kg'}</label>
                         <input type="number" autoComplete="off" value={editingItem.type === 'listing' ? editingItem.item.price_per_kg : editingItem.item.max_price_per_kg}
                           onChange={(e) => setEditingItem({ ...editingItem, item: { ...editingItem.item, [editingItem.type === 'listing' ? 'price_per_kg' : 'max_price_per_kg']: e.target.value } })}
                           className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-100 outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 transition-all font-bold text-slate-900" />
@@ -819,8 +819,8 @@ export default function AdminDashboard() {
                 )}
 
                 <div className="flex gap-4 pt-6">
-                  <button type="button" onClick={() => setEditingItem(null)} className="flex-1 py-4.5 text-[10px] font-black text-slate-400 uppercase tracking-widest border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">Abort</button>
-                  <button type="submit" disabled={editLoading} className="flex-1 py-4.5 bg-slate-900 text-white font-black text-[10px] uppercase tracking-widest rounded-2xl hover:bg-slate-800 shadow-xl transition-all">
+                  <button type="button" onClick={() => setEditingItem(null)} className="flex-1 py-4.5 text-[10px] font-black text-slate-400 capitalize tracking-widest border border-slate-200 rounded-2xl hover:bg-slate-50 transition-all">Abort</button>
+                  <button type="submit" disabled={editLoading} className="flex-1 py-4.5 bg-slate-900 text-white font-black text-[10px] capitalize tracking-widest rounded-2xl hover:bg-slate-800 shadow-xl transition-all">
                     {editLoading ? 'Syncing...' : 'Commit Changes'}
                   </button>
                 </div>
@@ -848,12 +848,12 @@ function StatCard({ label, val, grow, type, color }: any) {
       <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
       <div className="relative z-10 flex items-start justify-between">
         <p className={`text-4xl font-black text-white tracking-tighter drop-shadow-md`}>{val}</p>
-        <span className={`px-2.5 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-lg`}>
+        <span className={`px-2.5 py-1 rounded-xl text-[9px] font-black capitalize tracking-widest bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-lg`}>
           {grow} {type.toLowerCase()}
         </span>
       </div>
       <div className="relative z-10 mt-4">
-        <p className="text-[11px] font-black text-white/90 uppercase tracking-[0.2em]">{label}</p>
+        <p className="text-[11px] font-black text-white/90 capitalize tracking-[0.2em]">{label}</p>
       </div>
     </div>
   );
@@ -862,9 +862,9 @@ function StatCard({ label, val, grow, type, color }: any) {
 function PulseItem({ label, val, type }: any) {
   return (
     <div className="flex items-center gap-4">
-      <div className="px-3 py-1 bg-white/10 rounded-xl text-white/50 font-black text-[9px] uppercase tracking-widest">{type}</div>
+      <div className="px-3 py-1 bg-white/10 rounded-xl text-white/50 font-black text-[9px] capitalize tracking-widest">{type}</div>
       <div>
-        <p className="text-[0.65rem] font-black text-white/30 uppercase tracking-[0.2em]">{label}</p>
+        <p className="text-[0.65rem] font-black text-white/30 capitalize tracking-[0.2em]">{label}</p>
         <p className="font-bold text-white tracking-tight">{val}</p>
       </div>
     </div>
@@ -876,17 +876,17 @@ function MarketTable({ label, data, type, badge, col, onEdit, onDelete }: any) {
   return (
     <div className="bg-white rounded-none shadow-sm overflow-hidden flex flex-col h-full">
       <div className="px-6 py-5 flex items-center justify-between bg-[#8B4513]">
-        <h4 className="font-black text-white uppercase tracking-widest text-[11px]">{label}</h4>
-        <span className={`px-3 py-1 ${accentColor} text-white text-[9px] font-black uppercase tracking-widest rounded-full`}>{data.length} Total</span>
+        <h4 className="font-black text-white capitalize tracking-widest text-[11px]">{label}</h4>
+        <span className={`px-3 py-1 ${accentColor} text-white text-[9px] font-black capitalize tracking-widest rounded-full`}>{data.length} Total</span>
       </div>
       <div className="flex-1 overflow-y-auto max-h-[400px]">
         <table className="w-full text-left">
           <thead>
             <tr className="bg-[#8B4513] text-white text-left">
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Crop</th>
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Qty</th>
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-white/90">Price/kg</th>
-              <th className="px-5 py-3 text-[10px] font-black uppercase tracking-widest text-slate-400 text-right">Actions</th>
+              <th className="px-5 py-3 text-[10px] font-black capitalize tracking-widest text-white/90">Crop</th>
+              <th className="px-5 py-3 text-[10px] font-black capitalize tracking-widest text-white/90">Qty</th>
+              <th className="px-5 py-3 text-[10px] font-black capitalize tracking-widest text-white/90">Price/kg</th>
+              <th className="px-5 py-3 text-[10px] font-black capitalize tracking-widest text-slate-400 text-right">Actions</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -902,8 +902,8 @@ function MarketTable({ label, data, type, badge, col, onEdit, onDelete }: any) {
                 </td>
                 <td className="px-5 py-3.5 text-right">
                   <div className="flex justify-end gap-1.5">
-                    <button onClick={() => onEdit(item)} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg transition-all uppercase tracking-wider">Edit</button>
-                    <button onClick={() => onDelete(item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg transition-all uppercase tracking-wider">Del</button>
+                    <button onClick={() => onEdit(item)} className="px-3 py-1.5 bg-slate-100 text-slate-600 hover:bg-cyan-600 hover:text-white text-[10px] font-bold rounded-lg transition-all capitalize tracking-wider">Edit</button>
+                    <button onClick={() => onDelete(item.id)} className="px-3 py-1.5 bg-red-50 text-red-500 hover:bg-red-500 hover:text-white text-[10px] font-bold rounded-lg transition-all capitalize tracking-wider">Del</button>
                   </div>
                 </td>
               </tr>

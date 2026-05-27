@@ -82,22 +82,22 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
         >
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-950 uppercase tracking-[0.2em] transition-colors"
+            className="absolute top-6 right-6 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-950 capitalize tracking-[0.2em] transition-colors"
           >
             Close
           </button>
 
           <div className="p-10">
             <div className="flex justify-center mb-6">
-              <div className="px-6 py-2 bg-emerald-100 rounded-2xl text-emerald-600 font-black text-[10px] uppercase tracking-[0.3em]">
+              <div className="px-6 py-2 bg-emerald-100 rounded-2xl text-emerald-600 font-black text-[10px] capitalize tracking-[0.3em]">
                 Log
               </div>
             </div>
 
-            <h2 className="text-2xl font-black text-center text-slate-950 mb-2 uppercase tracking-tighter">
+            <h2 className="text-2xl font-black text-center text-slate-950 mb-2 capitalize tracking-tighter">
               {isLogin ? 'Welcome Back' : 'Join the System'}
             </h2>
-            <p className="text-slate-500 text-center mb-10 text-[10px] font-bold uppercase tracking-widest px-4">
+            <p className="text-slate-500 text-center mb-10 text-[10px] font-bold capitalize tracking-widest px-4">
               {isLogin ? 'Access your agricultural intelligence data' : 'Begin your journey with state-of-the-art management'}
             </p>
 
@@ -105,7 +105,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
               {!isLogin && (
                 <>
                   <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Full Name</label>
+                    <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Full Name</label>
                     <input
                       type="text"
                       required
@@ -117,7 +117,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">District</label>
+                    <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">District</label>
                     <input
                       type="text"
                       required
@@ -132,7 +132,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
               )}
 
               <div>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Email Identifier</label>
+                <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Email Identifier</label>
                 <input
                   type="email"
                   required
@@ -145,7 +145,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
               </div>
 
               <div>
-                <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5 px-1">Access Token</label>
+                <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5 px-1">Access Token</label>
                 <input
                   type="password"
                   required
@@ -158,7 +158,7 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
               </div>
 
               {error && (
-                <div className="p-3 bg-red-50 text-red-600 text-[9px] font-black uppercase tracking-widest rounded-xl">
+                <div className="p-3 bg-red-50 text-red-600 text-[9px] font-black capitalize tracking-widest rounded-xl">
                   {error}
                 </div>
               )}
@@ -166,13 +166,13 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] hover:bg-emerald-700 transition-all disabled:opacity-70 shadow-xl shadow-emerald-500/10 active:scale-[0.98]"
+                className="w-full bg-emerald-600 text-white py-4 rounded-2xl font-black text-[10px] capitalize tracking-[0.2em] hover:bg-emerald-700 transition-all disabled:opacity-70 shadow-xl shadow-emerald-500/10 active:scale-[0.98]"
               >
                 {loading ? 'Processing...' : (isLogin ? 'Secure Sign In' : 'Create Account')}
               </button>
             </form>
 
-            <div className="mt-8 text-center text-[10px] font-black uppercase tracking-widest text-slate-400">
+            <div className="mt-8 text-center text-[10px] font-black capitalize tracking-widest text-slate-400">
               {isLogin ? "Need access? " : "Already registered? "}
               <button
                 onClick={() => {

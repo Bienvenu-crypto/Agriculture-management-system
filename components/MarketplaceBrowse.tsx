@@ -340,7 +340,7 @@ export default function MarketplaceBrowse({
         {viewMode === 'seller' ? (
           <button
             onClick={() => setShowAddListingModal(true)}
-            className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all active:scale-95 flex items-center gap-2"
+            className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl font-black capitalize text-[10px] tracking-widest hover:bg-emerald-700 transition-all active:scale-95 flex items-center gap-2"
           >
             Add a Crop
           </button>
@@ -354,8 +354,8 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Crops Catalog</h3>
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
+                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Crops Catalog</h3>
+                <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
               </div>
               <div className="flex items-center gap-4">
                 <input
@@ -365,7 +365,7 @@ export default function MarketplaceBrowse({
                   onChange={(e) => setCatalogSearch(e.target.value)}
                   className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
-                <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-none text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+                <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-none text-[10px] font-black capitalize tracking-widest border border-emerald-100">
                   {filteredCatalog.length} crops active
                 </span>
               </div>
@@ -373,17 +373,17 @@ export default function MarketplaceBrowse({
 
             {loading ? (
               <div className="py-20 flex justify-center items-center">
-                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
+                <span className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : listings.length === 0 ? (
               <div className="py-20 text-center space-y-4">
                 <div>
-                  <p className="text-base font-black text-slate-900 uppercase">Catalog is empty</p>
+                  <p className="text-base font-black text-slate-900 capitalize">Catalog is empty</p>
                   <p className="text-xs text-slate-400 font-medium mt-1">Start adding crops to make your produce visible to buyers.</p>
                 </div>
                 <button
                   onClick={() => setShowAddListingModal(true)}
-                  className="bg-emerald-600 text-white px-6 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-emerald-700 transition-all"
+                  className="bg-emerald-600 text-white px-6 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest hover:bg-emerald-700 transition-all"
                 >
                   List your first crop
                 </button>
@@ -393,13 +393,13 @@ export default function MarketplaceBrowse({
                 <table className="w-full text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop Name</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Category</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Stock (KG)</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Price / KG</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Promotion</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Created Date</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Crop Name</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Category</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Stock (KG)</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Price / KG</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Promotion</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Created Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
@@ -407,24 +407,24 @@ export default function MarketplaceBrowse({
                       <tr key={l.id} className="hover:bg-slate-50/70 transition-colors">
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(l.crop)}</span>
-                          <span className="uppercase tracking-tight">{l.crop}</span>
+                          <span className="capitalize tracking-tight">{l.crop}</span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider">
+                          <span className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-lg text-[9px] font-black capitalize tracking-wider">
                             {l.category || 'Grains'}
                           </span>
                         </td>
                         <td className="px-6 py-4 font-black">
                           {l.quantity_kg.toLocaleString()} KG
                         </td>
-                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
+                        <td className="px-6 py-4 font-black text-emerald-600 capitalize">
                           {l.currency} {l.price_per_kg.toLocaleString()}
                         </td>
                         <td className="px-6 py-4">
                           {l.is_promoted === 1 ? (
-                            <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md text-[8px] font-black uppercase tracking-widest border border-amber-200">Featured</span>
+                            <span className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-md text-[8px] font-black capitalize tracking-widest border border-amber-200">Featured</span>
                           ) : (
-                            <span className="text-slate-400 text-[10px] uppercase font-bold">Standard</span>
+                            <span className="text-slate-400 text-[10px] capitalize font-bold">Standard</span>
                           )}
                         </td>
                         <td className="px-6 py-4 text-xs text-slate-500 font-bold">
@@ -437,14 +437,14 @@ export default function MarketplaceBrowse({
                               className="p-2 text-slate-500 hover:text-emerald-600 transition-colors shrink-0"
                               title="Edit Listing"
                             >
-                              <span className="text-[10px] font-black uppercase tracking-widest">Edit</span>
+                              <span className="text-[10px] font-black capitalize tracking-widest">Edit</span>
                             </button>
                             <button
                               onClick={() => deleteListing(l.id)}
                               className="p-2 text-red-500 hover:text-red-700 transition-colors shrink-0"
                               title="Cancel Listing"
                             >
-                              <span className="text-[10px] font-black uppercase tracking-widest">Delete</span>
+                              <span className="text-[10px] font-black capitalize tracking-widest">Delete</span>
                             </button>
                           </div>
                         </td>
@@ -460,8 +460,8 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Orders Received from Buyers</h3>
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
+                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Orders Received from Buyers</h3>
+                <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
               </div>
               <div className="flex items-center gap-4">
                 <input
@@ -476,11 +476,11 @@ export default function MarketplaceBrowse({
 
             {loadingTrades ? (
               <div className="py-20 flex justify-center items-center">
-                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
+                <span className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : sellerTrades.length === 0 ? (
               <div className="py-12 text-center text-slate-400 space-y-2">
-                <p className="text-[10px] font-black uppercase tracking-widest">No Incoming Orders Yet</p>
+                <p className="text-[10px] font-black capitalize tracking-widest">No Incoming Orders Yet</p>
                 <p className="text-xs text-slate-400 font-medium">When buyers purchase your crops directly, they will show up here.</p>
               </div>
             ) : (
@@ -488,25 +488,25 @@ export default function MarketplaceBrowse({
                 <table className="w-full text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Order ID</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Buyer</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Quantity</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Amount</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Status</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Date</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Order ID</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Crop</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Buyer</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Quantity</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Amount</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
                     {filteredOrdersReceived.map((t) => (
                       <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
-                        <td className="px-6 py-4 font-black text-slate-950 uppercase">
+                        <td className="px-6 py-4 font-black text-slate-950 capitalize">
                           #{t.id.split('-').pop()}
                         </td>
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(t.crop)}</span>
-                          <span className="uppercase tracking-tight">{t.crop}</span>
+                          <span className="capitalize tracking-tight">{t.crop}</span>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
@@ -517,11 +517,11 @@ export default function MarketplaceBrowse({
                         <td className="px-6 py-4 font-black">
                           {t.quantity_kg.toLocaleString()} KG
                         </td>
-                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
+                        <td className="px-6 py-4 font-black text-emerald-600 capitalize">
                           {t.currency} {t.total_value.toLocaleString()}
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`px-2 py-1 rounded-none text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(t.status)}`}>
+                          <span className={`px-2 py-1 rounded-none text-[9px] font-black capitalize tracking-widest border ${getStatusStyle(t.status)}`}>
                             {t.status}
                           </span>
                         </td>
@@ -532,12 +532,12 @@ export default function MarketplaceBrowse({
                           {t.status === 'pending' ? (
                             <button
                               onClick={() => handleUpdateStatus(t.id, 'in-transit')}
-                              className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                              className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black capitalize tracking-widest transition-colors shadow-sm"
                             >
                               Ship Order
                             </button>
                           ) : (
-                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
+                            <span className="text-slate-400 text-[9px] capitalize font-black tracking-widest">
                               {t.status === 'in-transit' ? 'In Transit' : 'Completed'}
                             </span>
                           )}
@@ -571,9 +571,9 @@ export default function MarketplaceBrowse({
               <select
                 value={activeLocation}
                 onChange={(e) => setActiveLocation(e.target.value)}
-                className="h-14 bg-emerald-600 text-white outline-none text-[10px] font-black uppercase tracking-widest cursor-pointer px-6 rounded-2xl hover:bg-emerald-700 transition-all"
+                className="h-14 bg-emerald-600 text-white outline-none text-[10px] font-black capitalize tracking-widest cursor-pointer px-6 rounded-2xl hover:bg-emerald-700 transition-all"
               >
-                <option value="All" className="bg-white text-slate-900">LOCATION</option>
+                <option value="All" className="bg-white text-slate-900">Location</option>
                 {uniqueDistricts.map(district => (
                   <option key={district} value={district} className="bg-white text-slate-900">{district}</option>
                 ))}
@@ -588,7 +588,7 @@ export default function MarketplaceBrowse({
               <button
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${activeCategory === cat.name
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black capitalize tracking-widest transition-all border ${activeCategory === cat.name
                   ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20'
                   : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
                   }`}
@@ -601,8 +601,8 @@ export default function MarketplaceBrowse({
           {/* Grid of Browse Listings */}
           <div className="space-y-6">
             <div className="flex justify-between items-center px-2">
-              <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter">Available Crops for Purchase</h3>
-              <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">
+              <h3 className="text-lg font-black text-slate-900 capitalize tracking-tighter">Available Crops for Purchase</h3>
+              <p className="text-[11px] font-black text-slate-400 capitalize tracking-widest">
                 Showing {sortedBuyerListings.length} of {totalCount} listings
               </p>
             </div>
@@ -622,7 +622,7 @@ export default function MarketplaceBrowse({
               ) : sortedBuyerListings.length === 0 ? (
                 <div className="col-span-full py-20 text-center space-y-4">
                   <div className="space-y-1">
-                    <p className="text-lg font-black text-slate-900 uppercase tracking-tight">No crops available</p>
+                    <p className="text-lg font-black text-slate-900 capitalize tracking-tight">No crops available</p>
                     <p className="text-slate-400 text-sm font-medium">There are currently no active crop offers listed by other sellers.</p>
                   </div>
                 </div>
@@ -642,7 +642,7 @@ export default function MarketplaceBrowse({
                       <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-all"></div>
                       {listing.is_promoted === 1 && (
                         <div className="absolute top-6 left-6 z-10">
-                          <span className="bg-amber-100 text-amber-700 text-[8px] font-black px-2 py-1 rounded-lg uppercase tracking-widest border border-amber-200">Featured</span>
+                          <span className="bg-amber-100 text-amber-700 text-[8px] font-black px-2 py-1 rounded-lg capitalize tracking-widest border border-amber-200">Featured</span>
                         </div>
                       )}
                     </div>
@@ -650,21 +650,21 @@ export default function MarketplaceBrowse({
                     {/* Card Content */}
                     <div className="p-8 flex-1 flex flex-col space-y-4">
                       <div className="flex justify-between items-start gap-4">
-                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter leading-tight group-hover:text-emerald-700 transition-colors">
+                        <h3 className="text-lg font-black text-slate-900 capitalize tracking-tighter leading-tight group-hover:text-emerald-700 transition-colors">
                           {listing.crop}
                         </h3>
                         {listing.quantity_kg > 100 ? (
-                          <span className="px-2.5 py-1 bg-green-50 text-green-700 text-[9px] font-black rounded-lg uppercase tracking-widest border border-green-100 flex-shrink-0">
+                          <span className="px-2.5 py-1 bg-green-50 text-green-700 text-[9px] font-black rounded-lg capitalize tracking-widest border border-green-100 flex-shrink-0">
                             In Stock
                           </span>
                         ) : (
-                          <span className="px-2.5 py-1 bg-orange-50 text-orange-700 text-[9px] font-black rounded-lg uppercase tracking-widest border border-orange-100 flex-shrink-0">
+                          <span className="px-2.5 py-1 bg-orange-50 text-orange-700 text-[9px] font-black rounded-lg capitalize tracking-widest border border-orange-100 flex-shrink-0">
                             Low Stock
                           </span>
                         )}
                       </div>
 
-                      <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                      <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 capitalize tracking-widest">
                         {listing.seller_district || 'Unknown Location'}
                       </div>
 
@@ -674,14 +674,14 @@ export default function MarketplaceBrowse({
 
                       <div className="pt-4 flex items-end justify-between border-t border-slate-50">
                         <div className="space-y-1">
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Unit Price</p>
+                          <p className="text-[9px] font-black text-slate-400 capitalize tracking-widest">Unit Price</p>
                           <p className="text-xl font-black text-emerald-600 tracking-tight">
                             {listing.currency} {listing.price_per_kg.toLocaleString()}
                             <span className="text-xs text-slate-400 font-bold"> /kg</span>
                           </p>
                         </div>
                         <div className="text-right space-y-1">
-                          <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Availability</p>
+                          <p className="text-[9px] font-black text-slate-400 capitalize tracking-widest">Availability</p>
                           <p className="text-sm font-black text-slate-900">{listing.quantity_kg.toLocaleString()} KG</p>
                         </div>
                       </div>
@@ -705,14 +705,14 @@ export default function MarketplaceBrowse({
                       <div className="pt-6 flex gap-2">
                         <button
                           onClick={() => handleOrderClick(listing)}
-                          className="flex-1 bg-emerald-700 text-white py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-800 transition-all active:scale-[0.98]"
+                          className="flex-1 bg-emerald-700 text-white py-4 rounded-2xl font-black capitalize text-[10px] tracking-widest hover:bg-emerald-800 transition-all active:scale-[0.98]"
                         >
                           Order Now
                         </button>
                         {mpUser?.role === 'admin' && (
                           <button
                             onClick={() => deleteListing(listing.id)}
-                            className="bg-red-50 text-red-600 px-4 py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-red-100 transition-all active:scale-[0.98]"
+                            className="bg-red-50 text-red-600 px-4 py-4 rounded-2xl font-black capitalize text-[10px] tracking-widest hover:bg-red-100 transition-all active:scale-[0.98]"
                             title="Delete Listing (Admin)"
                           >
                             Delete
@@ -730,8 +730,8 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 uppercase tracking-tighter">Your Purchase History</h3>
-                <p className="text-xs text-slate-400 font-bold uppercase tracking-wider mt-0.5">Orders you have placed and paid over time</p>
+                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Purchase History</h3>
+                <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Orders you have placed and paid over time</p>
               </div>
               <div className="flex items-center gap-4">
                 <input
@@ -746,11 +746,11 @@ export default function MarketplaceBrowse({
 
             {loadingTrades ? (
               <div className="py-20 flex justify-center items-center">
-                <span className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</span>
+                <span className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</span>
               </div>
             ) : buyerTrades.length === 0 ? (
               <div className="py-12 text-center text-slate-400 space-y-2">
-                <p className="text-[10px] font-black uppercase tracking-widest">No Purchases Made Yet</p>
+                <p className="text-[10px] font-black capitalize tracking-widest">No Purchases Made Yet</p>
                 <p className="text-xs text-slate-400 font-medium">Use the "Order Now" button on crop listings to place orders.</p>
               </div>
             ) : (
@@ -758,25 +758,25 @@ export default function MarketplaceBrowse({
                 <table className="w-full text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Order ID</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Crop</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Seller</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Quantity</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Amount</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Status</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Date</th>
-                      <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Actions</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Order ID</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Crop</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Seller</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Quantity</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Amount</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Date</th>
+                      <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50 text-sm font-semibold text-slate-700">
                     {filteredPurchaseHistory.map((t) => (
                       <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
-                        <td className="px-6 py-4 font-black text-slate-950 uppercase">
+                        <td className="px-6 py-4 font-black text-slate-950 capitalize">
                           #{t.id.split('-').pop()}
                         </td>
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
                           <span className="text-2xl">{getCropEmoji(t.crop)}</span>
-                          <span className="uppercase tracking-tight">{t.crop}</span>
+                          <span className="capitalize tracking-tight">{t.crop}</span>
                         </td>
                         <td className="px-6 py-4">
                           <div className="flex flex-col">
@@ -787,11 +787,11 @@ export default function MarketplaceBrowse({
                         <td className="px-6 py-4 font-black">
                           {t.quantity_kg.toLocaleString()} KG
                         </td>
-                        <td className="px-6 py-4 font-black text-emerald-600 uppercase">
+                        <td className="px-6 py-4 font-black text-emerald-600 capitalize">
                           {t.currency} {t.total_value.toLocaleString()}
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`px-2 py-1 rounded-none text-[9px] font-black uppercase tracking-widest border ${getStatusStyle(t.status)}`}>
+                          <span className={`px-2 py-1 rounded-none text-[9px] font-black capitalize tracking-widest border ${getStatusStyle(t.status)}`}>
                             {t.status}
                           </span>
                         </td>
@@ -802,12 +802,12 @@ export default function MarketplaceBrowse({
                           {t.status === 'in-transit' ? (
                             <button
                               onClick={() => handleUpdateStatus(t.id, 'completed')}
-                              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black uppercase tracking-widest transition-colors shadow-sm"
+                              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded-none text-[9px] font-black capitalize tracking-widest transition-colors shadow-sm"
                             >
                               Confirm Delivery
                             </button>
                           ) : (
-                            <span className="text-slate-400 text-[9px] uppercase font-black tracking-widest">
+                            <span className="text-slate-400 text-[9px] capitalize font-black tracking-widest">
                               {t.status === 'pending' ? 'Pending Shipping' : 'Completed'}
                             </span>
                           )}
@@ -825,7 +825,7 @@ export default function MarketplaceBrowse({
       {/* Pagination (Only for Buyer browse page) */}
       {viewMode === 'buyer' && buyerListings.length > 0 && (
         <div className="flex justify-center items-center gap-2 pt-10">
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black uppercase tracking-widest">
+          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black capitalize tracking-widest">
             Prev
           </button>
           {[1, 2, 3].map(p => (
@@ -838,7 +838,7 @@ export default function MarketplaceBrowse({
               {p}
             </button>
           ))}
-          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black uppercase tracking-widest">
+          <button className="w-10 h-10 flex items-center justify-center rounded-xl border border-slate-100 hover:bg-white hover:shadow-md transition-all text-slate-400 text-[10px] font-black capitalize tracking-widest">
             Next
           </button>
         </div>
@@ -888,9 +888,9 @@ export default function MarketplaceBrowse({
               className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl"
             >
               <div className="bg-[#2d6a4f] p-8 text-white">
-                <span className="bg-white/20 text-white text-[8px] font-black px-2 py-1 rounded-md uppercase tracking-widest">Secure Checkout</span>
-                <h3 className="text-2xl font-black uppercase tracking-tighter mt-2">Mobile Money Payment</h3>
-                <p className="text-emerald-100 text-[10px] font-bold uppercase tracking-widest mt-1">Simulated Carrier Billing Engine</p>
+                <span className="bg-white/20 text-white text-[8px] font-black px-2 py-1 rounded-md capitalize tracking-widest">Secure Checkout</span>
+                <h3 className="text-2xl font-black capitalize tracking-tighter mt-2">Mobile Money Payment</h3>
+                <p className="text-emerald-100 text-[10px] font-bold capitalize tracking-widest mt-1">Simulated Carrier Billing Engine</p>
               </div>
 
               <div className="p-8 space-y-6">
@@ -898,9 +898,9 @@ export default function MarketplaceBrowse({
                 {paymentStep === 'form' && (
                   <div className="space-y-4">
                     <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-1.5">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Product Summary</p>
+                      <p className="text-[9px] font-black text-slate-400 capitalize tracking-widest">Product Summary</p>
                       <div className="flex justify-between items-center text-sm">
-                        <span className="font-black text-slate-800 uppercase tracking-tight">{checkoutListing.crop} ({checkoutListing.category})</span>
+                        <span className="font-black text-slate-800 capitalize tracking-tight">{checkoutListing.crop} ({checkoutListing.category})</span>
                         <span className="text-slate-400 text-xs font-bold">Seller: {checkoutListing.seller_name}</span>
                       </div>
                       <div className="flex justify-between items-center text-xs pt-1 border-t border-slate-200/50 mt-1">
@@ -915,7 +915,7 @@ export default function MarketplaceBrowse({
 
                     <div className="space-y-3">
                       <div>
-                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Quantity to Buy (KG)</label>
+                        <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5">Quantity to Buy (KG)</label>
                         <input
                           type="number"
                           min="0.1"
@@ -931,7 +931,7 @@ export default function MarketplaceBrowse({
                       </div>
 
                       <div>
-                        <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Your Mobile Money Number</label>
+                        <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-1.5">Your Mobile Money Number</label>
                         <div className="relative">
                           <input
                             type="tel"
@@ -944,12 +944,12 @@ export default function MarketplaceBrowse({
                             className="w-full bg-slate-50 border-2 border-slate-100 rounded-xl pl-12 pr-4 py-3 text-sm font-bold focus:border-[#2d6a4f] outline-none transition-all"
                           />
                         </div>
-                        <p className="text-[9px] text-slate-400 mt-1 uppercase font-black tracking-wider pl-1">Supports MTN and Airtel billing systems</p>
+                        <p className="text-[9px] text-slate-400 mt-1 capitalize font-black tracking-wider pl-1">Supports MTN and Airtel billing systems</p>
                       </div>
                     </div>
 
                     {paymentError && (
-                      <div className="p-3.5 bg-red-50 text-red-600 text-[10px] font-black uppercase tracking-wider rounded-xl flex gap-2 items-center">
+                      <div className="p-3.5 bg-red-50 text-red-600 text-[10px] font-black capitalize tracking-wider rounded-xl flex gap-2 items-center">
                         <span className="font-black text-[12px] flex-shrink-0">!</span>
                         <span>{paymentError}</span>
                       </div>
@@ -957,14 +957,14 @@ export default function MarketplaceBrowse({
 
                     <div className="pt-2 border-t border-slate-100 flex justify-between items-center mb-2">
                       <div>
-                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Total Payable</p>
-                        <p className="text-xl font-black text-emerald-600 uppercase tracking-tight">
+                        <p className="text-[9px] font-black text-slate-400 capitalize tracking-widest">Total Payable</p>
+                        <p className="text-xl font-black text-emerald-600 capitalize tracking-tight">
                           {checkoutListing.currency} {((parseFloat(checkoutQty) || 0) * checkoutListing.price_per_kg).toLocaleString()}
                         </p>
                       </div>
                       <button
                         onClick={processPayment}
-                        className="bg-emerald-600 text-white px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/10 active:scale-95"
+                        className="bg-emerald-600 text-white px-6 py-4 rounded-xl font-black capitalize text-[10px] tracking-widest hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/10 active:scale-95"
                       >
                         Pay & Place Order
                       </button>
@@ -972,7 +972,7 @@ export default function MarketplaceBrowse({
 
                     <button
                       onClick={() => setCheckoutListing(null)}
-                      className="w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors pt-2"
+                      className="w-full text-center text-[10px] font-black capitalize tracking-widest text-slate-400 hover:text-slate-600 transition-colors pt-2"
                     >
                       Cancel Purchase
                     </button>
@@ -982,10 +982,10 @@ export default function MarketplaceBrowse({
                 {/* Flow Step 2: Initiating */}
                 {paymentStep === 'initiating' && (
                   <div className="py-8 text-center space-y-4">
-                    <div className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</div>
+                    <div className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</div>
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600">Step 1 of 4</p>
-                      <h4 className="text-base font-black text-slate-900 uppercase">Initiating Payment Gateway</h4>
+                      <p className="text-[10px] font-black capitalize tracking-[0.25em] text-emerald-600">Step 1 of 4</p>
+                      <h4 className="text-base font-black text-slate-900 capitalize">Initiating Payment Gateway</h4>
                       <p className="text-xs text-slate-400 font-medium px-4">Contacting the telecom carrier billing API endpoint at {checkoutPhone}...</p>
                     </div>
                   </div>
@@ -998,15 +998,15 @@ export default function MarketplaceBrowse({
                       📲
                     </div>
                     <div className="space-y-4">
-                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-amber-600">Action Required</p>
-                      <h4 className="text-lg font-black text-slate-900 uppercase">Check Your Phone</h4>
+                      <p className="text-[10px] font-black capitalize tracking-[0.25em] text-amber-600">Action Required</p>
+                      <h4 className="text-lg font-black text-slate-900 capitalize">Check Your Phone</h4>
                       <p className="text-xs text-slate-500 font-bold leading-relaxed px-6">
                         A real USSD prompt has been sent to <span className="text-slate-900 font-black">{checkoutPhone}</span>.
                       </p>
                       <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 inline-block text-amber-800 mt-2">
-                        <div className="text-amber-600 font-black uppercase tracking-widest text-[10px] animate-pulse mb-2">Loading...</div>
+                        <div className="text-amber-600 font-black capitalize tracking-widest text-[10px] animate-pulse mb-2">Loading...</div>
                         <p className="text-xs font-medium">Please enter your Mobile Money PIN on your physical device to authorize.</p>
-                        <p className="text-[10px] font-black uppercase mt-2 opacity-70">Awaiting carrier confirmation...</p>
+                        <p className="text-[10px] font-black capitalize mt-2 opacity-70">Awaiting carrier confirmation...</p>
                       </div>
                     </div>
                   </div>
@@ -1015,10 +1015,10 @@ export default function MarketplaceBrowse({
                 {/* Flow Step 4: Verifying */}
                 {paymentStep === 'verifying' && (
                   <div className="py-8 text-center space-y-4">
-                    <div className="text-emerald-600 font-black uppercase tracking-widest text-[10px] animate-pulse">Loading...</div>
+                    <div className="text-emerald-600 font-black capitalize tracking-widest text-[10px] animate-pulse">Loading...</div>
                     <div className="space-y-1">
-                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-blue-600">Step 3 of 4</p>
-                      <h4 className="text-base font-black text-slate-900 uppercase">Verifying Clearance</h4>
+                      <p className="text-[10px] font-black capitalize tracking-[0.25em] text-blue-600">Step 3 of 4</p>
+                      <h4 className="text-base font-black text-slate-900 capitalize">Verifying Clearance</h4>
                       <p className="text-xs text-slate-400 font-medium px-4">Awaiting response from carrier system. Querying confirmation token...</p>
                     </div>
                   </div>
@@ -1031,8 +1031,8 @@ export default function MarketplaceBrowse({
                       ✅
                     </div>
                     <div className="space-y-2">
-                      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-emerald-600">Step 4 of 4: Completed</p>
-                      <h4 className="text-lg font-black text-slate-900 uppercase">Payment Clearance Successful</h4>
+                      <p className="text-[10px] font-black capitalize tracking-[0.25em] text-emerald-600">Step 4 of 4: Completed</p>
+                      <h4 className="text-lg font-black text-slate-900 capitalize">Payment Clearance Successful</h4>
                       <p className="text-xs text-slate-500 font-bold px-4">
                         Fund transfer complete. The payment of <span className="font-black text-emerald-600">{checkoutListing.currency} {((parseFloat(checkoutQty) || 0) * checkoutListing.price_per_kg).toLocaleString()}</span> has been credited immediately to <span className="font-black text-slate-800">{checkoutListing.seller_name}</span>.
                       </p>
@@ -1040,7 +1040,7 @@ export default function MarketplaceBrowse({
                     <div className="pt-4 border-t border-slate-100">
                       <button
                         onClick={() => setCheckoutListing(null)}
-                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-black capitalize text-[10px] tracking-widest transition-all"
                       >
                         Done
                       </button>
@@ -1055,19 +1055,19 @@ export default function MarketplaceBrowse({
                       ❌
                     </div>
                     <div className="space-y-2">
-                      <h4 className="text-lg font-black text-slate-900 uppercase">Payment Processing Failed</h4>
+                      <h4 className="text-lg font-black text-slate-900 capitalize">Payment Processing Failed</h4>
                       <p className="text-xs text-red-500 font-bold px-6">{paymentError}</p>
                     </div>
                     <div className="pt-4 border-t border-slate-100 flex gap-2 justify-center">
                       <button
                         onClick={() => setPaymentStep('form')}
-                        className="bg-slate-950 text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all"
+                        className="bg-slate-950 text-white px-6 py-3 rounded-xl font-black capitalize text-[10px] tracking-widest hover:bg-slate-800 transition-all"
                       >
                         Try Again
                       </button>
                       <button
                         onClick={() => setCheckoutListing(null)}
-                        className="bg-white border border-slate-200 text-slate-500 px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-all"
+                        className="bg-white border border-slate-200 text-slate-500 px-6 py-3 rounded-xl font-black capitalize text-[10px] tracking-widest hover:bg-slate-50 transition-all"
                       >
                         Cancel
                       </button>

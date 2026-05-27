@@ -152,10 +152,10 @@ export default function WeatherWidget() {
     >
       <div className="flex items-center justify-between mb-6 relative z-10">
         <div className="flex items-center gap-2 text-gray-400">
-          <span className="text-[10px] font-black uppercase tracking-widest">Location</span>
+          <span className="text-[10px] font-black capitalize tracking-widest">Location</span>
           <span className="text-sm font-bold text-slate-800">{weather?.location || lastCoords.current.name}</span>
         </div>
-        <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest flex items-center gap-1 transition-colors ${loading ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
+        <div className={`px-3 py-1 rounded-full text-[10px] font-black capitalize tracking-widest flex items-center gap-1 transition-colors ${loading ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'}`}>
           <span className={`w-1.5 h-1.5 rounded-full ${loading ? 'bg-amber-500' : 'bg-emerald-500'} animate-pulse`}></span>
           {loading ? 'Syncing' : 'Live'}
         </div>
@@ -171,7 +171,7 @@ export default function WeatherWidget() {
             className="h-32 flex flex-col items-center justify-center text-center p-4"
           >
             <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mb-3" />
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{errorDetails}</p>
+            <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest">{errorDetails}</p>
           </motion.div>
         ) : (
           <motion.div
@@ -186,17 +186,17 @@ export default function WeatherWidget() {
               </div>
               <div>
                 <div className="text-4xl font-black text-emerald-950 tracking-tighter">{weather?.temp ?? '--'}°C</div>
-                <div className="text-sm text-slate-500 font-bold uppercase tracking-wide">{weather?.condition ?? 'Fetching...'}</div>
+                <div className="text-sm text-slate-500 font-bold capitalize tracking-wide">{weather?.condition ?? 'Fetching...'}</div>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Humidity</span>
+                <span className="text-[10px] font-black text-slate-400 capitalize tracking-widest">Humidity</span>
                 <span className="text-sm font-bold text-slate-800">{weather?.humidity ?? '--'}%</span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Wind Speed</span>
+                <span className="text-[10px] font-black text-slate-400 capitalize tracking-widest">Wind Speed</span>
                 <span className="text-sm font-bold text-slate-800">{weather?.windSpeed ?? '--'} km/h</span>
               </div>
             </div>
@@ -205,7 +205,7 @@ export default function WeatherWidget() {
               <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
                 <div className="w-8 h-8 rounded-full border-4 border-emerald-500" />
               </div>
-              <h4 className="text-[10px] font-black text-emerald-800 uppercase tracking-widest mb-1 relative z-10">Smart Advisory</h4>
+              <h4 className="text-[10px] font-black text-emerald-800 capitalize tracking-widest mb-1 relative z-10">Smart Advisory</h4>
               <p className="text-sm text-emerald-700 font-medium leading-relaxed relative z-10">
                 {weather?.advice || 'Synchronizing with local climate patterns to provide tailored advice...'}
               </p>

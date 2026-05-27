@@ -118,7 +118,7 @@ export default function MarketPrices() {
   if (loading) {
     return (
       <div className="bg-white p-6 rounded-2xl shadow-sm min-h-[400px] flex flex-col items-center justify-center">
-        <p className="text-indigo-600 font-black uppercase tracking-[0.2em] animate-pulse">Scanning Markets...</p>
+        <p className="text-indigo-600 font-black capitalize tracking-[0.2em] animate-pulse">Scanning Markets...</p>
       </div>
     );
   }
@@ -126,8 +126,8 @@ export default function MarketPrices() {
   if (error) {
     return (
       <div className="bg-white p-6 rounded-2xl shadow-sm min-h-[400px] flex flex-col items-center justify-center text-center">
-        <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter mb-2">Feed Interrupted</h3>
-        <p className="text-slate-500 font-bold max-w-sm mb-6 uppercase text-[10px] tracking-widest">{error}</p>
+        <h3 className="text-xl font-black text-slate-900 capitalize tracking-tighter mb-2">Feed Interrupted</h3>
+        <p className="text-slate-500 font-bold max-w-sm mb-6 capitalize text-[10px] tracking-widest">{error}</p>
       </div>
     );
   }
@@ -138,16 +138,16 @@ export default function MarketPrices() {
     <div className="bg-white p-6 rounded-2xl shadow-sm">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <h2 className="font-black text-slate-900 uppercase tracking-tighter text-lg">
+          <h2 className="font-black text-slate-900 capitalize tracking-tighter text-lg">
             Market Intelligence
           </h2>
           {dataSource === 'live' || dataSource === 'live_hdx' ? (
-            <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[9px] font-black tracking-widest uppercase">Verified</span>
+            <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-700 text-[9px] font-black tracking-widest capitalize">Verified</span>
           ) : (
-            <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-500 text-[9px] font-black tracking-widest uppercase">Estimate</span>
+            <span className="px-2 py-0.5 rounded bg-gray-100 text-gray-500 text-[9px] font-black tracking-widest capitalize">Estimate</span>
           )}
         </div>
-        <span className="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em]">UNITS / KG</span>
+        <span className="text-[9px] text-slate-400 capitalize font-black tracking-[0.2em]">UNITS / KG</span>
       </div>
 
       <form onSubmit={handleSearch} className="mb-6 relative" autoComplete="off">
@@ -157,13 +157,13 @@ export default function MarketPrices() {
           autoComplete="off"
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="ENTER CROP NAME..."
-          className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm font-bold uppercase placeholder:tracking-widest"
+          className="w-full px-4 py-3 bg-slate-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-sm font-bold capitalize placeholder:tracking-widest"
           disabled={isSearching}
         />
         <button
           type="submit"
           disabled={isSearching || !searchQuery.trim()}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 text-white px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-indigo-700 disabled:opacity-50 transition-colors"
+          className="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-600 text-white px-4 py-1.5 rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-indigo-700 disabled:opacity-50 transition-colors"
         >
           {isSearching ? '...' : 'Search'}
         </button>
@@ -186,7 +186,7 @@ export default function MarketPrices() {
               <span className={`text-[10px] font-black ${selectedCrop === item.crop ? 'text-indigo-900' : 'text-slate-400'}`}>
                 {item.trend === 'up' ? 'RISE' : item.trend === 'down' ? 'FALL' : 'HELD'}
               </span>
-              <span className={`font-black uppercase tracking-tighter ${selectedCrop === item.crop ? 'text-indigo-950 text-lg' : 'text-slate-700'}`}>
+              <span className={`font-black capitalize tracking-tighter ${selectedCrop === item.crop ? 'text-indigo-950 text-lg' : 'text-slate-700'}`}>
                 {item.crop}
               </span>
             </div>
@@ -194,7 +194,7 @@ export default function MarketPrices() {
               <span className={`text-lg font-black tracking-tighter ${selectedCrop === item.crop ? 'text-indigo-900' : 'text-slate-900'}`}>
                 {item.price.toLocaleString()}
               </span>
-              <div className={`text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-widest ${item.trend === 'up' ? 'bg-emerald-100 text-emerald-700' :
+              <div className={`text-[9px] font-black px-2 py-0.5 rounded capitalize tracking-widest ${item.trend === 'up' ? 'bg-emerald-100 text-emerald-700' :
                 item.trend === 'down' ? 'bg-red-100 text-red-700' : 'bg-slate-100 text-slate-500'
                 }`}>
                 {item.change}
@@ -206,7 +206,7 @@ export default function MarketPrices() {
 
       {currentCropData && currentCropData.historical && (
         <div className="mt-6">
-          <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">{selectedCrop} — Historical Output</h4>
+          <h4 className="text-[10px] font-black text-slate-400 capitalize tracking-[0.2em] mb-4">{selectedCrop} — Historical Output</h4>
           <div className="h-48 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={currentCropData.historical}>
@@ -223,7 +223,7 @@ export default function MarketPrices() {
                 />
                 <Tooltip
                   contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}
-                  labelStyle={{ fontWeight: '900', color: '#1e293b', marginBottom: '4px', textTransform: 'uppercase', fontSize: '10px' }}
+                  labelStyle={{ fontWeight: '900', color: '#1e293b', marginBottom: '4px', textTransform: 'capitalize', fontSize: '10px' }}
                   itemStyle={{ color: '#4f46e5', fontWeight: '900', fontSize: '12px' }}
                   formatter={(value: any) => [`${Number(value).toLocaleString()}`, 'PRICE']}
                 />

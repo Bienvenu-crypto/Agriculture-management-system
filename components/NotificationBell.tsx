@@ -79,7 +79,7 @@ export default function NotificationBell() {
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer px-5 py-2.5 flex items-center gap-3 hover:bg-slate-50 transition-all rounded-full group"
       >
-        <span className="text-[10px] font-black text-slate-900 uppercase tracking-[0.3em]">Notify</span>
+        <span className="text-[10px] font-black text-slate-900 capitalize tracking-[0.3em]">Notify</span>
         {unreadCount > 0 && (
           <span className="w-5 h-5 flex items-center justify-center bg-cyan-500 text-white rounded-full text-[9px] font-black shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">
             {unreadCount}
@@ -101,7 +101,7 @@ export default function NotificationBell() {
               </div>
               <button 
                 onClick={() => setIsOpen(false)}
-                className="text-[10px] font-black text-slate-400 hover:text-slate-600 uppercase tracking-widest"
+                className="text-[10px] font-black text-slate-400 hover:text-slate-600 capitalize tracking-widest"
               >
                 Close
               </button>
@@ -137,13 +137,13 @@ export default function NotificationBell() {
                 </div>
               ) : (
                 <div className="p-12 text-center">
-                  <p className="text-slate-400 text-xs font-bold italic tracking-tight uppercase">Clear</p>
+                  <p className="text-slate-400 text-xs font-bold italic tracking-tight capitalize">Clear</p>
                 </div>
               )}
             </div>
 
             <div className="p-4 bg-slate-50/50 text-center">
-              <button className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+              <button className="text-[10px] font-bold text-slate-400 capitalize tracking-widest">
                 View Full Inbox
               </button>
             </div>

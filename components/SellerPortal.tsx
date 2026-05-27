@@ -106,7 +106,7 @@ export default function SellerPortal() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <Loader2 className="w-10 h-10 text-emerald-600 animate-spin" />
-        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Loading Seller Dashboard</p>
+        <p className="text-[10px] font-black capitalize tracking-[0.3em] text-slate-400">Loading Seller Dashboard</p>
       </div>
     );
   }
@@ -119,11 +119,11 @@ export default function SellerPortal() {
             👨‍🌾
           </div>
           <div className="space-y-2">
-            <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">Seller Hub Access</h2>
+            <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Seller Hub Access</h2>
             <p className="text-slate-500 font-medium">Please sign in as a Seller to manage your products and commercial output.</p>
           </div>
           <div className="pt-4 flex justify-center">
-             <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl font-black text-[10px] uppercase tracking-widest border border-emerald-100 animate-pulse">
+             <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl font-black text-[10px] capitalize tracking-widest border border-emerald-100 animate-pulse">
                Open the Marketplace tab to Login
              </div>
           </div>
@@ -138,8 +138,8 @@ export default function SellerPortal() {
         <div className="bg-emerald-600 rounded-[3rem] p-12 text-white overflow-hidden relative">
           <div className="relative z-10 space-y-6">
             <div className="space-y-2">
-              <span className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-black uppercase tracking-widest">Action Required</span>
-              <h2 className="text-4xl font-black uppercase tracking-tighter">Activate Your Seller Store</h2>
+              <span className="px-3 py-1 bg-white/20 rounded-full text-[10px] font-black capitalize tracking-widest">Action Required</span>
+              <h2 className="text-4xl font-black capitalize tracking-tighter">Activate Your Seller Store</h2>
               <p className="text-emerald-100 font-medium max-w-md">Start listing your agricultural products on the marketplace. A one-time activation fee is required to verify your store and enable commercial trading.</p>
             </div>
             
@@ -160,7 +160,7 @@ export default function SellerPortal() {
             <div className="pt-6">
               <button 
                 onClick={() => setShowPaymentModal(true)}
-                className="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-emerald-50 transition-all shadow-2xl shadow-black/20 active:scale-95"
+                className="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-50 transition-all shadow-2xl shadow-black/20 active:scale-95"
               >
                 Pay 100,000 UGX to Start
               </button>
@@ -179,12 +179,12 @@ export default function SellerPortal() {
                 className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl"
               >
                 <div className="bg-emerald-600 p-8 text-white">
-                   <h3 className="text-2xl font-black uppercase tracking-tighter mb-1">Store Activation</h3>
-                   <p className="text-emerald-100 text-[10px] font-black uppercase tracking-widest">Mobile Money Secure Checkout</p>
+                   <h3 className="text-2xl font-black capitalize tracking-tighter mb-1">Store Activation</h3>
+                   <p className="text-emerald-100 text-[10px] font-black capitalize tracking-widest">Mobile Money Secure Checkout</p>
                 </div>
                 <div className="p-8 space-y-6">
                   <div>
-                    <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Your Mobile Number</label>
+                    <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-3">Your Mobile Number</label>
                     <input 
                       type="tel" 
                       placeholder="+256 7xx xxx xxx"
@@ -196,11 +196,11 @@ export default function SellerPortal() {
                   <button 
                     onClick={handlePayment}
                     disabled={isPaying || !momoNumber}
-                    className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50"
+                    className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50"
                   >
                     {isPaying ? 'Processing...' : 'Confirm & Pay 100,000 UGX'}
                   </button>
-                  <button onClick={() => setShowPaymentModal(false)} className="w-full text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors">Cancel</button>
+                  <button onClick={() => setShowPaymentModal(false)} className="w-full text-[10px] font-black capitalize tracking-widest text-slate-400 hover:text-slate-600 transition-colors">Cancel</button>
                 </div>
               </motion.div>
             </div>
@@ -215,7 +215,7 @@ export default function SellerPortal() {
       {/* Header */}
       <div className="flex justify-between items-end">
         <div className="space-y-4">
-          <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-widest">
+          <span className="px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black capitalize tracking-widest">
             Seller Hub
           </span>
           <div className="flex items-center gap-4">
@@ -223,7 +223,7 @@ export default function SellerPortal() {
               🏪
             </div>
             <div>
-              <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">My Store</h2>
+              <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">My Store</h2>
               <p className="text-slate-500 text-sm font-medium">Manage your products and track store performance</p>
             </div>
           </div>
@@ -235,13 +235,13 @@ export default function SellerPortal() {
               <TrendingUp className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Status</p>
-              <p className="text-xs font-black text-slate-900 uppercase tracking-tight">Active Seller</p>
+              <p className="text-[9px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Status</p>
+              <p className="text-xs font-black text-slate-900 capitalize tracking-tight">Active Seller</p>
             </div>
           </div>
           <button 
              onClick={() => setShowAddListing(true)}
-             className="bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
+             className="bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Post New Listing
@@ -254,20 +254,20 @@ export default function SellerPortal() {
         {/* Listings List */}
         <div className="col-span-12 lg:col-span-8 space-y-6">
           <div className="flex justify-between items-center px-2">
-            <h3 className="text-lg font-black text-slate-900 uppercase tracking-tighter">Your Active Listings</h3>
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{myListings.length} Items Total</span>
+            <h3 className="text-lg font-black text-slate-900 capitalize tracking-tighter">Your Active Listings</h3>
+            <span className="text-[10px] font-black text-slate-400 capitalize tracking-widest">{myListings.length} Items Total</span>
           </div>
 
           {myListings.length === 0 ? (
             <div className="bg-white rounded-[2.5rem] border-2 border-dashed border-slate-200 p-20 text-center space-y-4">
               <div className="text-5xl opacity-20">📦</div>
               <div className="space-y-1">
-                <p className="text-sm font-black text-slate-900 uppercase">No products listed yet</p>
+                <p className="text-sm font-black text-slate-900 capitalize">No products listed yet</p>
                 <p className="text-xs text-slate-400 font-medium">Start selling your agricultural output to reach local buyers.</p>
               </div>
               <button 
                 onClick={() => setShowAddListing(true)}
-                className="text-emerald-600 font-black text-[10px] uppercase tracking-widest hover:underline pt-4"
+                className="text-emerald-600 font-black text-[10px] capitalize tracking-widest hover:underline pt-4"
               >
                 Post Your First Crop
               </button>
@@ -281,12 +281,12 @@ export default function SellerPortal() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <h4 className="font-black text-slate-900 uppercase tracking-tight">{listing.crop}</h4>
-                      <span className={`px-2 py-0.5 rounded-lg text-[7px] font-black uppercase tracking-widest ${listing.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
+                      <h4 className="font-black text-slate-900 capitalize tracking-tight">{listing.crop}</h4>
+                      <span className={`px-2 py-0.5 rounded-lg text-[7px] font-black capitalize tracking-widest ${listing.status === 'active' ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'}`}>
                         {listing.status}
                       </span>
                     </div>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">
+                    <p className="text-[10px] text-slate-400 font-bold capitalize tracking-widest">
                       {listing.quantity_kg.toLocaleString()} KG · {listing.currency} {listing.price_per_kg.toLocaleString()} / kg
                     </p>
                   </div>
@@ -320,14 +320,14 @@ export default function SellerPortal() {
           <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
              <div className="relative z-10 space-y-6">
                <div className="space-y-1">
-                 <h3 className="text-xl font-black uppercase tracking-tighter">Store Health</h3>
-                 <p className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">Verified Seller Account</p>
+                 <h3 className="text-xl font-black capitalize tracking-tighter">Store Health</h3>
+                 <p className="text-slate-400 text-[10px] font-bold capitalize tracking-widest">Verified Seller Account</p>
                </div>
                
                <div className="space-y-4 pt-4 border-t border-white/10">
                  <div className="flex justify-between items-center">
-                   <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Visibility</p>
-                   <p className="text-xs font-black text-emerald-400">EXCELLENT</p>
+                   <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest">Visibility</p>
+                   <p className="text-xs font-black text-emerald-400">Excellent</p>
                  </div>
                  <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
                    <div className="w-4/5 h-full bg-emerald-500 rounded-full" />
@@ -340,7 +340,7 @@ export default function SellerPortal() {
                      <ShieldCheck className="w-5 h-5" />
                    </div>
                    <div>
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Protection</p>
+                     <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Protection</p>
                      <p className="text-xs font-black">Trade Secure Enabled</p>
                    </div>
                  </div>
@@ -349,7 +349,7 @@ export default function SellerPortal() {
                      <CreditCard className="w-5 h-5" />
                    </div>
                    <div>
-                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1">Revenue</p>
+                     <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Revenue</p>
                      <p className="text-xs font-black">Daily Payouts Active</p>
                    </div>
                  </div>
