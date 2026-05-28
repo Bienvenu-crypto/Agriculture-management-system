@@ -43,6 +43,7 @@ interface Trade {
   buyer_district: string;
   seller_id: string;
   buyer_id: string;
+  image_url?: string;
 }
 
 const CATEGORIES = [
@@ -407,7 +408,11 @@ export default function MarketplaceBrowse({
                     {filteredCatalog.map((l) => (
                       <tr key={l.id} className="hover:bg-slate-50/70 transition-colors">
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
-                          <span className="text-2xl">{getCropEmoji(l.crop)}</span>
+                          {l.image_url ? (
+                            <img src={l.image_url} alt={l.crop} className="w-8 h-8 rounded-full object-cover border border-slate-200 flex-shrink-0" />
+                          ) : (
+                            <span className="text-2xl flex-shrink-0">{getCropEmoji(l.crop)}</span>
+                          )}
                           <span className="capitalize tracking-tight">{l.crop}</span>
                         </td>
                         <td className="px-6 py-4">
@@ -506,7 +511,11 @@ export default function MarketplaceBrowse({
                           #{t.id.split('-').pop()}
                         </td>
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
-                          <span className="text-2xl">{getCropEmoji(t.crop)}</span>
+                          {t.image_url ? (
+                            <img src={t.image_url} alt={t.crop} className="w-8 h-8 rounded-full object-cover border border-slate-200 flex-shrink-0" />
+                          ) : (
+                            <span className="text-2xl flex-shrink-0">{getCropEmoji(t.crop)}</span>
+                          )}
                           <span className="capitalize tracking-tight">{t.crop}</span>
                         </td>
                         <td className="px-6 py-4">
@@ -763,7 +772,11 @@ export default function MarketplaceBrowse({
                           #{t.id.split('-').pop()}
                         </td>
                         <td className="px-6 py-4 font-black text-slate-950 flex items-center gap-3">
-                          <span className="text-2xl">{getCropEmoji(t.crop)}</span>
+                          {t.image_url ? (
+                            <img src={t.image_url} alt={t.crop} className="w-8 h-8 rounded-full object-cover border border-slate-200 flex-shrink-0" />
+                          ) : (
+                            <span className="text-2xl flex-shrink-0">{getCropEmoji(t.crop)}</span>
+                          )}
                           <span className="capitalize tracking-tight">{t.crop}</span>
                         </td>
                         <td className="px-6 py-4">

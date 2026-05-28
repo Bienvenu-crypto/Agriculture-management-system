@@ -26,10 +26,12 @@ export async function GET(req: Request) {
     const trades = db.prepare(`
       SELECT t.*, 
         s.name as seller_name, s.phone as seller_phone, s.district as seller_district,
-        b.name as buyer_name, b.phone as buyer_phone, b.district as buyer_district
+        b.name as buyer_name, b.phone as buyer_phone, b.district as buyer_district,
+        l.image_url
       FROM trades t
       JOIN marketplace_users s ON t.seller_id = s.id
       JOIN marketplace_users b ON t.buyer_id = b.id
+      LEFT JOIN listings l ON t.listing_id = l.id
       WHERE t.seller_id = ? OR t.buyer_id = ?
       ORDER BY t.created_at DESC
     `).all(user.id, user.id);
