@@ -232,4 +232,8 @@ try {
   db.exec('ALTER TABLE listings ADD COLUMN category TEXT');
 } catch (e) { }
 
+try {
+  db.exec('ALTER TABLE listings ADD COLUMN image_url TEXT');
+} catch (e) { }
+
 export default db;

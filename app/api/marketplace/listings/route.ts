@@ -90,7 +90,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Subscription required. Please pay the activation fee in the Advertising portal.' }, { status: 403 });
     }
 
-    const { crop, quantity_kg, price_per_kg, currency, description, category } = await req.json();
+    const { crop, quantity_kg, price_per_kg, currency, description, category, image_url } = await req.json();
     if (!crop || !quantity_kg || !price_per_kg) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -100,8 +100,8 @@ export async function POST(req: Request) {
 
     const id = crypto.randomUUID();
     db.prepare(
-      'INSERT INTO listings (id, seller_id, crop, quantity_kg, price_per_kg, currency, description, category) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-    ).run(id, seller.id, crop.trim(), quantity_kg, price_per_kg, currency || 'UGX', description || null, category || 'Grains');
+      'INSERT INTO listings (id, seller_id, crop, quantity_kg, price_per_kg, currency, description, category, image_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+    ).run(id, seller.id, crop.trim(), quantity_kg, price_per_kg, currency || 'UGX', description || null, category || 'Grains', image_url || null);
 
     // === REVERSE MATCHING ENGINE (PARTIAL FULFILLMENT) ===
     const openOrders = db.prepare(`
@@ -234,7 +234,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id, crop, quantity_kg, price_per_kg, category } = await req.json();
+    const { id, crop, quantity_kg, price_per_kg, category, image_url } = await req.json();
     if (!id || !crop || !quantity_kg || !price_per_kg) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -245,8 +245,8 @@ export async function PUT(req: Request) {
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
 
     db.prepare(
-      "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ? WHERE id = ?"
-    ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', id);
+      "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ?, image_url = ? WHERE id = ?"
+    ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', image_url || null, id);
     
     return NextResponse.json({ ok: true });
   } catch (error) {

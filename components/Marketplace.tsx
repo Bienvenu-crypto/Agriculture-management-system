@@ -108,11 +108,11 @@ export function AuthModal({
       const body =
         mode === 'signup'
           ? { ...form, role }
-          : { 
-              email: form.email, 
-              password: form.password, 
-              role 
-            };
+          : {
+            email: form.email,
+            password: form.password,
+            role
+          };
 
       const res = await fetch(endpoint, {
         method: 'POST',
@@ -306,7 +306,7 @@ export function AuthModal({
 export function InlineAuth({ onSuccess, defaultRole }: { onSuccess: (user: MpUser) => void; defaultRole: 'seller' | 'buyer' }) {
   return (
     <div className="bg-white rounded-[3rem] border border-slate-100 shadow-xl overflow-hidden max-w-lg max-h-[90vh] mx-auto">
-      <AuthModal onClose={() => {}} onSuccess={onSuccess} defaultRole={defaultRole} isInline />
+      <AuthModal onClose={() => { }} onSuccess={onSuccess} defaultRole={defaultRole} isInline />
     </div>
   );
 }
@@ -324,7 +324,8 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
     price_per_kg: '',
     currency: 'UGX',
     description: '',
-    category: 'Grains'
+    category: 'Grains',
+    image_url: ''
   });
 
   useEffect(() => {
@@ -338,7 +339,7 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
             setIsSubscribed(true);
           }
         }
-      } catch (e) {} finally {
+      } catch (e) { } finally {
         setCheckingSub(false);
       }
     };
@@ -362,7 +363,8 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
           price_per_kg: parseFloat(form.price_per_kg),
           currency: form.currency,
           description: form.description,
-          category: form.category
+          category: form.category,
+          image_url: form.image_url
         }),
       });
       const data = await res.json();
@@ -389,10 +391,10 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
 
   if (!user || user.role !== 'seller') {
     return (
-      <AuthModal 
-        onClose={onClose} 
-        onSuccess={(u) => { setUser(u); if (u.is_subscribed) setIsSubscribed(true); }} 
-        defaultRole="seller" 
+      <AuthModal
+        onClose={onClose}
+        onSuccess={(u) => { setUser(u); if (u.is_subscribed) setIsSubscribed(true); }}
+        defaultRole="seller"
       />
     );
   }
@@ -492,10 +494,16 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
             </select>
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Description (optional)</label>
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Description </label>
             <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
               className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm resize-none font-medium"
               rows={2} placeholder="Grade A, freshly harvested..." />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image URL</label>
+            <input type="url" value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-bold"
+              placeholder="https://example.com/image.jpg" />
           </div>
           {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">{error}</div>}
           <button type="submit" disabled={loading}
@@ -514,7 +522,7 @@ export function EditListingModal({
   onClose,
   onSuccess,
 }: {
-  listing: { id: string; crop: string; quantity_kg: number; price_per_kg: number; currency: string; description?: string | null; category?: string };
+  listing: { id: string; crop: string; quantity_kg: number; price_per_kg: number; currency: string; description?: string | null; category?: string; image_url?: string | null };
   onClose: () => void;
   onSuccess: () => void;
 }) {
@@ -527,6 +535,7 @@ export function EditListingModal({
     currency: listing.currency || 'UGX',
     description: listing.description || '',
     category: listing.category || 'Grains',
+    image_url: listing.image_url || '',
   });
 
   const currencies = ['UGX', 'KES', 'RWF', 'TZS', 'NGN', 'GHS', 'ZAR', 'USD'];
@@ -546,6 +555,7 @@ export function EditListingModal({
           quantity_kg: parseFloat(form.quantity_kg),
           price_per_kg: parseFloat(form.price_per_kg),
           category: form.category,
+          image_url: form.image_url,
         }),
       });
       const data = await res.json();
@@ -621,6 +631,12 @@ export function EditListingModal({
               ))}
             </select>
           </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image URL (optional)</label>
+            <input type="url" value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold"
+              placeholder="https://example.com/image.jpg" />
+          </div>
           {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">{error}</div>}
           <button type="submit" disabled={loading}
             className="w-full bg-amber-500 text-white py-4 rounded-xl font-black capitalize text-[10px] tracking-widest hover:bg-amber-600 transition-colors disabled:opacity-70 shadow-lg shadow-amber-500/20">
@@ -664,7 +680,7 @@ export function AddBuyOrderModal({
         const res = await fetch('/api/marketplace/auth/session');
         const data = await res.json();
         if (data.user) setUser(data.user);
-      } catch (e) {} finally {
+      } catch (e) { } finally {
         setCheckingAuth(false);
       }
     };
@@ -713,10 +729,10 @@ export function AddBuyOrderModal({
 
   if (!user || user.role !== 'buyer') {
     return (
-      <AuthModal 
-        onClose={onClose} 
-        onSuccess={(u) => setUser(u)} 
-        defaultRole="buyer" 
+      <AuthModal
+        onClose={onClose}
+        onSuccess={(u) => setUser(u)}
+        defaultRole="buyer"
       />
     );
   }

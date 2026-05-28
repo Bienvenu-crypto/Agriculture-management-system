@@ -20,6 +20,7 @@ interface Listing {
   seller_district: string;
   is_promoted: number;
   created_at: string;
+  image_url?: string;
 }
 
 interface Trade {
@@ -637,7 +638,7 @@ export default function MarketplaceBrowse({
                     {/* Card Top / Image Area */}
                     <div
                       className="h-48 bg-slate-50/50 flex items-center justify-center relative bg-cover bg-center"
-                      style={{ backgroundImage: `url(${getCropImage(listing.crop)})` }}
+                      style={{ backgroundImage: `url(${listing.image_url || getCropImage(listing.crop)})` }}
                     >
                       <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-all"></div>
                       {listing.is_promoted === 1 && (
