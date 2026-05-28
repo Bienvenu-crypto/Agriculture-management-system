@@ -632,7 +632,7 @@ export default function MarketplaceBrowse({
                     key={listing.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="overflow-hidden group flex flex-col h-full"
+                    className="bg-white border border-slate-100 rounded-3xl shadow-lg hover:shadow-xl transition-all overflow-hidden group flex flex-col h-full"
                   >
                     {/* Card Top / Image Area */}
                     <div
@@ -686,20 +686,7 @@ export default function MarketplaceBrowse({
                         </div>
                       </div>
 
-                      <div className="pt-4 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-black text-[10px]">
-                            {listing.seller_name[0]}
-                          </div>
-                          <div>
-                            <p className="text-[10px] font-black text-slate-900 leading-none">{listing.seller_name}</p>
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <span className="text-orange-400 text-[10px]">★</span>
-                              <span className="text-[9px] font-bold text-slate-400">4.8</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+
 
                       {/* Footer Buttons */}
                       <div className="pt-6 flex gap-2">
