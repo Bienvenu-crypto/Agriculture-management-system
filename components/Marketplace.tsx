@@ -488,7 +488,7 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
               onChange={e => setForm({ ...form, category: e.target.value })}
               className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-bold appearance-none"
             >
-              {['Grains', 'Vegetables', 'Fruits', 'Herbs', 'Inputs', 'Livestock'].map(c => (
+              {['Grains', 'Vegetables', 'Fruits', 'Roots', 'Inputs', 'Livestock'].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
@@ -500,10 +500,21 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
               rows={2} placeholder="Grade A, freshly harvested..." />
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image URL</label>
-            <input type="url" value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })}
-              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-bold"
-              placeholder="https://example.com/image.jpg" />
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image</label>
+            <input type="file" accept="image/*" onChange={async (e) => {
+              if (e.target.files && e.target.files[0]) {
+                const formData = new FormData();
+                formData.append('file', e.target.files[0]);
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                  const data = await res.json();
+                  setForm({ ...form, image_url: data.url });
+                }
+              }
+            }}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-sm font-bold file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-emerald-100 file:text-emerald-700 hover:file:bg-emerald-200"
+            />
+            {form.image_url && <img src={form.image_url} alt="Preview" className="mt-2 h-20 w-20 object-cover rounded-xl" />}
           </div>
           {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">{error}</div>}
           <button type="submit" disabled={loading}
@@ -556,6 +567,7 @@ export function EditListingModal({
           price_per_kg: parseFloat(form.price_per_kg),
           category: form.category,
           image_url: form.image_url,
+          description: form.description,
         }),
       });
       const data = await res.json();
@@ -626,16 +638,33 @@ export function EditListingModal({
               onChange={e => setForm({ ...form, category: e.target.value })}
               className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold appearance-none"
             >
-              {['Grains', 'Vegetables', 'Fruits', 'Herbs', 'Inputs', 'Livestock'].map(c => (
+              {['Grains', 'Vegetables', 'Fruits', 'Roots', 'Inputs', 'Livestock'].map(c => (
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image URL (optional)</label>
-            <input type="url" value={form.image_url} onChange={e => setForm({ ...form, image_url: e.target.value })}
-              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold"
-              placeholder="https://example.com/image.jpg" />
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Description </label>
+            <textarea value={form.description} onChange={e => setForm({ ...form, description: e.target.value })}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm resize-none font-medium"
+              rows={2} placeholder="Grade A, freshly harvested..." />
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-700 capitalize tracking-wider mb-1.5">Image (optional)</label>
+            <input type="file" accept="image/*" onChange={async (e) => {
+              if (e.target.files && e.target.files[0]) {
+                const formData = new FormData();
+                formData.append('file', e.target.files[0]);
+                const res = await fetch('/api/upload', { method: 'POST', body: formData });
+                if (res.ok) {
+                  const data = await res.json();
+                  setForm({ ...form, image_url: data.url });
+                }
+              }
+            }}
+              className="w-full bg-slate-50 px-4 py-2.5 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none text-sm font-bold file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-amber-100 file:text-amber-700 hover:file:bg-amber-200"
+            />
+            {form.image_url && <img src={form.image_url} alt="Preview" className="mt-2 h-20 w-20 object-cover rounded-xl" />}
           </div>
           {error && <div className="p-3 bg-red-50 text-red-600 text-sm rounded-xl">{error}</div>}
           <button type="submit" disabled={loading}

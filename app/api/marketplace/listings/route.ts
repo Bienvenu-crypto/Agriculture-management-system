@@ -234,7 +234,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { id, crop, quantity_kg, price_per_kg, category, image_url } = await req.json();
+    const { id, crop, quantity_kg, price_per_kg, category, image_url, description } = await req.json();
     if (!id || !crop || !quantity_kg || !price_per_kg) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
@@ -245,8 +245,8 @@ export async function PUT(req: Request) {
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
 
     db.prepare(
-      "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ?, image_url = ? WHERE id = ?"
-    ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', image_url || null, id);
+      "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ?, image_url = ?, description = ? WHERE id = ?"
+    ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', image_url || null, description || null, id);
     
     return NextResponse.json({ ok: true });
   } catch (error) {

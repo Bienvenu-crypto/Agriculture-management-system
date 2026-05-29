@@ -2,12 +2,12 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Search, 
-  MapPin, 
-  Tag, 
-  Plus, 
-  ChevronLeft, 
+import {
+  Search,
+  MapPin,
+  Tag,
+  Plus,
+  ChevronLeft,
   ChevronRight,
   ChevronDown,
   Filter,
@@ -67,16 +67,16 @@ const CATEGORIES = [
   { name: 'Grains', icon: '🌾' },
   { name: 'Vegetables', icon: '🥬' },
   { name: 'Fruits', icon: '🍎' },
-  { name: 'Herbs', icon: '🌿' },
+  { name: 'Roots', icon: '🌿' },
   { name: 'Inputs', icon: '🧪' },
   { name: 'Livestock', icon: '🐄' }
 ];
 
-export default function MarketplaceBrowse({ 
-  viewMode = 'buyer', 
+export default function MarketplaceBrowse({
+  viewMode = 'buyer',
   onPostListing,
   onLogout
-}: { 
+}: {
   viewMode?: 'buyer' | 'seller';
   onPostListing?: () => void;
   onLogout?: () => void;
@@ -93,7 +93,7 @@ export default function MarketplaceBrowse({
   const [page, setPage] = useState(1);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showAddListingModal, setShowAddListingModal] = useState(false);
-  
+
   // Direct Payment checkout modal state
   const [checkoutListing, setCheckoutListing] = useState<Listing | null>(null);
   const [checkoutQty, setCheckoutQty] = useState<string>('1');
@@ -107,7 +107,7 @@ export default function MarketplaceBrowse({
       const res = await fetch('/api/marketplace/auth/session');
       const data = await res.json();
       setMpUser(data.user);
-    } catch (e) {}
+    } catch (e) { }
   }, []);
 
   const fetchTrades = useCallback(async () => {
@@ -135,7 +135,7 @@ export default function MarketplaceBrowse({
       if (viewMode === 'seller' && mpUser) {
         params.append('seller_id', mpUser.id);
       }
-      
+
       const res = await fetch(`/api/marketplace/listings?${params.toString()}`);
       const data = await res.json();
       setListings(data.listings || []);
@@ -195,7 +195,7 @@ export default function MarketplaceBrowse({
       if (res.ok) {
         fetchListings();
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const handleUpdateStatus = async (tradeId: string, newStatus: string) => {
@@ -229,14 +229,14 @@ export default function MarketplaceBrowse({
     }
 
     setPaymentError('');
-    
+
     // Step 1: Initiating
     setPaymentStep('initiating');
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     // Step 2: PIN Prompt (Waiting for physical phone)
     setPaymentStep('pin_prompt');
-    
+
     try {
       const res = await fetch('/api/marketplace/payments', {
         method: 'POST',
@@ -248,7 +248,7 @@ export default function MarketplaceBrowse({
         })
       });
       const data = await res.json();
-      
+
       if (res.ok) {
         setPaymentStep('completed');
         // Refresh data
@@ -323,7 +323,7 @@ export default function MarketplaceBrowse({
               {mpUser.name.charAt(0).toUpperCase()}
             </div>
             <div>
-              <span className="text-slate-400 font-bold">Logged in as</span> <strong className="text-slate-900">{mpUser.name}</strong> 
+              <span className="text-slate-400 font-bold">Logged in as</span> <strong className="text-slate-900">{mpUser.name}</strong>
               <span className="ml-1 text-[10px] font-black uppercase tracking-widest text-slate-400">({mpUser.role})</span>
             </div>
           </div>
@@ -351,15 +351,15 @@ export default function MarketplaceBrowse({
               )}
             </h2>
             <p className="text-slate-500 text-sm font-medium">
-              {viewMode === 'seller' 
-                ? 'List crops for sale and view incoming purchases from buyers.' 
+              {viewMode === 'seller'
+                ? 'List crops for sale and view incoming purchases from buyers.'
                 : 'Browse fresh agricultural output from local farmers and order instantly.'}
             </p>
           </div>
         </div>
 
         {viewMode === 'seller' ? (
-          <button 
+          <button
             onClick={() => setShowAddListingModal(true)}
             className="bg-emerald-600 text-white px-6 py-3.5 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
           >
@@ -557,15 +557,15 @@ export default function MarketplaceBrowse({
           <div className="bg-white p-2 rounded-[2rem] border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-wrap lg:flex-nowrap items-center gap-2">
             <div className="flex-1 min-w-[300px] relative group">
               <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-300 group-focus-within:text-emerald-500 transition-colors" />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search products, crops, farmers..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="w-full bg-slate-50/50 border-none rounded-[1.5rem] pl-16 pr-6 py-4 text-sm font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
               />
             </div>
-            
+
             <div className="flex items-center gap-2 px-2">
               <button className="flex items-center gap-2 px-5 py-3 rounded-xl hover:bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-600 transition-all">
                 <MapPin className="w-4 h-4 text-emerald-500" />
@@ -597,11 +597,10 @@ export default function MarketplaceBrowse({
               <button
                 key={cat.name}
                 onClick={() => setActiveCategory(cat.name)}
-                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
-                  activeCategory === cat.name 
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20' 
-                    : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
-                }`}
+                className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${activeCategory === cat.name
+                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-lg shadow-emerald-600/20'
+                  : 'bg-white border-slate-100 text-slate-500 hover:border-emerald-200 hover:text-emerald-600'
+                  }`}
               >
                 <span className="text-sm leading-none">{cat.icon}</span>
                 {cat.name}
@@ -715,7 +714,7 @@ export default function MarketplaceBrowse({
 
                       {/* Footer Buttons */}
                       <div className="pt-6 flex gap-2">
-                        <button 
+                        <button
                           onClick={() => handleOrderClick(listing)}
                           className="flex-1 bg-emerald-700 text-white py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-800 transition-all active:scale-[0.98]"
                         >
@@ -825,12 +824,11 @@ export default function MarketplaceBrowse({
             <ChevronLeft className="w-5 h-5" />
           </button>
           {[1, 2, 3].map(p => (
-            <button 
+            <button
               key={p}
               onClick={() => setPage(p)}
-              className={`w-10 h-10 flex items-center justify-center rounded-xl font-black text-[11px] transition-all ${
-                page === p ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'bg-white border border-slate-100 text-slate-400 hover:border-emerald-200'
-              }`}
+              className={`w-10 h-10 flex items-center justify-center rounded-xl font-black text-[11px] transition-all ${page === p ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'bg-white border border-slate-100 text-slate-400 hover:border-emerald-200'
+                }`}
             >
               {p}
             </button>
@@ -844,7 +842,7 @@ export default function MarketplaceBrowse({
       {/* Modals & Popups */}
       <AnimatePresence>
         {showAuthModal && (
-          <AuthModal 
+          <AuthModal
             onClose={() => setShowAuthModal(false)}
             onSuccess={(user) => {
               setMpUser(user);
@@ -855,7 +853,7 @@ export default function MarketplaceBrowse({
         )}
 
         {showAddListingModal && (
-          <AddListingModal 
+          <AddListingModal
             onClose={() => setShowAddListingModal(false)}
             onSuccess={() => {
               setShowAddListingModal(false);
@@ -867,7 +865,7 @@ export default function MarketplaceBrowse({
         {/* Step-by-Step Mobile Money Payment Checkout Modal */}
         {checkoutListing && (
           <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -902,8 +900,8 @@ export default function MarketplaceBrowse({
                     <div className="space-y-3">
                       <div>
                         <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Quantity to Buy (KG)</label>
-                        <input 
-                          type="number" 
+                        <input
+                          type="number"
                           min="0.1"
                           max={checkoutListing.quantity_kg}
                           step="0.1"
@@ -920,8 +918,8 @@ export default function MarketplaceBrowse({
                         <label className="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1.5">Your Mobile Money Number</label>
                         <div className="relative">
                           <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                          <input 
-                            type="tel" 
+                          <input
+                            type="tel"
                             placeholder="e.g. 0770000000"
                             value={checkoutPhone}
                             onChange={(e) => {
@@ -949,7 +947,7 @@ export default function MarketplaceBrowse({
                           {checkoutListing.currency} {((parseFloat(checkoutQty) || 0) * checkoutListing.price_per_kg).toLocaleString()}
                         </p>
                       </div>
-                      <button 
+                      <button
                         onClick={processPayment}
                         className="bg-emerald-600 text-white px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/10 active:scale-95"
                       >
@@ -957,7 +955,7 @@ export default function MarketplaceBrowse({
                       </button>
                     </div>
 
-                    <button 
+                    <button
                       onClick={() => setCheckoutListing(null)}
                       className="w-full text-center text-[10px] font-black uppercase tracking-widest text-slate-400 hover:text-slate-600 transition-colors pt-2"
                     >
@@ -1025,7 +1023,7 @@ export default function MarketplaceBrowse({
                       </p>
                     </div>
                     <div className="pt-4 border-t border-slate-100">
-                      <button 
+                      <button
                         onClick={() => setCheckoutListing(null)}
                         className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest transition-all"
                       >
@@ -1046,13 +1044,13 @@ export default function MarketplaceBrowse({
                       <p className="text-xs text-red-500 font-bold px-6">{paymentError}</p>
                     </div>
                     <div className="pt-4 border-t border-slate-100 flex gap-2 justify-center">
-                      <button 
+                      <button
                         onClick={() => setPaymentStep('form')}
                         className="bg-slate-950 text-white px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-slate-800 transition-all"
                       >
                         Try Again
                       </button>
-                      <button 
+                      <button
                         onClick={() => setCheckoutListing(null)}
                         className="bg-white border border-slate-200 text-slate-500 px-6 py-3 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-slate-50 transition-all"
                       >

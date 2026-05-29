@@ -51,7 +51,7 @@ const CATEGORIES = [
   { name: 'Grains' },
   { name: 'Vegetables' },
   { name: 'Fruits' },
-  { name: 'Herbs' },
+  { name: 'Roots' },
   { name: 'Inputs' },
   { name: 'Livestock' }
 ];
