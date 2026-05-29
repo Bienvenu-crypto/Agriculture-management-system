@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
 import { format } from 'date-fns';
+import Papa from 'papaparse';
 
 type Tab = 'overview' | 'marketplace' | 'chats' | 'users' | 'listings' | 'orders' | 'trades';
 
@@ -38,6 +39,45 @@ export default function AdminDashboard() {
   const [searchListings, setSearchListings] = useState('');
   const [searchOrders, setSearchOrders] = useState('');
   const [searchTrades, setSearchTrades] = useState('');
+
+  // Date Filter & Export
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+
+  const exportToCSV = (data: any[], filename: string) => {
+    if (data.length === 0) {
+      alert("No data to export");
+      return;
+    }
+    const csv = Papa.unparse(data);
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `${filename}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const filterByDateRange = (data: any[], dateField: string) => {
+    return data.filter((item) => {
+      if (!startDate && !endDate) return true;
+      const itemDate = new Date(item[dateField]);
+      if (isNaN(itemDate.getTime())) return true;
+      
+      const start = startDate ? new Date(startDate) : null;
+      if (start) start.setHours(0, 0, 0, 0);
+      const end = endDate ? new Date(endDate) : null;
+      if (end) end.setHours(23, 59, 59, 999);
+
+      if (start && end) return itemDate >= start && itemDate <= end;
+      if (start) return itemDate >= start;
+      if (end) return itemDate <= end;
+      return true;
+    });
+  };
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -142,7 +182,7 @@ export default function AdminDashboard() {
               <div className="w-6 h-6 bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.4)] relative z-10"></div>
             </div>
           </div>
-          
+
           <h1 className="text-3xl font-black text-center text-slate-900 mb-2 capitalize tracking-tighter">Admin Portal</h1>
           <p className="text-[10px] font-bold text-slate-400 text-center mb-10 px-4 capitalize tracking-[0.3em]">System Authorization Required</p>
 
@@ -157,9 +197,9 @@ export default function AdminDashboard() {
                 className="w-full px-6 py-5 rounded-2xl bg-slate-50 text-slate-900 border border-slate-200 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 outline-none transition-all font-black text-[10px] capitalize tracking-[0.4em] placeholder:text-slate-400 text-center"
               />
             </div>
-            
+
             {error && (
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
                 className="text-red-500 text-[10px] font-black capitalize tracking-widest text-center bg-red-50 py-2 rounded-lg border border-red-100"
               >
@@ -193,6 +233,24 @@ export default function AdminDashboard() {
       {activeTab === id && <div className="w-1 h-5 bg-cyan-400 rounded-full mr-2" />}
       <span className="flex-1">{label}</span>
     </button>
+  );
+
+  const filteredChats = filterByDateRange(adminData.chats.filter((c: any) => c.user_email?.toLowerCase().includes(searchChats.toLowerCase()) || c.content?.toLowerCase().includes(searchChats.toLowerCase())), 'timestamp');
+  const filteredUsers = filterByDateRange(adminData.appUsers.filter((u: any) => u.name?.toLowerCase().includes(searchUsers.toLowerCase()) || u.email?.toLowerCase().includes(searchUsers.toLowerCase())), 'created_at');
+  const filteredMarketplaceUsers = filterByDateRange(adminData.marketplaceUsers.filter((u: any) => u.name?.toLowerCase().includes(searchMarketplace.toLowerCase()) || u.email?.toLowerCase().includes(searchMarketplace.toLowerCase())), 'created_at');
+  const filteredListings = filterByDateRange(adminData.listings.filter((item: any) => item.crop?.toLowerCase().includes(searchListings.toLowerCase()) || item.seller_name?.toLowerCase().includes(searchListings.toLowerCase())), 'created_at');
+  const filteredOrders = filterByDateRange(adminData.orders.filter((item: any) => item.crop?.toLowerCase().includes(searchOrders.toLowerCase()) || item.buyer_name?.toLowerCase().includes(searchOrders.toLowerCase())), 'created_at');
+  const filteredTrades = filterByDateRange(adminData.trades.filter((t: any) => t.crop?.toLowerCase().includes(searchTrades.toLowerCase()) || t.seller_name?.toLowerCase().includes(searchTrades.toLowerCase()) || t.buyer_name?.toLowerCase().includes(searchTrades.toLowerCase())), 'created_at');
+
+  const DateRangeExport = ({ data, filename }: { data: any[], filename: string }) => (
+    <div className="flex items-center gap-2">
+      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
+      <span className="text-slate-400 font-bold text-xs">to</span>
+      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
+      <button onClick={() => exportToCSV(data, filename)} className="px-4 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm">
+        Export CSV
+      </button>
+    </div>
   );
 
   return (
@@ -365,9 +423,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Conversation Logs</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.chats.length} total interactions recorded</p>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangeExport data={filteredChats} filename="chat_logs" />
                       <input type="text" placeholder="Search logs..." value={searchChats} onChange={(e) => setSearchChats(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.chats.length} Logs</span>
+                      <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredChats.length} Logs</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -383,10 +442,10 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.chats.length === 0 && (
+                          {filteredChats.length === 0 && (
                             <tr><td colSpan={5} className="px-6 py-16 text-center text-slate-300 text-sm font-medium">No conversations recorded yet</td></tr>
                           )}
-                          {adminData.chats.filter((c: any) => c.user_email?.toLowerCase().includes(searchChats.toLowerCase()) || c.content?.toLowerCase().includes(searchChats.toLowerCase())).map((chat: any) => (
+                          {filteredChats.map((chat: any) => (
                             <tr key={chat.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
@@ -429,9 +488,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Farmer Directory</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.appUsers.length} registered farmers</p>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangeExport data={filteredUsers} filename="farmers" />
                       <input type="text" placeholder="Search farmers..." value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.appUsers.length} Members</span>
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredUsers.length} Members</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -446,10 +506,10 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.appUsers.length === 0 && (
+                          {filteredUsers.length === 0 && (
                             <tr><td colSpan={4} className="px-6 py-16 text-center text-slate-300 text-sm font-medium">No farmers registered yet</td></tr>
                           )}
-                          {adminData.appUsers.filter((u: any) => u.name?.toLowerCase().includes(searchUsers.toLowerCase()) || u.email?.toLowerCase().includes(searchUsers.toLowerCase())).map((u: any) => (
+                          {filteredUsers.map((u: any) => (
                             <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <div className="flex items-center gap-3">
@@ -494,9 +554,10 @@ export default function AdminDashboard() {
                         <h3 className="text-xl font-black text-slate-900 mb-1">Market Participants</h3>
                         <p className="text-slate-400 text-xs font-medium">{adminData.marketplaceUsers.length} registered traders</p>
                       </div>
-                      <div className="flex items-center gap-4">
+                      <div className="flex flex-wrap items-center gap-4">
+                        <DateRangeExport data={filteredMarketplaceUsers} filename="marketplace_participants" />
                         <input type="text" placeholder="Search participants..." value={searchMarketplace} onChange={(e) => setSearchMarketplace(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                        <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.marketplaceUsers.length} Users</span>
+                        <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredMarketplaceUsers.length} Users</span>
                       </div>
                     </div>
                     <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -512,10 +573,10 @@ export default function AdminDashboard() {
                             </tr>
                           </thead>
                           <tbody className="divide-y divide-slate-50">
-                            {adminData.marketplaceUsers.length === 0 && (
+                            {filteredMarketplaceUsers.length === 0 && (
                               <tr><td colSpan={5} className="px-6 py-16 text-center text-slate-300 text-sm">No market participants yet</td></tr>
                             )}
-                            {adminData.marketplaceUsers.filter((u: any) => u.name?.toLowerCase().includes(searchMarketplace.toLowerCase()) || u.email?.toLowerCase().includes(searchMarketplace.toLowerCase())).map((u: any) => (
+                            {filteredMarketplaceUsers.map((u: any) => (
                               <tr key={u.id} className="hover:bg-slate-50/70 transition-colors">
                                 <td className="px-6 py-4">
                                   <div className="flex items-center gap-3">
@@ -571,9 +632,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Active Listings</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.listings.length} crop listings on the market</p>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangeExport data={filteredListings} filename="active_listings" />
                       <input type="text" placeholder="Search listings..." value={searchListings} onChange={(e) => setSearchListings(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.listings.length} Listings</span>
+                      <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredListings.length} Listings</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -590,8 +652,8 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.listings.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No active listings</td></tr>}
-                          {adminData.listings.filter((item: any) => item.crop?.toLowerCase().includes(searchListings.toLowerCase()) || item.seller_name?.toLowerCase().includes(searchListings.toLowerCase())).map((item: any) => (
+                          {filteredListings.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No active listings</td></tr>}
+                          {filteredListings.map((item: any) => (
                             <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4 font-semibold text-slate-900">{item.crop}</td>
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.seller_name}</td>
@@ -620,9 +682,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Buy Orders</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.orders.length} open purchase requests</p>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangeExport data={filteredOrders} filename="buy_orders" />
                       <input type="text" placeholder="Search orders..." value={searchOrders} onChange={(e) => setSearchOrders(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.orders.length} Orders</span>
+                      <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredOrders.length} Orders</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -639,8 +702,8 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.orders.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No buy orders yet</td></tr>}
-                          {adminData.orders.filter((item: any) => item.crop?.toLowerCase().includes(searchOrders.toLowerCase()) || item.buyer_name?.toLowerCase().includes(searchOrders.toLowerCase())).map((item: any) => (
+                          {filteredOrders.length === 0 && <tr><td colSpan={6} className="px-6 py-16 text-center text-slate-300 text-sm">No buy orders yet</td></tr>}
+                          {filteredOrders.map((item: any) => (
                             <tr key={item.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4 font-semibold text-slate-900">{item.crop}</td>
                               <td className="px-6 py-4 text-slate-500 text-sm">{item.buyer_name}</td>
@@ -669,9 +732,10 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Transaction Ledger</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.trades.length} completed and pending trades</p>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <DateRangeExport data={filteredTrades} filename="transaction_ledger" />
                       <input type="text" placeholder="Search trades..." value={searchTrades} onChange={(e) => setSearchTrades(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
-                      <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{adminData.trades.length} Trades</span>
+                      <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredTrades.length} Trades</span>
                     </div>
                   </div>
                   <div className="bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0 overflow-hidden">
@@ -689,8 +753,8 @@ export default function AdminDashboard() {
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
-                          {adminData.trades.length === 0 && <tr><td colSpan={7} className="px-6 py-16 text-center text-slate-300 text-sm">No trades recorded yet</td></tr>}
-                          {adminData.trades.filter((t: any) => t.crop?.toLowerCase().includes(searchTrades.toLowerCase()) || t.seller_name?.toLowerCase().includes(searchTrades.toLowerCase()) || t.buyer_name?.toLowerCase().includes(searchTrades.toLowerCase())).map((t: any) => (
+                          {filteredTrades.length === 0 && <tr><td colSpan={7} className="px-6 py-16 text-center text-slate-300 text-sm">No trades recorded yet</td></tr>}
+                          {filteredTrades.map((t: any) => (
                             <tr key={t.id} className="hover:bg-slate-50/70 transition-colors">
                               <td className="px-6 py-4">
                                 <p className="font-semibold text-slate-900 text-sm capitalize">{t.crop}</p>
