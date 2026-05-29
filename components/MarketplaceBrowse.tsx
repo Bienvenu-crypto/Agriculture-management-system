@@ -421,7 +421,12 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Crops Catalog</h3>
+                <div className="flex items-center gap-3">
+                  <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Crops Catalog</h3>
+                  <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md text-[10px] font-black capitalize tracking-widest border border-emerald-100 shrink-0 whitespace-nowrap">
+                    {filteredCatalog.length} Active Crops
+                  </span>
+                </div>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
               </div>
               <div className="flex items-center gap-3">
@@ -433,9 +438,6 @@ export default function MarketplaceBrowse({
                   onChange={(e) => setCatalogSearch(e.target.value)}
                   className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
-                <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-none text-[10px] font-black capitalize tracking-widest border border-emerald-100">
-                  {filteredCatalog.length} crops active
-                </span>
               </div>
             </div>
 
