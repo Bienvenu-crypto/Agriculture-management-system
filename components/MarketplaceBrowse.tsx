@@ -117,18 +117,22 @@ export default function MarketplaceBrowse({
   const [purchaseHistorySearch, setPurchaseHistorySearch] = useState('');
 
   // Date Filter & Export
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  const [catalogStart, setCatalogStart] = useState('');
+  const [catalogEnd, setCatalogEnd] = useState('');
+  const [ordersReceivedStart, setOrdersReceivedStart] = useState('');
+  const [ordersReceivedEnd, setOrdersReceivedEnd] = useState('');
+  const [purchaseHistoryStart, setPurchaseHistoryStart] = useState('');
+  const [purchaseHistoryEnd, setPurchaseHistoryEnd] = useState('');
 
-  const filterByDateRange = (data: any[], dateField: string) => {
+  const filterByDateRange = (data: any[], dateField: string, startVal: string, endVal: string) => {
     return data.filter((item) => {
-      if (!startDate && !endDate) return true;
+      if (!startVal && !endVal) return true;
       const itemDate = new Date(item[dateField]);
       if (isNaN(itemDate.getTime())) return true;
 
-      const start = startDate ? new Date(startDate) : null;
+      const start = startVal ? new Date(startVal) : null;
       if (start) start.setHours(0, 0, 0, 0);
-      const end = endDate ? new Date(endDate) : null;
+      const end = endVal ? new Date(endVal) : null;
       if (end) end.setHours(23, 59, 59, 999);
 
       if (start && end) return itemDate >= start && itemDate <= end;
@@ -369,15 +373,15 @@ export default function MarketplaceBrowse({
   // Seller's received orders
   const sellerTrades = trades.filter(t => mpUser && t.seller_id === mpUser.id);
 
-  const filteredCatalog = filterByDateRange(listings.filter(l => l.crop.toLowerCase().includes(catalogSearch.toLowerCase())), 'created_at');
-  const filteredOrdersReceived = filterByDateRange(sellerTrades.filter(t => t.crop.toLowerCase().includes(ordersReceivedSearch.toLowerCase()) || t.buyer_name.toLowerCase().includes(ordersReceivedSearch.toLowerCase())), 'created_at');
-  const filteredPurchaseHistory = filterByDateRange(buyerTrades.filter(t => t.crop.toLowerCase().includes(purchaseHistorySearch.toLowerCase()) || t.seller_name.toLowerCase().includes(purchaseHistorySearch.toLowerCase())), 'created_at');
+  const filteredCatalog = filterByDateRange(listings.filter(l => l.crop.toLowerCase().includes(catalogSearch.toLowerCase())), 'created_at', catalogStart, catalogEnd);
+  const filteredOrdersReceived = filterByDateRange(sellerTrades.filter(t => t.crop.toLowerCase().includes(ordersReceivedSearch.toLowerCase()) || t.buyer_name.toLowerCase().includes(ordersReceivedSearch.toLowerCase())), 'created_at', ordersReceivedStart, ordersReceivedEnd);
+  const filteredPurchaseHistory = filterByDateRange(buyerTrades.filter(t => t.crop.toLowerCase().includes(purchaseHistorySearch.toLowerCase()) || t.seller_name.toLowerCase().includes(purchaseHistorySearch.toLowerCase())), 'created_at', purchaseHistoryStart, purchaseHistoryEnd);
 
-  const DateRangeExport = ({ data, filename }: { data: any[], filename: string }) => (
+  const DateRangeExport = ({ data, filename, start, end, onStartChange, onEndChange }: { data: any[], filename: string, start: string, end: string, onStartChange: (v: string) => void, onEndChange: (v: string) => void }) => (
     <div className="flex items-center gap-2 shrink-0">
-      <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
+      <input type="date" value={start} onChange={(e) => onStartChange(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
       <span className="text-slate-400 font-bold text-xs">to</span>
-      <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
+      <input type="date" value={end} onChange={(e) => onEndChange(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
       <button onClick={() => exportToCsv(filename, data)} className="px-4 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm shrink-0">
         Export CSV
       </button>
@@ -430,7 +434,7 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
               </div>
               <div className="flex items-center gap-3">
-                <DateRangeExport data={filteredCatalog} filename="crops_catalog.csv" />
+                <DateRangeExport data={filteredCatalog} filename="crops_catalog.csv" start={catalogStart} end={catalogEnd} onStartChange={setCatalogStart} onEndChange={setCatalogEnd} />
                 <input
                   type="text"
                   placeholder="Search catalog..."
@@ -538,7 +542,7 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
               </div>
               <div className="flex items-center gap-3">
-                <DateRangeExport data={filteredOrdersReceived} filename="orders_received.csv" />
+                <DateRangeExport data={filteredOrdersReceived} filename="orders_received.csv" start={ordersReceivedStart} end={ordersReceivedEnd} onStartChange={setOrdersReceivedStart} onEndChange={setOrdersReceivedEnd} />
                 <input
                   type="text"
                   placeholder="Search orders..."
@@ -814,7 +818,7 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Orders you have placed and paid over time</p>
               </div>
               <div className="flex items-center gap-3">
-                <DateRangeExport data={filteredPurchaseHistory} filename="purchase_history.csv" />
+                <DateRangeExport data={filteredPurchaseHistory} filename="purchase_history.csv" start={purchaseHistoryStart} end={purchaseHistoryEnd} onStartChange={setPurchaseHistoryStart} onEndChange={setPurchaseHistoryEnd} />
                 <input
                   type="text"
                   placeholder="Search history..."
