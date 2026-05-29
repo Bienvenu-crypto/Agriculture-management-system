@@ -109,7 +109,7 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
               onClick={handleLearnMore}
               className="px-8 py-4 bg-white text-emerald-800 border-2 border-emerald-100 rounded-2xl text-sm font-black hover:bg-emerald-50 transition-all w-full sm:w-auto"
             >
-              Contact Us
+              Learn More
             </button>
           </div>
         </div>
