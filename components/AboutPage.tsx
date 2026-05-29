@@ -38,43 +38,43 @@ const AGENTS = [
     name: 'Dr. Amina Okello',
     role: 'Crop Science Specialist',
     email: 'amina.okello@agrimanage.com',
-    phone: '+254 712 345 678',
-    region: 'East Africa'
+    phone: '+256 752 345 678',
+    region: 'Eastern Region'
   },
   {
-    name: 'Jean-Pierre Mugabo',
+    name: 'Petter Mukisa',
     role: 'Soil & Irrigation Expert',
-    email: 'jp.mugabo@agrimanage.com',
-    phone: '+250 788 234 567',
-    region: 'Central Africa'
+    email: 'peter.mukisa@agrimanage.com',
+    phone: '+256 788 234 567',
+    region: 'Central Region'
   },
   {
-    name: 'Fatima Diallo',
+    name: 'Robert Asiimwe',
     role: 'Marketplace & Trade Advisor',
-    email: 'fatima.diallo@agrimanage.com',
-    phone: '+221 77 456 7890',
-    region: 'West Africa'
+    email: 'robert.asiimwe@agrimanage.com',
+    phone: '+256 77 456 7890',
+    region: 'Western Region Africa'
   },
   {
-    name: 'David Mwangi',
+    name: 'David Ogenrwoth',
     role: 'Agricultural Technology Consultant',
-    email: 'david.mwangi@agrimanage.com',
-    phone: '+254 722 987 654',
-    region: 'East Africa'
+    email: 'david.ogenrwoth@agrimanage.com',
+    phone: '+256 762 987 654',
+    region: 'Northern Region'
   },
   {
-    name: 'Grace Banda',
+    name: 'Grace Brenda',
     role: 'Livestock & Veterinary Advisor',
-    email: 'grace.banda@agrimanage.com',
-    phone: '+265 999 123 456',
-    region: 'Southern Africa'
+    email: 'grace.brenda@agrimanage.com',
+    phone: '+256 789 123 456',
+    region: 'South West'
   },
   {
-    name: 'Ibrahim Traore',
+    name: 'Naturinda Prisca ',
     role: 'Climate & Weather Analyst',
     email: 'ibrahim.traore@agrimanage.com',
-    phone: '+226 70 345 678',
-    region: 'West Africa'
+    phone: '+256 77 345 678',
+    region: 'Western  Region'
   }
 ];
 
@@ -180,11 +180,11 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 max-w-6xl mx-auto">
               {AGENTS.map((agent, idx) => (
-                <div key={idx} className="space-y-3 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
-                  <h4 className="text-lg font-black text-slate-900 tracking-tight">{agent.name}</h4>
+                <div key={idx} className="space-y-2">
+                  <h4 className="text-base font-bold text-slate-900 tracking-tight">{agent.name}</h4>
                   <p className="text-emerald-700 text-sm font-bold uppercase tracking-wider">{agent.role}</p>
                   <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{agent.region}</p>
-                  <div className="pt-4 space-y-2 border-t border-slate-50">
+                  <div className="pt-2 space-y-1">
                     <p className="text-sm text-slate-700 font-medium flex items-center gap-2">
                       <span className="opacity-50 text-xs">✉</span>
                       <a href={`mailto:${agent.email}`} className="hover:text-emerald-700 transition-colors">
