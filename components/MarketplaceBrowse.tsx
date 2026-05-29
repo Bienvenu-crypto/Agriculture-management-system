@@ -374,7 +374,7 @@ export default function MarketplaceBrowse({
   const filteredPurchaseHistory = filterByDateRange(buyerTrades.filter(t => t.crop.toLowerCase().includes(purchaseHistorySearch.toLowerCase()) || t.seller_name.toLowerCase().includes(purchaseHistorySearch.toLowerCase())), 'created_at');
 
   const DateRangeExport = ({ data, filename }: { data: any[], filename: string }) => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 shrink-0">
       <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
       <span className="text-slate-400 font-bold text-xs">to</span>
       <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
@@ -424,14 +424,14 @@ export default function MarketplaceBrowse({
                 <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Crops Catalog</h3>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Crops you currently offer on the marketplace</p>
               </div>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-3">
                 <DateRangeExport data={filteredCatalog} filename="crops_catalog.csv" />
                 <input
                   type="text"
                   placeholder="Search catalog..."
                   value={catalogSearch}
                   onChange={(e) => setCatalogSearch(e.target.value)}
-                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                  className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
                 <span className="bg-emerald-50 text-emerald-700 px-3 py-1.5 rounded-none text-[10px] font-black capitalize tracking-widest border border-emerald-100">
                   {filteredCatalog.length} crops active
@@ -535,14 +535,14 @@ export default function MarketplaceBrowse({
                 <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Orders Received from Buyers</h3>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
               </div>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-3">
                 <DateRangeExport data={filteredOrdersReceived} filename="orders_received.csv" />
                 <input
                   type="text"
                   placeholder="Search orders..."
                   value={ordersReceivedSearch}
                   onChange={(e) => setOrdersReceivedSearch(e.target.value)}
-                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                  className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
               </div>
             </div>
@@ -811,14 +811,14 @@ export default function MarketplaceBrowse({
                 <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Purchase History</h3>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Orders you have placed and paid over time</p>
               </div>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-3">
                 <DateRangeExport data={filteredPurchaseHistory} filename="purchase_history.csv" />
                 <input
                   type="text"
                   placeholder="Search history..."
                   value={purchaseHistorySearch}
                   onChange={(e) => setPurchaseHistorySearch(e.target.value)}
-                  className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
+                  className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
               </div>
             </div>

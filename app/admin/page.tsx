@@ -243,7 +243,7 @@ export default function AdminDashboard() {
   const filteredTrades = filterByDateRange(adminData.trades.filter((t: any) => t.crop?.toLowerCase().includes(searchTrades.toLowerCase()) || t.seller_name?.toLowerCase().includes(searchTrades.toLowerCase()) || t.buyer_name?.toLowerCase().includes(searchTrades.toLowerCase())), 'created_at');
 
   const DateRangeExport = ({ data, filename }: { data: any[], filename: string }) => (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 shrink-0">
       <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
       <span className="text-slate-400 font-bold text-xs">to</span>
       <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
@@ -423,9 +423,9 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Conversation Logs</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.chats.length} total interactions recorded</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <DateRangeExport data={filteredChats} filename="chat_logs" />
-                      <input type="text" placeholder="Search logs..." value={searchChats} onChange={(e) => setSearchChats(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <input type="text" placeholder="Search logs..." value={searchChats} onChange={(e) => setSearchChats(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                       <span className="px-4 py-2 bg-slate-900 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredChats.length} Logs</span>
                     </div>
                   </div>
@@ -488,9 +488,9 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Farmer Directory</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.appUsers.length} registered farmers</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <DateRangeExport data={filteredUsers} filename="farmers" />
-                      <input type="text" placeholder="Search farmers..." value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <input type="text" placeholder="Search farmers..." value={searchUsers} onChange={(e) => setSearchUsers(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                       <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredUsers.length} Members</span>
                     </div>
                   </div>
@@ -554,9 +554,9 @@ export default function AdminDashboard() {
                         <h3 className="text-xl font-black text-slate-900 mb-1">Market Participants</h3>
                         <p className="text-slate-400 text-xs font-medium">{adminData.marketplaceUsers.length} registered traders</p>
                       </div>
-                      <div className="flex flex-wrap items-center gap-4">
+                      <div className="flex items-center gap-3">
                         <DateRangeExport data={filteredMarketplaceUsers} filename="marketplace_participants" />
-                        <input type="text" placeholder="Search participants..." value={searchMarketplace} onChange={(e) => setSearchMarketplace(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                        <input type="text" placeholder="Search participants..." value={searchMarketplace} onChange={(e) => setSearchMarketplace(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                         <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredMarketplaceUsers.length} Users</span>
                       </div>
                     </div>
@@ -632,9 +632,9 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Active Listings</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.listings.length} crop listings on the market</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <DateRangeExport data={filteredListings} filename="active_listings" />
-                      <input type="text" placeholder="Search listings..." value={searchListings} onChange={(e) => setSearchListings(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <input type="text" placeholder="Search listings..." value={searchListings} onChange={(e) => setSearchListings(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                       <span className="px-4 py-2 bg-emerald-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredListings.length} Listings</span>
                     </div>
                   </div>
@@ -682,9 +682,9 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Buy Orders</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.orders.length} open purchase requests</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <DateRangeExport data={filteredOrders} filename="buy_orders" />
-                      <input type="text" placeholder="Search orders..." value={searchOrders} onChange={(e) => setSearchOrders(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <input type="text" placeholder="Search orders..." value={searchOrders} onChange={(e) => setSearchOrders(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                       <span className="px-4 py-2 bg-blue-600 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredOrders.length} Orders</span>
                     </div>
                   </div>
@@ -732,9 +732,9 @@ export default function AdminDashboard() {
                       <h2 className="text-2xl font-black tracking-tighter text-slate-900 mb-1">Transaction Ledger</h2>
                       <p className="text-slate-400 text-xs font-medium">{adminData.trades.length} completed and pending trades</p>
                     </div>
-                    <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-3">
                       <DateRangeExport data={filteredTrades} filename="transaction_ledger" />
-                      <input type="text" placeholder="Search trades..." value={searchTrades} onChange={(e) => setSearchTrades(e.target.value)} className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
+                      <input type="text" placeholder="Search trades..." value={searchTrades} onChange={(e) => setSearchTrades(e.target.value)} className="min-w-[160px] px-4 py-2 bg-slate-50 border border-emerald-200 focus:border-emerald-400 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400" />
                       <span className="px-4 py-2 bg-amber-500 text-white text-[10px] font-black capitalize tracking-widest rounded-full">{filteredTrades.length} Trades</span>
                     </div>
                   </div>
