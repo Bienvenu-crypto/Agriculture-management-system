@@ -21,8 +21,8 @@ import {
   CreditCard,
   Phone
 } from 'lucide-react';
-import { AddListingModal, AuthModal } from './Marketplace';
-import { useAuth } from './AuthProvider';
+import { AddListingModal, AuthModal, MpUser } from '../components/Marketplace';
+import { useAuth } from '../components/AuthProvider';
 import { format } from 'date-fns';
 
 interface Listing {
@@ -844,7 +844,7 @@ export default function MarketplaceBrowse({
         {showAuthModal && (
           <AuthModal
             onClose={() => setShowAuthModal(false)}
-            onSuccess={(user) => {
+            onSuccess={(user: MpUser) => {
               setMpUser(user);
               setShowAuthModal(false);
             }}

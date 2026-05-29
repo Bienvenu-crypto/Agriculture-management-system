@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 // Removed lucide-react imports
-import { AddListingModal, AuthModal, EditListingModal } from './Marketplace';
+import { AddListingModal, AuthModal, EditListingModal, MpUser } from './Marketplace';
 import { useAuth } from './AuthProvider';
 import { format } from 'date-fns';
 
@@ -850,7 +850,7 @@ export default function MarketplaceBrowse({
         {showAuthModal && (
           <AuthModal
             onClose={() => setShowAuthModal(false)}
-            onSuccess={(user) => {
+            onSuccess={(user: MpUser) => {
               setMpUser(user);
               setShowAuthModal(false);
             }}
