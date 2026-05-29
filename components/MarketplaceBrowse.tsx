@@ -21,6 +21,7 @@ interface Listing {
   is_promoted: number;
   created_at: string;
   image_url?: string;
+  seller_phone?: string | null;
 }
 
 interface Trade {
@@ -55,6 +56,37 @@ const CATEGORIES = [
   { name: 'Inputs' },
   { name: 'Livestock' }
 ];
+
+const exportToCsv = (filename: string, rows: any[]) => {
+  if (!rows || !rows.length) return;
+  const separator = ',';
+  const keys = Object.keys(rows[0]);
+  const csvContent =
+    keys.join(separator) +
+    '\n' +
+    rows.map(row => {
+      return keys.map(k => {
+        let cell = row[k] === null || row[k] === undefined ? '' : row[k];
+        cell = cell instanceof Date ? cell.toLocaleString() : cell.toString().replace(/"/g, '""');
+        if (cell.search(/("|,|\n)/g) >= 0) {
+          cell = `"${cell}"`;
+        }
+        return cell;
+      }).join(separator);
+    }).join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  if (link.download !== undefined) {
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', filename);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+};
 
 export default function MarketplaceBrowse({
   viewMode = 'buyer',
@@ -477,6 +509,12 @@ export default function MarketplaceBrowse({
                   onChange={(e) => setOrdersReceivedSearch(e.target.value)}
                   className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
+                <button
+                  onClick={() => exportToCsv('orders_received.csv', sellerTrades)}
+                  className="bg-emerald-50 text-emerald-600 px-4 py-2 font-black uppercase tracking-widest text-[10px] hover:bg-emerald-100 transition-colors"
+                >
+                  Export CSV
+                </button>
               </div>
             </div>
 
@@ -696,7 +734,21 @@ export default function MarketplaceBrowse({
                         </div>
                       </div>
 
-
+                      <div className="pt-4 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 bg-blue-50 rounded-full flex items-center justify-center text-blue-600 font-black text-[10px]">
+                            {listing.seller_name?.[0] || 'U'}
+                          </div>
+                          <div>
+                            <p className="text-[10px] font-black text-slate-900 leading-none">{listing.seller_name}</p>
+                            {listing.seller_phone && (
+                              <div className="flex items-center gap-1 mt-0.5">
+                                <span className="text-[9px] font-bold text-slate-400">{listing.seller_phone}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </div>
 
                       {/* Footer Buttons */}
                       <div className="pt-6 flex gap-2">
@@ -738,6 +790,12 @@ export default function MarketplaceBrowse({
                   onChange={(e) => setPurchaseHistorySearch(e.target.value)}
                   className="px-4 py-2 bg-slate-50 border border-slate-200 rounded-none text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all placeholder:text-slate-400"
                 />
+                <button
+                  onClick={() => exportToCsv('purchase_history.csv', buyerTrades)}
+                  className="bg-blue-50 text-blue-600 px-4 py-2 font-black uppercase tracking-widest text-[10px] hover:bg-blue-100 transition-colors"
+                >
+                  Export CSV
+                </button>
               </div>
             </div>
 
