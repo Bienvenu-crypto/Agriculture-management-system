@@ -182,8 +182,8 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
               {AGENTS.map((agent, idx) => (
                 <div key={idx} className="space-y-2">
                   <h4 className="text-base font-bold text-slate-900 tracking-tight">{agent.name}</h4>
-                  <p className="text-emerald-700 text-sm font-bold uppercase tracking-wider">{agent.role}</p>
-                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{agent.region}</p>
+                  <p className="text-emerald-700 text-sm font-bold">{agent.role}</p>
+                  <p className="text-xs font-bold" style={{ color: '#4169E1' }}>{agent.region}</p>
                   <div className="pt-2 space-y-1">
                     <p className="text-sm text-slate-700 font-medium flex items-center gap-2">
                       <span className="opacity-50 text-xs">✉</span>
