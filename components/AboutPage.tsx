@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 interface AboutPageProps {
   onGetStarted?: () => void;
@@ -79,10 +79,14 @@ const AGENTS = [
 ];
 
 export default function AboutPage({ onGetStarted }: AboutPageProps) {
-  const contactsRef = useRef<HTMLDivElement>(null);
+  const [showLearnMore, setShowLearnMore] = useState(false);
+  const learnMoreRef = useRef<HTMLDivElement>(null);
 
   const handleLearnMore = () => {
-    contactsRef.current?.scrollIntoView({ behavior: 'smooth' });
+    setShowLearnMore(true);
+    setTimeout(() => {
+      learnMoreRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   return (
@@ -138,33 +142,68 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
         </div>
       </section>
 
-      {/* Agricultural Agents Contacts */}
-      <section ref={contactsRef} className="py-12">
-        <h3 className="text-xl font-bold tracking-tight text-center mb-10" style={{ color: '#4169E1' }}>
-          Contact Our Agricultural Agents
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-10">
-          {AGENTS.map((agent, idx) => (
-            <div key={idx} className="space-y-2">
-              <h4 className="text-base font-bold text-slate-900 tracking-tight">{agent.name}</h4>
-              <p className="text-emerald-700 text-sm font-medium">{agent.role}</p>
-              <p className="text-slate-500 text-xs font-normal">{agent.region}</p>
-              <div className="pt-2 space-y-1">
-                <p className="text-sm text-slate-700 font-medium">
-                  <a href={`mailto:${agent.email}`} className="hover:text-emerald-700 transition-colors underline underline-offset-2">
-                    {agent.email}
-                  </a>
+      {/* Learn More Section (Terms & Contacts) */}
+      {showLearnMore && (
+        <div ref={learnMoreRef} className="animate-in fade-in slide-in-from-bottom-8 duration-700">
+          {/* Terms and Conditions Section */}
+          <section className="py-16 bg-slate-50 border-y border-slate-100">
+            <div className="max-w-3xl mx-auto px-6 space-y-8">
+              <h3 className="text-2xl font-bold tracking-tight text-center" style={{ color: '#4169E1' }}>
+                Terms and Conditions
+              </h3>
+              <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100 space-y-6">
+                <p className="text-slate-600 font-medium leading-relaxed">
+                  Welcome to our Agricultural Management System. By using this platform to buy, sell, or manage your farm, you agree to abide by the following rules to ensure a secure and fair marketplace for all users.
                 </p>
-                <p className="text-sm text-slate-700 font-medium">
-                  <a href={`tel:${agent.phone.replace(/\s/g, '')}`} className="hover:text-emerald-700 transition-colors underline underline-offset-2">
-                    {agent.phone}
-                  </a>
-                </p>
+                <div className="bg-red-50 border-2 border-red-100 p-5 rounded-2xl text-red-800 font-bold text-sm shadow-inner">
+                  <div className="flex items-start gap-3">
+                    <span className="text-2xl leading-none">⚠️</span>
+                    <p className="leading-relaxed">
+                      <span className="uppercase tracking-widest text-[10px] block mb-1 font-black">Critical Payment Policy</span>
+                      Payments are made through the system on the number of the seller registered who listed the crop. Any payment outside the system is at your own risk.
+                    </p>
+                  </div>
+                </div>
+                <ul className="list-disc pl-5 space-y-3 text-slate-600 font-medium">
+                  <li>Users must provide accurate information when listing crops.</li>
+                  <li>Sellers must honor the quantity and price advertised at the time of order placement.</li>
+                  <li>Buyers are responsible for verifying the quality of goods upon receipt before confirming delivery.</li>
+                </ul>
               </div>
             </div>
-          ))}
+          </section>
+
+          {/* Agricultural Agents Contacts */}
+          <section className="py-16 px-6">
+            <h3 className="text-2xl font-bold tracking-tight text-center mb-12" style={{ color: '#4169E1' }}>
+              Contact Our Agricultural Agents
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-12 max-w-6xl mx-auto">
+              {AGENTS.map((agent, idx) => (
+                <div key={idx} className="space-y-3 bg-white p-6 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all">
+                  <h4 className="text-lg font-black text-slate-900 tracking-tight">{agent.name}</h4>
+                  <p className="text-emerald-700 text-sm font-bold uppercase tracking-wider">{agent.role}</p>
+                  <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">{agent.region}</p>
+                  <div className="pt-4 space-y-2 border-t border-slate-50">
+                    <p className="text-sm text-slate-700 font-medium flex items-center gap-2">
+                      <span className="opacity-50 text-xs">✉</span>
+                      <a href={`mailto:${agent.email}`} className="hover:text-emerald-700 transition-colors">
+                        {agent.email}
+                      </a>
+                    </p>
+                    <p className="text-sm text-slate-700 font-medium flex items-center gap-2">
+                      <span className="opacity-50 text-xs">📞</span>
+                      <a href={`tel:${agent.phone.replace(/\s/g, '')}`} className="hover:text-emerald-700 transition-colors">
+                        {agent.phone}
+                      </a>
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
-      </section>
+      )}
     </div>
   );
 }
