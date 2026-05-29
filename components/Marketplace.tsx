@@ -438,7 +438,7 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-md bg-slate-50 p-8">
+        className="relative w-full max-w-md bg-slate-50 p-8 max-h-[90vh] overflow-y-auto rounded-[2rem]">
         <button onClick={onClose} className="absolute top-4 right-4 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 capitalize tracking-widest transition-colors">Close</button>
         <div className="flex items-center gap-3 mb-6">
           <div className="bg-emerald-100 px-3 py-1.5 rounded-xl text-emerald-600 font-black text-[10px] capitalize tracking-widest">New</div>
@@ -587,7 +587,7 @@ export function EditListingModal({
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-md bg-slate-50 p-8">
+        className="relative w-full max-w-md bg-slate-50 p-8 max-h-[90vh] overflow-y-auto rounded-[2rem]">
         <button onClick={onClose} className="absolute top-4 right-4 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 capitalize tracking-widest transition-colors">Close</button>
         <div className="flex items-center gap-3 mb-6">
           <div className="bg-amber-100 px-3 py-1.5 rounded-xl text-amber-600 font-black text-[10px] capitalize tracking-widest">Edit</div>
@@ -772,7 +772,7 @@ export function AddBuyOrderModal({
         className="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onClick={onClose} />
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 20 }} animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 20 }}
-        className="relative w-full max-w-md bg-slate-50 p-8">
+        className="relative w-full max-w-md bg-slate-50 p-8 max-h-[90vh] overflow-y-auto rounded-[2rem]">
         <button onClick={onClose} className="absolute top-4 right-4 px-4 py-2 text-[10px] font-black text-slate-400 hover:text-slate-900 capitalize tracking-widest transition-colors">Close</button>
         <div className="flex items-center gap-3 mb-6">
           <div className="bg-blue-100 px-3 py-1.5 rounded-xl text-blue-600 font-black text-[10px] capitalize tracking-widest">Order</div>
