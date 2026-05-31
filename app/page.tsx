@@ -49,7 +49,7 @@ export default function Page() {
         const res = await fetch('/api/marketplace/auth/session');
         const data = await res.json();
         setMarketplaceUser(data.user || null);
-      } catch (e) {} finally {
+      } catch (e) { } finally {
         setCheckingMarketplace(false);
       }
     };
@@ -229,17 +229,7 @@ export default function Page() {
           </button>
 
 
-          {user && (
-            <button
-              onClick={() => switchView('iot')}
-              className={`w-full text-left px-6 py-4 rounded-2xl text-[14px] font-black transition-all duration-300 flex items-center gap-3 ${activeView === 'iot'
-                ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/30'
-                : 'text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white'
-                }`}
-            >
-              Field Metrics
-            </button>
-          )}
+
         </div>
 
         {!user && (
@@ -394,64 +384,64 @@ export default function Page() {
               </div>
             )}
 
-             {activeView === 'orders' && (
-               <div className="space-y-8">
-                 {marketplaceUser && marketplaceUser.role === 'buyer' ? (
-                    <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
-                 ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
-                 ) : (
-                    <div className="space-y-8 max-w-2xl mx-auto text-center">
-                      <div className="space-y-2 mb-8">
-                        <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Marketplace Entry</h2>
-                        <p className="text-slate-500 font-medium">Join our community of buyers to access fresh agricultural output.</p>
-                      </div>
-                      <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="buyer" />
+            {activeView === 'orders' && (
+              <div className="space-y-8">
+                {marketplaceUser && marketplaceUser.role === 'buyer' ? (
+                  <MarketplaceBrowse viewMode="buyer" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
+                ) : checkingMarketplace ? (
+                  <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                ) : (
+                  <div className="space-y-8 max-w-2xl mx-auto text-center">
+                    <div className="space-y-2 mb-8">
+                      <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Marketplace Entry</h2>
+                      <p className="text-slate-500 font-medium">Join our community of buyers to access fresh agricultural output.</p>
                     </div>
-                 )}
-               </div>
-             )}
+                    <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="buyer" />
+                  </div>
+                )}
+              </div>
+            )}
 
-             {activeView === 'listings' && (
-               <div className="space-y-8">
-                 {marketplaceUser && marketplaceUser.role === 'seller' ? (
-                    <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
-                 ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
-                 ) : (
-                    <div className="space-y-8 max-w-2xl mx-auto text-center">
-                       <div className="space-y-2 mb-8">
-                         <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Seller Entry</h2>
-                         <p className="text-slate-500 font-medium">Log in as a seller to catalog and manage your crop offers.</p>
-                       </div>
-                       <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
-                     </div>
-                 )}
-               </div>
-             )}
-
-             {activeView === 'advertising' && (
-               <div className="space-y-8">
-                 {marketplaceUser && marketplaceUser.role === 'seller' ? (
-                    <Marketplace forcedTab="advertising" onLogout={() => setMarketplaceUser(null)} />
-                 ) : checkingMarketplace ? (
-                    <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
-                 ) : (
-                    <div className="space-y-8 max-w-2xl mx-auto text-center">
-                      <div className="space-y-2 mb-8">
-                        <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Advertising Hub</h2>
-                        <p className="text-slate-500 font-medium">Sign in as a Seller to promote your products and track market performance.</p>
-                      </div>
-                      <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
+            {activeView === 'listings' && (
+              <div className="space-y-8">
+                {marketplaceUser && marketplaceUser.role === 'seller' ? (
+                  <MarketplaceBrowse viewMode="seller" onPostListing={() => switchView('listings')} onLogout={() => setMarketplaceUser(null)} />
+                ) : checkingMarketplace ? (
+                  <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                ) : (
+                  <div className="space-y-8 max-w-2xl mx-auto text-center">
+                    <div className="space-y-2 mb-8">
+                      <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Seller Entry</h2>
+                      <p className="text-slate-500 font-medium">Log in as a seller to catalog and manage your crop offers.</p>
                     </div>
-                 )}
-               </div>
-             )}
+                    <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeView === 'advertising' && (
+              <div className="space-y-8">
+                {marketplaceUser && marketplaceUser.role === 'seller' ? (
+                  <Marketplace forcedTab="advertising" onLogout={() => setMarketplaceUser(null)} />
+                ) : checkingMarketplace ? (
+                  <div className="py-20 text-center animate-pulse text-slate-400 font-black capitalize text-[10px] tracking-widest">Verifying Marketplace Access...</div>
+                ) : (
+                  <div className="space-y-8 max-w-2xl mx-auto text-center">
+                    <div className="space-y-2 mb-8">
+                      <h2 className="text-3xl font-black text-slate-900 capitalize tracking-tighter">Advertising Hub</h2>
+                      <p className="text-slate-500 font-medium">Sign in as a Seller to promote your products and track market performance.</p>
+                    </div>
+                    <InlineAuth onSuccess={(u) => setMarketplaceUser(u)} defaultRole="seller" />
+                  </div>
+                )}
+              </div>
+            )}
 
             {activeView === 'dashboard' && (
               <div className="space-y-8">
                 {user ? (
-                   <OrdersDashboard />
+                  <OrdersDashboard />
                 ) : (
                   <div className="bg-white rounded-[3rem] p-20 text-center border border-slate-100 shadow-xl space-y-8 max-w-2xl mx-auto">
                     <div className="w-24 h-24 bg-orange-50 rounded-[2rem] flex items-center justify-center mx-auto text-4xl">📊</div>
@@ -490,22 +480,22 @@ export default function Page() {
           </motion.div>
         </AnimatePresence>
       </div>
-       <AnimatePresence>
-         {showMpAuth && (
-           <MarketplaceAuthModal
-             onClose={() => setShowMpAuth(false)}
-             onSuccess={(u) => {
-               setMarketplaceUser(u);
-               setShowMpAuth(false);
-               // After success, complete the navigation
-               if (mpAuthRole === 'buyer') setActiveView('orders');
-               else if (activeView === 'listings' || activeView === 'advertising') {} // already on the way or handled by parent
-               else setActiveView('listings');
-             }}
-             defaultRole={mpAuthRole}
-           />
-         )}
-       </AnimatePresence>
+      <AnimatePresence>
+        {showMpAuth && (
+          <MarketplaceAuthModal
+            onClose={() => setShowMpAuth(false)}
+            onSuccess={(u) => {
+              setMarketplaceUser(u);
+              setShowMpAuth(false);
+              // After success, complete the navigation
+              if (mpAuthRole === 'buyer') setActiveView('orders');
+              else if (activeView === 'listings' || activeView === 'advertising') { } // already on the way or handled by parent
+              else setActiveView('listings');
+            }}
+            defaultRole={mpAuthRole}
+          />
+        )}
+      </AnimatePresence>
     </main>
   );
 }
