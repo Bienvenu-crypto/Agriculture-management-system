@@ -683,15 +683,13 @@ export default function WeatherWidget() {
                       <div key={i} className="flex-1 flex flex-col items-center justify-end h-full group relative">
                         {/* Tooltip */}
                         <div className="absolute bottom-full mb-1 bg-slate-800 text-white text-[9px] font-bold px-2 py-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-10">
-                          {h.temp}°C · {h.precipProb}% rain
+                          {h.temp}°C
                         </div>
                         <div
                           className="w-full rounded-t-sm transition-all duration-300 group-hover:opacity-80"
                           style={{
                             height: `${heightPercent}%`,
-                            background: h.precipProb > 50
-                              ? 'linear-gradient(to top, #93c5fd, #3b82f6)'
-                              : h.temp >= 30
+                            background: h.temp >= 30
                                 ? 'linear-gradient(to top, #fbbf24, #f59e0b)'
                                 : 'linear-gradient(to top, #6ee7b7, #10b981)',
                             opacity: 0.7 + (i === 0 ? 0.3 : 0),
@@ -717,10 +715,6 @@ export default function WeatherWidget() {
                 <div className="flex items-center gap-1.5">
                   <div className="w-3 h-2 rounded-sm bg-emerald-500" />
                   <span className="text-[9px] text-slate-400 font-bold">Temperature</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-3 h-2 rounded-sm bg-blue-500" />
-                  <span className="text-[9px] text-slate-400 font-bold">Rain Probability</span>
                 </div>
               </div>
             </div>
