@@ -459,7 +459,7 @@ export default function Page() {
               <div className="space-y-8">
                 <div>
                   <h2 className="text-3xl font-black text-slate-900 tracking-tighter mb-2 capitalize">Climate Dynamics</h2>
-                  <p className="text-slate-500 text-xs capitalize tracking-widest font-bold">Hyper-local weather awareness for strategic planning</p>
+                  <p className="text-slate-500 text-xs capitalize tracking-widest font-bold">Local weather awareness for strategic planning</p>
                 </div>
                 <WeatherWidget />
               </div>

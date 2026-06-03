@@ -247,7 +247,7 @@ export default function AdminDashboard() {
       <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
       <span className="text-slate-400 font-bold text-xs">to</span>
       <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
-      <button onClick={() => exportToCSV(data, filename)} className="px-4 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm">
+      <button onClick={() => exportToCSV(data, filename)} className="px-4 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm">
         Export CSV
       </button>
     </div>

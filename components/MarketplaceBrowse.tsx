@@ -382,7 +382,7 @@ export default function MarketplaceBrowse({
       <input type="date" value={start} onChange={(e) => onStartChange(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="Start Date" />
       <span className="text-slate-400 font-bold text-xs">to</span>
       <input type="date" value={end} onChange={(e) => onEndChange(e.target.value)} className="px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-bold focus:ring-2 focus:ring-emerald-500/20 outline-none transition-all text-slate-600" title="End Date" />
-      <button onClick={() => exportToCsv(filename, data)} className="px-4 py-1.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm shrink-0">
+      <button onClick={() => exportToCsv(filename, data)} className="px-4 py-1.5 bg-emerald-600 text-white hover:bg-emerald-700 text-[10px] font-black capitalize tracking-widest rounded-full transition-all shadow-sm shrink-0">
         Export CSV
       </button>
     </div>
