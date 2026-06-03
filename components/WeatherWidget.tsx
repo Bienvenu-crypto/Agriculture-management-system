@@ -373,11 +373,13 @@ export default function WeatherWidget() {
       if (data.hourly) {
         const h = data.hourly;
         const now = new Date();
-        // Start from the current hour (ignoring minutes) so the chart shows "Now" as the first item
-        const currentHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours());
+        // Start from midnight of the current day to show the full day's trend
+        const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0);
+        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+        
         for (let i = 0; i < (h.time?.length ?? 0) && hourlyData.length < 24; i++) {
           const hTime = new Date(h.time[i]);
-          if (hTime >= currentHour) {
+          if (hTime >= startOfDay && hTime <= endOfDay) {
             hourlyData.push({
               time: h.time[i],
               temp: Math.round(h.temperature_2m[i]),
