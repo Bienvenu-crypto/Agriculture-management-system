@@ -463,8 +463,8 @@ export default function MarketplaceBrowse({
                 </button>
               </div>
             ) : (
-              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
-                <table className="w-full text-left">
+              <div className="overflow-x-auto bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full min-w-[800px] text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
                       <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Crop Name</th>
@@ -563,8 +563,8 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">When buyers purchase your crops directly, they will show up here.</p>
               </div>
             ) : (
-              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
-                <table className="w-full text-left">
+              <div className="overflow-x-auto bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full min-w-[800px] text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
                       <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Order ID</th>
@@ -839,8 +839,8 @@ export default function MarketplaceBrowse({
                 <p className="text-xs text-slate-400 font-medium">Use the "Order Now" button on crop listings to place orders.</p>
               </div>
             ) : (
-              <div className="overflow-hidden bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
-                <table className="w-full text-left">
+              <div className="overflow-x-auto bg-white rounded-none shadow-[0_8px_30px_rgb(0,0,0,0.12)] border-0">
+                <table className="w-full min-w-[800px] text-left">
                   <thead className="bg-[#8B4513] text-white/90">
                     <tr>
                       <th className="px-6 py-4 text-[10px] font-black capitalize tracking-widest">Order ID</th>
