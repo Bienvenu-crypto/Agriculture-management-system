@@ -531,7 +531,7 @@ export default function WeatherWidget() {
           <div className="flex items-start justify-between mb-6">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <span className="text-white/60 text-xs">📍</span>
+                <span className="text-white/60 text-xs"></span>
                 <h3 className="text-xl lg:text-2xl font-black text-white tracking-tight">
                   {current.location}
                 </h3>
@@ -569,11 +569,11 @@ export default function WeatherWidget() {
             {/* Quick stats */}
             <div className="flex flex-wrap gap-4 lg:gap-6">
               {[
-                { icon: '💧', label: 'Humidity', value: `${current.humidity}%` },
-                { icon: '💨', label: 'Wind', value: `${current.windSpeed} km/h` },
-                { icon: '☁️', label: 'Cloud Cover', value: `${current.cloudCover}%` },
-                { icon: '👁️', label: 'Visibility', value: `${current.visibility.toFixed(1)} km` },
-                { icon: '📊', label: 'Pressure', value: `${current.pressure}` },
+                { icon: '', label: 'Humidity', value: `${current.humidity}%` },
+                { icon: '', label: 'Wind', value: `${current.windSpeed} km/h` },
+                { icon: '', label: 'Cloud Cover', value: `${current.cloudCover}%` },
+                { icon: '', label: 'Visibility', value: `${current.visibility.toFixed(1)} km` },
+                { icon: '', label: 'Pressure', value: `${current.pressure}` },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-center gap-2 bg-white/10 rounded-xl px-3 py-2 backdrop-blur-sm">
                   <span className="text-lg">{stat.icon}</span>
@@ -589,7 +589,7 @@ export default function WeatherWidget() {
           {/* Alert banner */}
           {alerts.length > 0 && alerts[0].type === 'danger' && (
             <div className="bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 rounded-xl px-4 py-3 flex items-center gap-3">
-              <span className="text-amber-300 text-sm">⚠️</span>
+              <span className="text-amber-300 text-sm"></span>
               <p className="text-amber-100 text-sm font-medium flex-1">
                 <span className="font-bold">{alerts[0].title}:</span> {alerts[0].message}
               </p>
@@ -632,7 +632,7 @@ export default function WeatherWidget() {
                 <span className="text-sm text-slate-400 font-bold">{day.tempMin}°</span>
               </div>
               <div className="flex items-center justify-center gap-1 text-xs">
-                <span className="text-blue-500">💧</span>
+                <span className="text-blue-500"></span>
                 <span className="text-blue-600 font-bold">{day.precipProb}%</span>
               </div>
               {day.precipSum > 0 && (
@@ -734,7 +734,7 @@ export default function WeatherWidget() {
             className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6"
           >
             <div className="flex items-center justify-between mb-1">
-              <h3 className="text-sm font-black text-slate-800">🌱 AI Planting & Harvest Advisories</h3>
+              <h3 className="text-sm font-black text-slate-800">AI Planting & Harvest Advisories</h3>
             </div>
             <p className="text-[10px] text-slate-400 font-medium mb-5">
               Based on current weather conditions · Updated hourly
@@ -778,7 +778,7 @@ export default function WeatherWidget() {
             className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
           >
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">
-              ☀️ UV Index
+              UV Index
             </h3>
             <div className="flex items-baseline gap-2 mb-2">
               <span className="text-3xl font-black text-slate-900">{Math.round(current.uvIndex)}</span>
@@ -808,16 +808,16 @@ export default function WeatherWidget() {
             className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
           >
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
-              🌡️ Atmospheric Conditions
+              Atmospheric Conditions
             </h3>
             <div className="space-y-3">
               {[
-                { icon: '💧', label: 'Humidity', value: `${current.humidity}%` },
-                { icon: '💨', label: 'Wind Speed', value: `${current.windSpeed} km/h ${getWindDirection(current.windDirection)}` },
-                { icon: '🌡️', label: 'Dew Point', value: `${current.dewPoint}°C` },
-                { icon: '👁️', label: 'Visibility', value: `${current.visibility.toFixed(1)} km` },
-                { icon: '☁️', label: 'Cloud Cover', value: `${current.cloudCover}%` },
-                { icon: '📊', label: 'Pressure', value: `${current.pressure} hPa ↗` },
+                { icon: '', label: 'Humidity', value: `${current.humidity}%` },
+                { icon: '', label: 'Wind Speed', value: `${current.windSpeed} km/h ${getWindDirection(current.windDirection)}` },
+                { icon: '', label: 'Dew Point', value: `${current.dewPoint}°C` },
+                { icon: '', label: 'Visibility', value: `${current.visibility.toFixed(1)} km` },
+                { icon: '', label: 'Cloud Cover', value: `${current.cloudCover}%` },
+                { icon: '', label: 'Pressure', value: `${current.pressure} hPa ↗` },
               ].map((item) => (
                 <div key={item.label} className="flex items-center justify-between py-1">
                   <div className="flex items-center gap-2">
@@ -838,7 +838,7 @@ export default function WeatherWidget() {
             className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
           >
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
-              🌍 Soil Conditions
+              Soil Conditions
             </h3>
             <div className="grid grid-cols-2 gap-3">
               {[
@@ -863,7 +863,7 @@ export default function WeatherWidget() {
             className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 text-center"
           >
             <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">
-              🌙 Moon Phase
+              Moon Phase
             </h3>
             <span className="text-5xl block mb-2">{moonPhase.phaseIcon}</span>
             <p className="text-sm font-black text-slate-800">{moonPhase.phaseName}</p>
@@ -881,7 +881,7 @@ export default function WeatherWidget() {
               className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
             >
               <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
-                🚨 Active Alerts
+                Active Alerts
               </h3>
               <div className="space-y-3">
                 {alerts.map((alert, i) => (
@@ -895,7 +895,7 @@ export default function WeatherWidget() {
                       }`}
                   >
                     <div className="flex items-start gap-2">
-                      <span className="text-sm shrink-0 mt-0.5">{alert.icon}</span>
+                      <span className="text-sm shrink-0 mt-0.5"></span>
                       <div className="min-w-0">
                         <p className={`text-xs font-black ${alert.type === 'danger' ? 'text-red-800' :
                           alert.type === 'warning' ? 'text-amber-800' : 'text-blue-800'
