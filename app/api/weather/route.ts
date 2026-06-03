@@ -16,7 +16,7 @@ export async function GET(request: Request) {
     // Check cache first
     try {
       const cached = db.prepare('SELECT data_json, updated_at FROM weather_cache WHERE location_key = ?').get(locationKey) as { data_json: string, updated_at: string } | undefined;
-      
+
       if (cached) {
         const cacheTime = new Date(cached.updated_at).getTime();
         const now = new Date().getTime();
@@ -30,7 +30,45 @@ export async function GET(request: Request) {
       console.warn('Weather cache lookup failed:', cacheErr);
     }
 
-    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&timezone=auto`, {
+    // Fetch comprehensive weather data including forecast, hourly, and atmospheric conditions
+    const apiUrl = new URL('https://api.open-meteo.com/v1/forecast');
+    apiUrl.searchParams.set('latitude', lat);
+    apiUrl.searchParams.set('longitude', lon);
+    apiUrl.searchParams.set('current', [
+      'temperature_2m',
+      'relative_humidity_2m',
+      'weather_code',
+      'wind_speed_10m',
+      'wind_direction_10m',
+      'apparent_temperature',
+      'cloud_cover',
+      'pressure_msl',
+      'surface_pressure',
+      'uv_index',
+      'dew_point_2m',
+      'visibility',
+      'precipitation'
+    ].join(','));
+    apiUrl.searchParams.set('hourly', [
+      'temperature_2m',
+      'precipitation_probability',
+      'weather_code'
+    ].join(','));
+    apiUrl.searchParams.set('daily', [
+      'weather_code',
+      'temperature_2m_max',
+      'temperature_2m_min',
+      'precipitation_sum',
+      'precipitation_probability_max',
+      'sunrise',
+      'sunset',
+      'uv_index_max',
+      'wind_speed_10m_max'
+    ].join(','));
+    apiUrl.searchParams.set('timezone', 'auto');
+    apiUrl.searchParams.set('forecast_days', '3');
+
+    const response = await fetch(apiUrl.toString(), {
       headers: { 'Accept': 'application/json' }
     });
 
@@ -55,7 +93,7 @@ export async function GET(request: Request) {
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('Weather API Server Error:', error);
-    
+
     // Fallback to stale cache if available
     try {
       const staleCached = db.prepare('SELECT data_json FROM weather_cache WHERE location_key = ?').get(locationKey) as { data_json: string } | undefined;
