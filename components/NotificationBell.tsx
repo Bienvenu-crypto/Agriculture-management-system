@@ -13,6 +13,8 @@ interface Notification {
   timestamp: string;
 }
 
+import { Bell } from 'lucide-react';
+
 export default function NotificationBell() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -73,15 +75,22 @@ export default function NotificationBell() {
     }
   };
 
+  // Ensure database timestamps are treated as UTC so they display in local time correctly
+  const formatLocalTime = (timestamp: string) => {
+    const utcString = timestamp.endsWith('Z') ? timestamp : `${timestamp}Z`;
+    return format(new Date(utcString), 'HH:mm');
+  };
+
   return (
     <div className="relative" ref={containerRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="cursor-pointer px-5 py-2.5 flex items-center gap-3 hover:bg-slate-50 transition-all rounded-full group"
+        className="cursor-pointer p-2 flex items-center justify-center hover:bg-slate-50 transition-all rounded-full group relative"
+        aria-label="Notifications"
       >
-        <span className="text-[10px] font-black text-slate-900 capitalize tracking-[0.3em]">Notify</span>
+        <Bell className="w-5 h-5 text-slate-700 group-hover:text-emerald-600 transition-colors" />
         {unreadCount > 0 && (
-          <span className="w-5 h-5 flex items-center justify-center bg-cyan-500 text-white rounded-full text-[9px] font-black shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">
+          <span className="absolute top-0 right-0 translate-x-1/4 -translate-y-1/4 w-4 h-4 flex items-center justify-center bg-cyan-500 text-white rounded-full text-[8px] font-black shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform">
             {unreadCount}
           </span>
         )}
@@ -122,7 +131,7 @@ export default function NotificationBell() {
                             {getTypeLabel(n.type)}
                           </span>
                           <span className="text-[9px] font-bold text-slate-400">
-                            {format(new Date(n.timestamp), 'HH:mm')}
+                            {formatLocalTime(n.timestamp)}
                           </span>
                         </div>
                         <p className={`text-xs truncate ${n.is_read === 0 ? 'font-black text-slate-900' : 'font-bold text-slate-500'}`}>
@@ -142,11 +151,6 @@ export default function NotificationBell() {
               )}
             </div>
 
-            <div className="p-4 bg-slate-50/50 text-center">
-              <button className="text-[10px] font-bold text-slate-400 capitalize tracking-widest">
-                View Full Inbox
-              </button>
-            </div>
           </motion.div>
         )}
       </AnimatePresence>
