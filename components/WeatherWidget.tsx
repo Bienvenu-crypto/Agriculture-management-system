@@ -373,9 +373,11 @@ export default function WeatherWidget() {
       if (data.hourly) {
         const h = data.hourly;
         const now = new Date();
+        // Start from the current hour (ignoring minutes) so the chart shows "Now" as the first item
+        const currentHour = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours());
         for (let i = 0; i < (h.time?.length ?? 0) && hourlyData.length < 24; i++) {
           const hTime = new Date(h.time[i]);
-          if (hTime >= now) {
+          if (hTime >= currentHour) {
             hourlyData.push({
               time: h.time[i],
               temp: Math.round(h.temperature_2m[i]),
