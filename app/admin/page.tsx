@@ -912,9 +912,6 @@ function StatCard({ label, val, grow, type, color }: any) {
       <div className="absolute -right-6 -top-6 w-32 h-32 bg-white/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-500"></div>
       <div className="relative z-10 flex items-start justify-between">
         <p className={`text-4xl font-black text-white tracking-tighter drop-shadow-md`}>{val}</p>
-        <span className={`px-2.5 py-1 rounded-xl text-[9px] font-black capitalize tracking-widest bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-lg`}>
-          {grow} {type.toLowerCase()}
-        </span>
       </div>
       <div className="relative z-10 mt-4">
         <p className="text-[11px] font-black text-white/90 capitalize tracking-[0.2em]">{label}</p>
