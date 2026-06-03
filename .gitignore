@@ -7,3 +7,5 @@ coverage/
 .env.local
 !.env.example
 
+agrobot.db-shm
+agrobot.db-wal
