@@ -39,17 +39,24 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
         }
       }
 
-      const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
+      const endpoint = isLogin ? 'api/auth/login' : 'api/auth/register';
       const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(formData),
       });
 
-      const data = await res.json();
+      let data: any;
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        data = await res.json();
+      } else {
+        const text = await res.text();
+        throw new Error(`Server returned invalid response (${res.status}): ${text.slice(0, 250)}`);
+      }
 
       if (!res.ok) {
-        throw new Error(data.error || 'Authentication failed');
+        throw new Error(data?.error || 'Authentication failed');
       }
 
       setUser(data.user);
