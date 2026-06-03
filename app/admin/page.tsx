@@ -253,6 +253,28 @@ export default function AdminDashboard() {
     </div>
   );
 
+  // Dynamic metrics calculations
+  let popularCrop = "N/A";
+  let topDistrict = "N/A";
+  
+  if (adminData.trades.length > 0) {
+    const cropCounts = adminData.trades.reduce((acc: any, t: any) => {
+      if (t.crop) acc[t.crop] = (acc[t.crop] || 0) + 1;
+      return acc;
+    }, {});
+    if (Object.keys(cropCounts).length > 0) {
+      popularCrop = Object.entries(cropCounts).sort((a: any, b: any) => b[1] - a[1])[0][0];
+    }
+
+    const districtSales = adminData.trades.reduce((acc: any, t: any) => {
+      if (t.seller_district) acc[t.seller_district] = (acc[t.seller_district] || 0) + (t.total_value || 0);
+      return acc;
+    }, {});
+    if (Object.keys(districtSales).length > 0) {
+      topDistrict = Object.entries(districtSales).sort((a: any, b: any) => b[1] - a[1])[0][0];
+    }
+  }
+
   return (
     <div className="min-h-screen bg-white text-[#1A1C1E] font-sans">
       <aside className="fixed left-0 top-0 bottom-0 w-72 bg-[#0A0F1C] p-6 hidden lg:flex flex-col z-50 border-r border-white/5 shadow-2xl">
@@ -405,9 +427,8 @@ export default function AdminDashboard() {
                       <div className="bg-slate-900 text-white p-8 rounded-[2.5rem] shadow-xl shadow-slate-200">
                         <h4 className="text-lg font-black mb-6 flex items-center gap-2 text-emerald-400 underline decoration-emerald-400/30 underline-offset-8">Market Pulse</h4>
                         <div className="space-y-6">
-                          <PulseItem label="Avg Listing Price" val="UGX 2,400" type="VAL" />
-                          <PulseItem label="Popular Crop" val="Maize" type="TOP" />
-                          <PulseItem label="Top District" val="Wakiso" type="LOC" />
+                          <PulseItem label="Popular Crop" val={popularCrop} type="TOP" />
+                          <PulseItem label="Top District" val={topDistrict} type="LOC" />
                         </div>
                         <button onClick={() => setActiveTab('marketplace')} className="w-full mt-10 py-4 bg-white/10 hover:bg-white/20 rounded-2xl font-black text-sm transition-all">Go to Marketplace</button>
                       </div>
