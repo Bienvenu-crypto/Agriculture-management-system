@@ -800,36 +800,6 @@ export default function WeatherWidget() {
             </p>
           </motion.div>
 
-          {/* Atmospheric Conditions */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5"
-          >
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">
-              Atmospheric Conditions
-            </h3>
-            <div className="space-y-3">
-              {[
-                { icon: '', label: 'Humidity', value: `${current.humidity}%` },
-                { icon: '', label: 'Wind Speed', value: `${current.windSpeed} km/h ${getWindDirection(current.windDirection)}` },
-                { icon: '', label: 'Dew Point', value: `${current.dewPoint}°C` },
-                { icon: '', label: 'Visibility', value: `${current.visibility.toFixed(1)} km` },
-                { icon: '', label: 'Cloud Cover', value: `${current.cloudCover}%` },
-                { icon: '', label: 'Pressure', value: `${current.pressure} hPa ↗` },
-              ].map((item) => (
-                <div key={item.label} className="flex items-center justify-between py-1">
-                  <div className="flex items-center gap-2">
-                    <span className="text-sm">{item.icon}</span>
-                    <span className="text-xs text-slate-500 font-medium">{item.label}</span>
-                  </div>
-                  <span className="text-xs font-bold text-slate-800">{item.value}</span>
-                </div>
-              ))}
-            </div>
-          </motion.div>
-
           {/* Soil Conditions */}
           <motion.div
             initial={{ opacity: 0, y: 12 }}
