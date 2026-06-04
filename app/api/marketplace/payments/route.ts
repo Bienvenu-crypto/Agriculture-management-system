@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     // Call Flutterwave API for Mobile Money Uganda
     const flutterwaveKey = process.env.FLUTTERWAVE_SECRET_KEY;
-    
+
     if (!flutterwaveKey || flutterwaveKey.includes('replace_this_with_your_real_key')) {
       return NextResponse.json({ error: 'Please update .env.local with your real Flutterwave Secret Key to receive phone pushes.' }, { status: 400 });
     }
@@ -95,9 +95,9 @@ export async function POST(req: Request) {
         }
       })
     });
-    
+
     const flwData = await flwResponse.json();
-    
+
     if (flwData.status !== 'success') {
       return NextResponse.json({ error: flwData.message || 'Payment provider rejected the request.' }, { status: 400 });
     }

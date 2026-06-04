@@ -70,7 +70,7 @@ export async function GET(req: Request) {
       insertMany(uniqueSellers);
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       listings,
       totalCount: totalCount.count
     });
@@ -247,7 +247,7 @@ export async function PUT(req: Request) {
     db.prepare(
       "UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ?, category = ?, image_url = ?, description = ? WHERE id = ?"
     ).run(crop.trim(), quantity_kg, price_per_kg, category || 'Grains', image_url || null, description || null, id);
-    
+
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update listing' }, { status: 500 });

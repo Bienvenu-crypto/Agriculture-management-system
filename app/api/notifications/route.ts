@@ -7,7 +7,7 @@ import crypto from 'crypto';
 async function getUserId() {
   try {
     const cookieStore = await cookies();
-    
+
     // Check Marketplace Session
     const mpSessionId = cookieStore.get('mp_session')?.value;
     if (mpSessionId) {
@@ -37,7 +37,7 @@ export async function GET(req: Request) {
   try {
     const userId = await getUserId();
     console.log("Fetching notifications, userId:", userId);
-    
+
     // Fetch notifications where user_id matches OR it's global (NULL)
     let notifications;
     if (userId) {
@@ -66,9 +66,9 @@ export async function GET(req: Request) {
     return NextResponse.json({ notifications, unreadCount });
   } catch (error: any) {
     console.error('Fetch notifications error:', error);
-    return NextResponse.json({ 
+    return NextResponse.json({
       error: 'Failed to fetch notifications',
-      details: error.message 
+      details: error.message
     }, { status: 500 });
   }
 }

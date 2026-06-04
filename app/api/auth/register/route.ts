@@ -1,8 +1,7 @@
 import { NextResponse } from 'next/server';
-import { db } from '@/lib/db';
+import { supabase } from '@/lib/supabase';
 import { hashPassword, createSession, setSessionCookie } from '@/lib/auth';
 import crypto from 'crypto';
-
 
 export async function POST(req: Request) {
   try {
@@ -12,7 +11,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
-    const existingUser = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
+    // Check for existing user
+    const { data: existingUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email)
+      .single();
+
     if (existingUser) {
       return NextResponse.json({ error: 'Email already in use' }, { status: 400 });
     }
@@ -20,15 +25,20 @@ export async function POST(req: Request) {
     const userId = crypto.randomUUID();
     const passwordHash = await hashPassword(password);
 
-    db.prepare('INSERT INTO users (id, email, password_hash, name, district) VALUES (?, ?, ?, ?, ?)').run(
-      userId,
+    const { error: insertError } = await supabase.from('users').insert({
+      id: userId,
       email,
-      passwordHash,
+      password_hash: passwordHash,
       name,
-      district
-    );
+      district: district || null,
+    });
 
-    const sessionId = createSession(userId);
+    if (insertError) {
+      console.error('Insert user error:', insertError);
+      return NextResponse.json({ error: 'Failed to create account' }, { status: 500 });
+    }
+
+    const sessionId = await createSession(userId);
     await setSessionCookie(sessionId);
 
     return NextResponse.json({ user: { id: userId, email, name, district } });

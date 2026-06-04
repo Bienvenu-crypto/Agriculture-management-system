@@ -56,21 +56,21 @@ export async function GET(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-    try {
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get('id');
-        const email = searchParams.get('email');
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get('id');
+    const email = searchParams.get('email');
 
-        if (!id || !email) {
-            return NextResponse.json({ error: 'ID and email are required' }, { status: 400 });
-        }
-
-        const stmt = db.prepare('DELETE FROM crop_calendars WHERE id = ? AND user_email = ?');
-        stmt.run(id, email);
-
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Database Error:', error);
-        return NextResponse.json({ error: 'Failed to delete calendar' }, { status: 500 });
+    if (!id || !email) {
+      return NextResponse.json({ error: 'ID and email are required' }, { status: 400 });
     }
+
+    const stmt = db.prepare('DELETE FROM crop_calendars WHERE id = ? AND user_email = ?');
+    stmt.run(id, email);
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Database Error:', error);
+    return NextResponse.json({ error: 'Failed to delete calendar' }, { status: 500 });
+  }
 }

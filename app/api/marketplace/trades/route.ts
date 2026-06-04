@@ -54,7 +54,7 @@ export async function PATCH(req: Request) {
     const trade = db.prepare('SELECT * FROM trades WHERE id = ?').get(id) as any;
     if (!trade) return NextResponse.json({ error: 'Trade not found' }, { status: 404 });
     if (trade.seller_id !== user.id && trade.buyer_id !== user.id) {
-       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     if (status === 'completed') {
@@ -66,15 +66,15 @@ export async function PATCH(req: Request) {
     // If completed, maybe notify the other party?
     const otherId = user.id === trade.seller_id ? trade.buyer_id : trade.seller_id;
     const roleLabel = user.id === trade.seller_id ? 'Seller' : 'Buyer';
-    
+
     db.prepare(`
       INSERT INTO notifications (id, user_id, type, title, message) 
       VALUES (?, ?, ?, ?, ?)
     `).run(
-      crypto.randomUUID(), 
-      otherId, 
-      'trade_update', 
-      'Trade Status Updated', 
+      crypto.randomUUID(),
+      otherId,
+      'trade_update',
+      'Trade Status Updated',
       `The ${roleLabel} has marked the ${trade.crop} trade as ${status}.`
     );
 
