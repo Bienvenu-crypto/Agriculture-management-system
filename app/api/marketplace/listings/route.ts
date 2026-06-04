@@ -33,12 +33,11 @@ export async function GET(req: Request) {
       .select('*, marketplace_users!seller_id(name, district, phone)')
       .eq('status', 'active');
 
-    if (!sellerId) {
-      // Only show listings from subscribed sellers publicly
-      query = query.eq('marketplace_users.is_subscribed', true);
-    } else {
+    if (sellerId) {
       query = query.eq('seller_id', sellerId);
     }
+    // Note: removed is_subscribed filter — RLS may prevent DB writes so this filter
+    // would incorrectly hide listings. Subscription is enforced at the POST level.
 
     if (crop) query = query.ilike('crop', `%${crop}%`);
     if (category && category !== 'All') query = query.ilike('category', category);

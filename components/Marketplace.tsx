@@ -906,8 +906,22 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
   const fetchListings = useCallback(async () => {
     const res = await fetch('/api/marketplace/listings');
     const data = await res.json();
-    setListings(data.listings || []);
-  }, []);
+    let all: Listing[] = data.listings || [];
+
+    // Also fetch seller's own listings by seller_id so they always appear
+    // in Advertising and My Listings regardless of DB subscription state (RLS delay)
+    if (mpUser?.role === 'seller') {
+      try {
+        const sellerRes = await fetch(`/api/marketplace/listings?seller_id=${mpUser.id}`);
+        const sellerData = await sellerRes.json();
+        const sellerListings: Listing[] = sellerData.listings || [];
+        const ids = new Set(all.map((l: Listing) => l.id));
+        sellerListings.forEach((l: Listing) => { if (!ids.has(l.id)) all.push(l); });
+      } catch (e) { }
+    }
+
+    setListings(all);
+  }, [mpUser]);
 
   const fetchBuyOrders = useCallback(async () => {
     const res = await fetch('/api/marketplace/buy-orders');
