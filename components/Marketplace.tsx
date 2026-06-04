@@ -298,8 +298,8 @@ export function InlineAuth({ onSuccess, defaultRole }: { onSuccess: (user: MpUse
 // ─── Add Listing Modal ───────────────────────────────────────────────────────
 export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, alreadySubscribed }: { onClose: () => void; onSuccess: () => void; onGoToAdvertising?: () => void; alreadySubscribed?: boolean }) {
   const [loading, setLoading] = useState(false);
-  const [checkingSub, setCheckingSub] = useState(true);
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [checkingSub, setCheckingSub] = useState(!alreadySubscribed);
+  const [isSubscribed, setIsSubscribed] = useState(!!alreadySubscribed);
   const [user, setUser] = useState<MpUser | null>(null);
   const [error, setError] = useState('');
   const [form, setForm] = useState({
@@ -313,7 +313,7 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, already
   });
 
   useEffect(() => {
-    if (alreadySubscribed) { setIsSubscribed(true); setCheckingSub(false); return; }
+    if (alreadySubscribed) return; // skip fetch — parent already confirmed subscription
     const checkStatus = async () => {
       try {
         const res = await fetch('/api/marketplace/auth/session');
@@ -327,7 +327,8 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, already
       }
     };
     checkStatus();
-  }, []);
+  }, [alreadySubscribed]);
+
   const currencies = ['UGX', 'KES', 'RWF', 'TZS', 'NGN', 'GHS', 'ZAR', 'USD'];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -1013,11 +1014,14 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
         body: JSON.stringify({ phone: momoNumber })
       });
       if (res.ok) {
+        // Immediately update local state — don't wait for fetchSession (async race condition)
         setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
         setShowPaymentModal(false);
         setMomoNumber('');
-        setActiveTab('my-listings');
-        fetchSession();
+        // Stay on advertising tab to show the dashboard, and open the listing modal
+        setActiveTab('advertising');
+        setShowAddListing(true);
+        fetchSession(); // background sync
       } else {
         const data = await res.json();
         alert(data.error || 'Payment failed');
@@ -1720,15 +1724,20 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
           {/* ADVERTISING TAB */}
           {activeTab === 'advertising' && (
             <div className="space-y-8">
-              {!mpUser ? (
-                <div className="text-center py-16 bg-slate-50 rounded-2xl">
-                  <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest mb-4">Authentication Required</p>
-                  <button onClick={() => { setAuthRole('seller'); setShowAuthModal(true); }} className="bg-emerald-600 text-white px-8 py-3 rounded-xl font-black capitalize text-[10px] tracking-widest">Log in as Seller</button>
-                </div>
-              ) : mpUser.role !== 'seller' ? (
-                <div className="text-center py-16">
-                  <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest mb-4">Seller Account Required</p>
-                  <button onClick={() => { setAuthRole('seller'); setShowAuthModal(true); }} className="bg-emerald-600 text-white px-8 py-3 rounded-xl font-black capitalize text-[10px] tracking-widest">Log in as Seller</button>
+              {/* Step 1 — not logged in: show inline seller login/register */}
+              {(!mpUser || mpUser.role !== 'seller') ? (
+                <div className="space-y-4">
+                  <div className="bg-emerald-50 border border-emerald-100 rounded-2xl p-5">
+                    <p className="text-[10px] font-black text-emerald-700 capitalize tracking-widest mb-1">Step 1 of 2 — Seller Account</p>
+                    <p className="text-sm font-bold text-slate-700">Sign in or create a free seller account to continue.</p>
+                  </div>
+                  <InlineAuth
+                    defaultRole="seller"
+                    onSuccess={(user) => {
+                      setMpUser(user);
+                      fetchAll();
+                    }}
+                  />
                 </div>
               ) : !mpUser.is_subscribed ? (
                 <div className="max-w-md mx-auto bg-slate-50 overflow-hidden">

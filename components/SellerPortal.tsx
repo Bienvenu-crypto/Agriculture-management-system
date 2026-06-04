@@ -78,9 +78,10 @@ export default function SellerPortal() {
         body: JSON.stringify({ phone: momoNumber })
       });
       if (res.ok) {
+        // Optimistically update so the UI unlocks immediately
         setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
         setShowPaymentModal(false);
-        fetchData();
+        fetchData(); // background sync
       } else {
         alert('Payment failed');
       }
