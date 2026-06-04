@@ -189,12 +189,11 @@ export default function Page() {
                 onClick={() => toggleMenu('crops')}
                 className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
               >
-                Crops
+                Marketplace
                 <span>{expandedMenus.crops ? '−' : '+'}</span>
               </button>
               {expandedMenus.crops && (
                 <div className="space-y-1 pl-4">
-                  <div className="px-4 py-2 text-[10px] font-black text-slate-600 capitalize tracking-widest">Marketplace</div>
                   <button
                     onClick={() => switchView('orders')}
                     className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'text-blue-400 bg-blue-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
