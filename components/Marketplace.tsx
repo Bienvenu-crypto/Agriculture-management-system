@@ -878,6 +878,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
   const [isPayingAd, setIsPayingAd] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [momoNumber, setMomoNumber] = useState('');
+  const [promotingId, setPromotingId] = useState<string | null>(null);
 
   // Handle forcedTab from parent
   useEffect(() => {
@@ -998,12 +999,29 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
   };
 
   const togglePromotion = async (id: string, currentStatus: boolean) => {
-    await fetch('/api/marketplace/listings', {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, is_promoted: !currentStatus }),
-    });
-    fetchListings();
+    if (promotingId) return; // prevent double-click
+    setPromotingId(id);
+    // Optimistic update — flip immediately so button responds at once
+    setListings(prev => prev.map(l => l.id === id ? { ...l, is_promoted: currentStatus ? 0 : 1 } : l));
+    try {
+      const res = await fetch('/api/marketplace/listings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, is_promoted: !currentStatus }),
+      });
+      if (!res.ok) {
+        // Revert on failure
+        setListings(prev => prev.map(l => l.id === id ? { ...l, is_promoted: currentStatus ? 1 : 0 } : l));
+      } else {
+        // Sync with server
+        fetchListings();
+      }
+    } catch {
+      // Revert on network error
+      setListings(prev => prev.map(l => l.id === id ? { ...l, is_promoted: currentStatus ? 1 : 0 } : l));
+    } finally {
+      setPromotingId(null);
+    }
   };
 
   const cancelBuyOrder = async (id: string) => {
@@ -1799,16 +1817,19 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                       {myListings.length > 0 ? (
                         <div className="space-y-2">
                           {myListings.map((listing: Listing) => (
-                            <div key={listing.id} className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-all">
-                              <span className="font-bold text-sm capitalize tracking-tight">
-                                {listing.crop} ({listing.quantity_kg}kg)
-                                {listing.is_promoted === 1 && <span className="ml-2 text-[8px] text-emerald-400 font-black">★ ACTIVE</span>}
+                            <div key={listing.id} className={`flex items-center justify-between p-3 rounded-xl transition-all ${listing.is_promoted === 1 ? 'bg-amber-500/20 border border-amber-400/30' : 'bg-white/5 hover:bg-white/10'}`}>
+                              <span className="font-bold text-sm capitalize tracking-tight flex items-center gap-2">
+                                {listing.crop} <span className="text-white/50 font-medium">·</span> <span className="text-white/60 text-xs font-medium">{listing.quantity_kg.toLocaleString()}kg</span>
+                                {listing.is_promoted === 1 && <span className="px-2 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded tracking-widest">★ FEATURED</span>}
                               </span>
                               <button
                                 onClick={() => togglePromotion(listing.id, listing.is_promoted === 1)}
-                                className={`${listing.is_promoted === 1 ? 'bg-white/10 text-slate-300' : 'bg-emerald-500 text-white'} px-3 py-1.5 rounded-lg text-[9px] font-black capitalize tracking-widest transition-all`}
+                                disabled={promotingId === listing.id}
+                                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[9px] font-black capitalize tracking-widest transition-all active:scale-95 disabled:opacity-60 disabled:cursor-wait ${listing.is_promoted === 1 ? 'bg-white/10 text-slate-300 hover:bg-white/20' : 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/30'}`}
                               >
-                                {listing.is_promoted === 1 ? 'Unpromote' : 'Promote'}
+                                {promotingId === listing.id ? (
+                                  <><span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" /> Processing…</>
+                                ) : listing.is_promoted === 1 ? '✕ Unpromote' : '★ Promote'}
                               </button>
                             </div>
                           ))}

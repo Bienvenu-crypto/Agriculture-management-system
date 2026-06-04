@@ -209,21 +209,35 @@ export async function DELETE(req: Request) {
 
 export async function PATCH(req: Request) {
   try {
-    const seller = await getMarketplaceUser('seller');
+    const seller = await getMarketplaceUser();
     if (!seller) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { id, is_promoted } = await req.json();
+
+    // Verify listing belongs to this seller (or admin)
     const { data: listing } = await db
       .from('listings')
-      .select('id')
+      .select('id, seller_id')
       .eq('id', id)
-      .eq('seller_id', seller.id)
       .maybeSingle();
     if (!listing) return NextResponse.json({ error: 'Listing not found' }, { status: 404 });
+    if (listing.seller_id !== seller.id && seller.role !== 'admin') {
+      return NextResponse.json({ error: 'Not your listing' }, { status: 403 });
+    }
 
-    await db.from('listings').update({ is_promoted: is_promoted ? true : false }).eq('id', id);
+    const { error: updateError } = await db
+      .from('listings')
+      .update({ is_promoted: is_promoted ? true : false })
+      .eq('id', id);
+
+    if (updateError) {
+      console.error('Promote update error:', JSON.stringify(updateError));
+      return NextResponse.json({ error: 'Failed to update promotion status' }, { status: 500 });
+    }
+
     return NextResponse.json({ ok: true });
   } catch (error) {
+    console.error('PATCH listing error:', error);
     return NextResponse.json({ error: 'Failed to update listing' }, { status: 500 });
   }
 }
