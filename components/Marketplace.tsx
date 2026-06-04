@@ -296,7 +296,7 @@ export function InlineAuth({ onSuccess, defaultRole }: { onSuccess: (user: MpUse
 }
 
 // ─── Add Listing Modal ───────────────────────────────────────────────────────
-export function AddListingModal({ onClose, onSuccess, onGoToAdvertising }: { onClose: () => void; onSuccess: () => void; onGoToAdvertising?: () => void }) {
+export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, alreadySubscribed }: { onClose: () => void; onSuccess: () => void; onGoToAdvertising?: () => void; alreadySubscribed?: boolean }) {
   const [loading, setLoading] = useState(false);
   const [checkingSub, setCheckingSub] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -313,15 +313,14 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising }: { onC
   });
 
   useEffect(() => {
+    if (alreadySubscribed) { setIsSubscribed(true); setCheckingSub(false); return; }
     const checkStatus = async () => {
       try {
         const res = await fetch('/api/marketplace/auth/session');
         const data = await res.json();
         if (data.user) {
           setUser(data.user);
-          if (data.user.is_subscribed) {
-            setIsSubscribed(true);
-          }
+          setIsSubscribed(!!data.user.is_subscribed);
         }
       } catch (e) { } finally {
         setCheckingSub(false);
@@ -329,7 +328,6 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising }: { onC
     };
     checkStatus();
   }, []);
-
   const currencies = ['UGX', 'KES', 'RWF', 'TZS', 'NGN', 'GHS', 'ZAR', 'USD'];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -1058,6 +1056,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
             onClose={() => setShowAddListing(false)}
             onSuccess={() => { fetchListings(); setActiveTab('my-listings'); }}
             onGoToAdvertising={() => { setShowAddListing(false); setActiveTab('advertising'); }}
+            alreadySubscribed={!!mpUser?.is_subscribed}
           />
         )}
         {showAddBuyOrder && (
