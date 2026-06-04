@@ -1234,12 +1234,19 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                         key={listing.id}
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center justify-between p-3.5 bg-slate-50 hover:bg-emerald-50 rounded-xl transition-all group"
+                        className={`flex items-center justify-between p-3.5 rounded-xl transition-all group ${listing.is_promoted === 1 ? 'bg-amber-50 border border-amber-200 hover:bg-amber-100' : 'bg-slate-50 hover:bg-emerald-50'}`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-700 font-black text-[9px] capitalize tracking-tighter flex-shrink-0">Crop</div>
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-[9px] capitalize tracking-tighter flex-shrink-0 ${listing.is_promoted === 1 ? 'bg-amber-200 text-amber-800' : 'bg-emerald-100 text-emerald-700'}`}>
+                            {listing.is_promoted === 1 ? '★' : 'Crop'}
+                          </div>
                           <div className="min-w-0">
-                            <p className="font-black text-slate-900 text-sm capitalize tracking-tighter">{listing.crop}</p>
+                            <p className="font-black text-slate-900 text-sm capitalize tracking-tighter flex items-center gap-2">
+                              {listing.crop}
+                              {listing.is_promoted === 1 && (
+                                <span className="px-1.5 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded capitalize tracking-widest">★ Featured</span>
+                              )}
+                            </p>
                             <p className="text-[10px] text-slate-500 font-bold capitalize tracking-widest">
                               {listing.seller_district} · {listing.seller_name}
                               {listing.seller_phone && ` · ${listing.seller_phone}`}
@@ -1755,34 +1762,6 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                       fetchAll();
                     }}
                   />
-                </div>
-              ) : !mpUser.is_subscribed ? (
-                <div className="max-w-md mx-auto bg-slate-50 overflow-hidden">
-                  <div className="bg-emerald-600 p-8 text-white text-center">
-                    <h3 className="text-2xl font-black capitalize tracking-tighter mb-2">Market Expansion</h3>
-                    <p className="text-emerald-100 text-xs font-bold capitalize tracking-widest">Reach more buyers instantly</p>
-                  </div>
-                  <div className="p-8 space-y-6">
-                    <div className="text-center">
-                      <p className="text-[10px] font-black text-slate-400 capitalize tracking-[0.2em] mb-1">One-time Activation Fee</p>
-                      <p className="text-4xl font-black text-slate-900 tracking-tighter">100,000 <span className="text-lg">UGX</span></p>
-                    </div>
-                    <ul className="space-y-3">
-                      {['Priority placement in Browse tab', 'Featured badge on your listings', 'Direct notifications to local buyers', 'Monthly analytics report'].map((item, i) => (
-                        <li key={i} className="flex items-center gap-3 text-xs font-bold text-slate-600">
-                          <span className="w-5 h-5 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-600 text-[10px]">✓</span>
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                    <button
-                      onClick={() => setShowPaymentModal(true)}
-                      className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black capitalize text-[10px] tracking-widest hover:bg-slate-800 transition-all"
-                    >
-                      Pay 100,000 UGX to Start
-                    </button>
-                    <p className="text-[10px] text-center text-slate-400 font-medium italic">Secure payment via mobile money or credit card</p>
-                  </div>
                 </div>
               ) : (
                 <div className="space-y-6">
