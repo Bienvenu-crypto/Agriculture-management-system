@@ -22,12 +22,20 @@ export async function POST(req: Request) {
     // Simulate payment processing delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
+    // Mark subscription in DB
     await db
       .from('marketplace_users')
       .update({ is_subscribed: true })
       .eq('id', session.user_id);
 
-    return NextResponse.json({ success: true });
+    // Return the full updated user so the frontend doesn't need to re-fetch
+    const { data: updatedUser } = await db
+      .from('marketplace_users')
+      .select('id, name, email, phone, district, role, is_subscribed')
+      .eq('id', session.user_id)
+      .maybeSingle();
+
+    return NextResponse.json({ success: true, user: updatedUser });
   } catch (error: any) {
     console.error('Subscription error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

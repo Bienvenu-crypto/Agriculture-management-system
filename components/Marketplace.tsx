@@ -1013,17 +1013,14 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: momoNumber })
       });
-      if (res.ok) {
-        // Immediately update local state — don't wait for fetchSession (async race condition)
-        setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
+      const data = await res.json();
+      if (res.ok && data.success) {
+        // Use the user returned by the API — no re-fetch needed, no race condition
+        setMpUser(data.user ?? ((prev: any) => prev ? { ...prev, is_subscribed: true } : prev));
         setShowPaymentModal(false);
         setMomoNumber('');
-        // Stay on advertising tab to show the dashboard, and open the listing modal
-        setActiveTab('advertising');
-        setShowAddListing(true);
-        fetchSession(); // background sync
+        setActiveTab('my-listings');
       } else {
-        const data = await res.json();
         alert(data.error || 'Payment failed');
       }
     } catch (err) {

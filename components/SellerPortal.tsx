@@ -77,13 +77,13 @@ export default function SellerPortal() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phone: momoNumber })
       });
-      if (res.ok) {
-        // Optimistically update so the UI unlocks immediately
-        setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
+      const data = await res.json();
+      if (res.ok && data.success) {
+        // Use the user returned by the API directly — no re-fetch race condition
+        setMpUser(data.user ?? ((prev: any) => prev ? { ...prev, is_subscribed: true } : prev));
         setShowPaymentModal(false);
-        fetchData(); // background sync
       } else {
-        alert('Payment failed');
+        alert(data.error || 'Payment failed');
       }
     } catch (err) {
       alert('Network error');
