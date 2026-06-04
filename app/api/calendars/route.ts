@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { db } from '@/lib/db';
 import crypto from 'crypto';
-
 
 export async function POST(req: Request) {
   try {
@@ -12,12 +11,15 @@ export async function POST(req: Request) {
     }
 
     const id = crypto.randomUUID();
-    const stmt = db.prepare(`
-      INSERT INTO crop_calendars (id, user_email, crop, planting_date, region, data_json)
-      VALUES (?, ?, ?, ?, ?, ?)
-    `);
-
-    stmt.run(id, user_email, crop, planting_date, region, JSON.stringify(data_json));
+    const { error } = await db.from('crop_calendars').insert({
+      id,
+      user_email,
+      crop,
+      planting_date,
+      region,
+      data_json: JSON.stringify(data_json),
+    });
+    if (error) throw error;
 
     return NextResponse.json({ success: true, id });
   } catch (error) {
@@ -35,17 +37,16 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 });
     }
 
-    const stmt = db.prepare(`
-      SELECT * FROM crop_calendars 
-      WHERE user_email = ? 
-      ORDER BY timestamp DESC
-    `);
-    const calendars = stmt.all(email);
+    const { data: calendars, error } = await db
+      .from('crop_calendars')
+      .select('*')
+      .eq('user_email', email)
+      .order('timestamp', { ascending: false });
+    if (error) throw error;
 
-    // Parse the data_json back into an object
-    const results = calendars.map((c: any) => ({
+    const results = (calendars || []).map((c: any) => ({
       ...c,
-      data_json: JSON.parse(c.data_json)
+      data_json: typeof c.data_json === 'string' ? JSON.parse(c.data_json) : c.data_json,
     }));
 
     return NextResponse.json({ calendars: results });
@@ -65,8 +66,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'ID and email are required' }, { status: 400 });
     }
 
-    const stmt = db.prepare('DELETE FROM crop_calendars WHERE id = ? AND user_email = ?');
-    stmt.run(id, email);
+    const { error } = await db
+      .from('crop_calendars')
+      .delete()
+      .eq('id', id)
+      .eq('user_email', email);
+    if (error) throw error;
 
     return NextResponse.json({ success: true });
   } catch (error) {

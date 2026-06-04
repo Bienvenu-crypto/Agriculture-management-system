@@ -10,19 +10,20 @@ export async function POST(req: Request) {
     if (!name || !email || !password || !district || !role) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
-
     if (!phone) {
       return NextResponse.json({ error: 'Phone number is required' }, { status: 400 });
     }
-
     if (!['seller', 'buyer'].includes(role)) {
       return NextResponse.json({ error: 'Role must be seller or buyer' }, { status: 400 });
     }
 
-    // Check for existing user by email OR phone (within the same role)
-    const existing = db
-      .prepare('SELECT id FROM marketplace_users WHERE (email = ? OR (phone = ? AND phone IS NOT NULL)) AND role = ?')
-      .get(email, phone || null, role);
+    // Check for existing user by email OR phone within the same role
+    const { data: existing } = await db
+      .from('marketplace_users')
+      .select('id')
+      .eq('role', role)
+      .or(`email.eq.${email},phone.eq.${phone}`)
+      .maybeSingle();
 
     if (existing) {
       return NextResponse.json(
@@ -34,21 +35,32 @@ export async function POST(req: Request) {
     const userId = crypto.randomUUID();
     const passwordHash = await hashPassword(password);
 
-    db.prepare(
-      'INSERT INTO marketplace_users (id, name, email, phone, district, role, password_hash) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    ).run(userId, name, email, phone || null, district, role, passwordHash);
+    const { error: insertError } = await db.from('marketplace_users').insert({
+      id: userId,
+      name,
+      email,
+      phone: phone || null,
+      district,
+      role,
+      password_hash: passwordHash,
+    });
+
+    if (insertError) {
+      console.error('Insert marketplace_users error:', insertError);
+      return NextResponse.json({ error: 'Failed to create account' }, { status: 500 });
+    }
 
     // Create session
     const sessionId = crypto.randomBytes(32).toString('hex');
     const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-    db.prepare('INSERT INTO marketplace_sessions (id, user_id, expires_at) VALUES (?, ?, ?)').run(
-      sessionId,
-      userId,
-      expiresAt
-    );
+    await db.from('marketplace_sessions').insert({
+      id: sessionId,
+      user_id: userId,
+      expires_at: expiresAt,
+    });
 
     const response = NextResponse.json({
-      user: { id: userId, name, email, phone: phone || null, district, role, is_subscribed: 0 },
+      user: { id: userId, name, email, phone: phone || null, district, role, is_subscribed: false },
     });
     response.cookies.set('mp_session', sessionId, {
       httpOnly: true,

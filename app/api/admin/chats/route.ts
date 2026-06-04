@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { db } from '@/lib/db';
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -10,8 +10,12 @@ export async function GET(req: Request) {
   }
 
   try {
-    const chats = db.prepare('SELECT * FROM chats ORDER BY timestamp DESC').all();
-    return NextResponse.json({ chats });
+    const { data: chats, error } = await db
+      .from('chats')
+      .select('*')
+      .order('timestamp', { ascending: false });
+    if (error) throw error;
+    return NextResponse.json({ chats: chats || [] });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch chats' }, { status: 500 });
   }

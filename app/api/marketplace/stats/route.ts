@@ -7,15 +7,21 @@ async function getMarketplaceUser() {
   const sessionId = cookieStore.get('mp_session')?.value;
   if (!sessionId) return null;
 
-  const session = db
-    .prepare('SELECT user_id, expires_at FROM marketplace_sessions WHERE id = ?')
-    .get(sessionId) as any;
+  const { data: session } = await db
+    .from('marketplace_sessions')
+    .select('user_id, expires_at')
+    .eq('id', sessionId)
+    .maybeSingle();
   if (!session || new Date(session.expires_at) < new Date()) return null;
 
-  return db.prepare('SELECT * FROM marketplace_users WHERE id = ?').get(session.user_id) as any;
+  const { data: user } = await db
+    .from('marketplace_users')
+    .select('*')
+    .eq('id', session.user_id)
+    .maybeSingle();
+  return user;
 }
 
-// GET /api/marketplace/stats — fetch impressions and clicks for current seller
 export async function GET() {
   try {
     const user = await getMarketplaceUser();
@@ -23,26 +29,51 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const impressions = db.prepare('SELECT COUNT(*) as count FROM marketplace_analytics WHERE seller_id = ? AND type = "impression"').get(user.id) as any;
-    const clicks = db.prepare('SELECT COUNT(*) as count FROM marketplace_analytics WHERE seller_id = ? AND type = "click"').get(user.id) as any;
+    const { count: impressions } = await db
+      .from('marketplace_analytics')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', user.id)
+      .eq('type', 'impression');
 
-    // Calculate growth (mocked for now, but reflecting data)
-    // In a real app, you'd compare with yesterday's counts
+    const { count: clicks } = await db
+      .from('marketplace_analytics')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', user.id)
+      .eq('type', 'click');
+
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const yesterdayStr = yesterday.toISOString().split('T')[0];
 
-    const yesterdayImpressions = db.prepare('SELECT COUNT(*) as count FROM marketplace_analytics WHERE seller_id = ? AND type = "impression" AND date(timestamp) = ?').get(user.id, yesterdayStr) as any;
-    const yesterdayClicks = db.prepare('SELECT COUNT(*) as count FROM marketplace_analytics WHERE seller_id = ? AND type = "click" AND date(timestamp) = ?').get(user.id, yesterdayStr) as any;
+    const { count: yesterdayImpressions } = await db
+      .from('marketplace_analytics')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', user.id)
+      .eq('type', 'impression')
+      .gte('timestamp', yesterdayStr)
+      .lt('timestamp', new Date().toISOString().split('T')[0]);
 
-    const impGrowth = yesterdayImpressions.count > 0 ? ((impressions.count - yesterdayImpressions.count) / yesterdayImpressions.count) * 100 : 0;
-    const clickGrowth = yesterdayClicks.count > 0 ? ((clicks.count - yesterdayClicks.count) / yesterdayClicks.count) * 100 : 0;
+    const { count: yesterdayClicks } = await db
+      .from('marketplace_analytics')
+      .select('*', { count: 'exact', head: true })
+      .eq('seller_id', user.id)
+      .eq('type', 'click')
+      .gte('timestamp', yesterdayStr)
+      .lt('timestamp', new Date().toISOString().split('T')[0]);
+
+    const imp = impressions || 0;
+    const clk = clicks || 0;
+    const yImp = yesterdayImpressions || 0;
+    const yClk = yesterdayClicks || 0;
+
+    const impGrowth = yImp > 0 ? ((imp - yImp) / yImp) * 100 : 0;
+    const clickGrowth = yClk > 0 ? ((clk - yClk) / yClk) * 100 : 0;
 
     return NextResponse.json({
-      impressions: impressions.count,
-      clicks: clicks.count,
+      impressions: imp,
+      clicks: clk,
       impGrowth: impGrowth.toFixed(1),
-      clickGrowth: clickGrowth.toFixed(1)
+      clickGrowth: clickGrowth.toFixed(1),
     });
   } catch (error) {
     console.error('Stats fetch error:', error);
@@ -50,14 +81,16 @@ export async function GET() {
   }
 }
 
-// POST /api/marketplace/stats — record a click on a listing
 export async function POST(req: Request) {
   try {
     const { listingId, sellerId } = await req.json();
     if (!sellerId) return NextResponse.json({ error: 'Missing seller ID' }, { status: 400 });
 
-    db.prepare('INSERT INTO marketplace_analytics (seller_id, type, listing_id) VALUES (?, ?, ?)')
-      .run(sellerId, 'click', listingId || null);
+    await db.from('marketplace_analytics').insert({
+      seller_id: sellerId,
+      type: 'click',
+      listing_id: listingId || null,
+    });
 
     return NextResponse.json({ ok: true });
   } catch (error) {

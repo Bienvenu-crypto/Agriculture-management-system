@@ -8,51 +8,51 @@ async function getMarketplaceUser(role?: string) {
   const sessionId = cookieStore.get('mp_session')?.value;
   if (!sessionId) return null;
 
-  const session = db
-    .prepare('SELECT user_id, expires_at FROM marketplace_sessions WHERE id = ?')
-    .get(sessionId) as any;
+  const { data: session } = await db
+    .from('marketplace_sessions')
+    .select('user_id, expires_at')
+    .eq('id', sessionId)
+    .maybeSingle();
   if (!session || new Date(session.expires_at) < new Date()) return null;
 
-  const query = role
-    ? 'SELECT * FROM marketplace_users WHERE id = ? AND role = ?'
-    : 'SELECT * FROM marketplace_users WHERE id = ?';
-  const params = role ? [session.user_id, role] : [session.user_id];
-  return db.prepare(query).get(...params) as any;
+  let query = db.from('marketplace_users').select('*').eq('id', session.user_id);
+  if (role) query = query.eq('role', role);
+  const { data: user } = await query.maybeSingle();
+  return user;
 }
 
-// GET — fetch all open buy orders
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const crop = searchParams.get('crop');
     const buyerId = searchParams.get('buyer_id');
 
-    let query = `
-      SELECT bo.*, mu.name as buyer_name, mu.district as buyer_district, mu.phone as buyer_phone
-      FROM buy_orders bo
-      JOIN marketplace_users mu ON bo.buyer_id = mu.id
-      WHERE bo.status = 'open'
-    `;
-    const params: any[] = [];
+    let query = db
+      .from('buy_orders')
+      .select('*, marketplace_users!buyer_id(name, district, phone)')
+      .eq('status', 'open');
 
-    if (crop) {
-      query += ' AND LOWER(bo.crop) LIKE ?';
-      params.push(`%${crop.toLowerCase()}%`);
-    }
-    if (buyerId) {
-      query += ' AND bo.buyer_id = ?';
-      params.push(buyerId);
-    }
-    query += ' ORDER BY bo.created_at DESC';
+    if (crop) query = query.ilike('crop', `%${crop}%`);
+    if (buyerId) query = query.eq('buyer_id', buyerId);
+    query = query.order('created_at', { ascending: false });
 
-    const orders = db.prepare(query).all(...params);
+    const { data: rawOrders, error } = await query;
+    if (error) throw error;
+
+    const orders = (rawOrders || []).map((o: any) => ({
+      ...o,
+      buyer_name: o.marketplace_users?.name,
+      buyer_district: o.marketplace_users?.district,
+      buyer_phone: o.marketplace_users?.phone,
+      marketplace_users: undefined,
+    }));
+
     return NextResponse.json({ orders });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to fetch buy orders' }, { status: 500 });
   }
 }
 
-// POST — buyer creates a buy order and triggers auto-matching
 export async function POST(req: Request) {
   try {
     const buyer = await getMarketplaceUser('buyer');
@@ -69,73 +69,89 @@ export async function POST(req: Request) {
     }
 
     const orderId = crypto.randomUUID();
-    db.prepare(
-      'INSERT INTO buy_orders (id, buyer_id, crop, quantity_kg, max_price_per_kg, currency, description) VALUES (?, ?, ?, ?, ?, ?, ?)'
-    ).run(orderId, buyer.id, crop.trim(), quantity_kg, max_price_per_kg, currency || 'UGX', description || null);
+    await db.from('buy_orders').insert({
+      id: orderId,
+      buyer_id: buyer.id,
+      crop: crop.trim(),
+      quantity_kg,
+      max_price_per_kg,
+      currency: currency || 'UGX',
+      description: description || null,
+    });
 
-    // === AUTO-MATCHING ENGINE (PARTIAL FULFILLMENT) ===
-    const availableListings = db.prepare(`
-      SELECT * FROM listings
-      WHERE LOWER(crop) = LOWER(?)
-        AND price_per_kg <= ?
-        AND currency = ?
-        AND status = 'active'
-        AND seller_id != ?
-      ORDER BY price_per_kg ASC, created_at ASC
-    `).all(crop.trim(), max_price_per_kg, currency || 'UGX', buyer.id) as any[];
+    // === AUTO-MATCHING ENGINE ===
+    const { data: availableListings } = await db
+      .from('listings')
+      .select('*')
+      .ilike('crop', crop.trim())
+      .lte('price_per_kg', max_price_per_kg)
+      .eq('currency', currency || 'UGX')
+      .eq('status', 'active')
+      .neq('seller_id', buyer.id)
+      .order('price_per_kg', { ascending: true })
+      .order('created_at', { ascending: true });
 
     let remainingOrderQty = quantity_kg;
-    const matchedTrades = [];
+    const matchedTrades: any[] = [];
 
-    for (const listing of availableListings) {
+    for (const listing of (availableListings || [])) {
       if (remainingOrderQty <= 0) break;
 
       const matchQty = Math.min(remainingOrderQty, listing.quantity_kg);
       const tradeId = crypto.randomUUID();
-      const agreedPrice = listing.price_per_kg;
-      const totalValue = agreedPrice * matchQty;
+      const totalValue = listing.price_per_kg * matchQty;
 
-      db.prepare(
-        'INSERT INTO trades (id, listing_id, buy_order_id, seller_id, buyer_id, crop, quantity_kg, agreed_price_per_kg, total_value, currency) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
-      ).run(tradeId, listing.id, orderId, listing.seller_id, buyer.id, crop.trim(), matchQty, agreedPrice, totalValue, currency || 'UGX');
+      await db.from('trades').insert({
+        id: tradeId,
+        listing_id: listing.id,
+        buy_order_id: orderId,
+        seller_id: listing.seller_id,
+        buyer_id: buyer.id,
+        crop: crop.trim(),
+        quantity_kg: matchQty,
+        agreed_price_per_kg: listing.price_per_kg,
+        total_value: totalValue,
+        currency: currency || 'UGX',
+      });
 
-      // Update Listing: Subtract quantity and close if 0
       const newListingQty = listing.quantity_kg - matchQty;
-      db.prepare("UPDATE listings SET quantity_kg = ?, status = ? WHERE id = ?")
-        .run(newListingQty, newListingQty <= 0.01 ? 'sold' : 'active', listing.id);
+      await db.from('listings')
+        .update({ quantity_kg: newListingQty, status: newListingQty <= 0.01 ? 'sold' : 'active' })
+        .eq('id', listing.id);
 
       remainingOrderQty -= matchQty;
 
-      // Add notifications for this specific match
-      db.prepare(`
-        INSERT INTO notifications (id, user_id, type, title, message) 
-        VALUES (?, ?, ?, ?, ?)
-      `).run(crypto.randomUUID(), listing.seller_id, 'trade_match', 'Partial Sale!', `You sold ${matchQty}kg of ${listing.crop} to ${buyer.name}.`);
+      await db.from('notifications').insert({
+        id: crypto.randomUUID(),
+        user_id: listing.seller_id,
+        type: 'trade_match',
+        title: 'Partial Sale!',
+        message: `You sold ${matchQty}kg of ${listing.crop} to ${buyer.name}.`,
+      });
 
-      const tRecord = db.prepare(`
-        SELECT t.*, 
-          s.name as seller_name, s.phone as seller_phone, s.district as seller_district, s.email as seller_email,
-          b.name as buyer_name, b.phone as buyer_phone, b.district as buyer_district, b.email as buyer_email
-        FROM trades t
-        JOIN marketplace_users s ON t.seller_id = s.id
-        JOIN marketplace_users b ON t.buyer_id = b.id
-        WHERE t.id = ?
-      `).get(tradeId);
-      matchedTrades.push(tRecord);
+      const { data: tRecord } = await db
+        .from('trades')
+        .select('*, seller:marketplace_users!seller_id(name, phone, district, email), buyer:marketplace_users!buyer_id(name, phone, district, email)')
+        .eq('id', tradeId)
+        .single();
+      if (tRecord) matchedTrades.push(tRecord);
     }
 
-    // Final Order Update: set remaining quantity and status
-    db.prepare("UPDATE buy_orders SET quantity_kg = ?, status = ? WHERE id = ?")
-      .run(remainingOrderQty, remainingOrderQty <= 0.01 ? 'fulfilled' : 'open', orderId);
+    await db.from('buy_orders')
+      .update({ quantity_kg: remainingOrderQty, status: remainingOrderQty <= 0.01 ? 'fulfilled' : 'open' })
+      .eq('id', orderId);
 
     if (matchedTrades.length > 0) {
-      db.prepare(`
-        INSERT INTO notifications (id, user_id, type, title, message) 
-        VALUES (?, ?, ?, ?, ?)
-      `).run(crypto.randomUUID(), buyer.id, 'trade_match', 'Trade Matched!', `We found ${quantity_kg - remainingOrderQty}kg of ${crop} for you!`);
+      await db.from('notifications').insert({
+        id: crypto.randomUUID(),
+        user_id: buyer.id,
+        type: 'trade_match',
+        title: 'Trade Matched!',
+        message: `We found ${quantity_kg - remainingOrderQty}kg of ${crop} for you!`,
+      });
     }
 
-    const order = db.prepare('SELECT * FROM buy_orders WHERE id = ?').get(orderId);
+    const { data: order } = await db.from('buy_orders').select('*').eq('id', orderId).single();
     return NextResponse.json({ order, trade: matchedTrades[0] || null, allTrades: matchedTrades }, { status: 201 });
   } catch (error: any) {
     console.error('Buy order error:', error);
@@ -143,31 +159,26 @@ export async function POST(req: Request) {
   }
 }
 
-// DELETE — buyer cancels a buy order
 export async function DELETE(req: Request) {
   try {
     const user = await getMarketplaceUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { id } = await req.json();
-
-    if (user.role === 'admin') {
-      db.prepare("UPDATE buy_orders SET status = 'cancelled' WHERE id = ?").run(id);
-      return NextResponse.json({ ok: true });
-    }
 
     if (user.role !== 'buyer') {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const order = db
-      .prepare('SELECT * FROM buy_orders WHERE id = ? AND buyer_id = ?')
-      .get(id, user.id) as any;
+    const { data: order } = await db
+      .from('buy_orders')
+      .select('id')
+      .eq('id', id)
+      .eq('buyer_id', user.id)
+      .maybeSingle();
     if (!order) return NextResponse.json({ error: 'Order not found' }, { status: 404 });
 
-    db.prepare("UPDATE buy_orders SET status = 'cancelled' WHERE id = ?").run(id);
+    await db.from('buy_orders').update({ status: 'cancelled' }).eq('id', id);
     return NextResponse.json({ ok: true });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to cancel order' }, { status: 500 });

@@ -1,30 +1,36 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/lib/db';
 
+const ADMIN_SECRET = 'admin2026';
+
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const secret = searchParams.get('secret');
-
-    if (secret !== 'admin2026') {
+    if (searchParams.get('secret') !== ADMIN_SECRET) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const appUsers = db.prepare('SELECT id, name, email, district, created_at FROM users ORDER BY created_at DESC').all();
-    const marketplaceUsers = db.prepare('SELECT id, name, email, phone, district, role, is_subscribed, created_at FROM marketplace_users ORDER BY created_at DESC').all();
-    const chats = db.prepare('SELECT id, user_email, role, content, image_url, timestamp FROM chats ORDER BY timestamp DESC').all();
-    const listings = db.prepare('SELECT l.*, mu.name as seller_name FROM listings l JOIN marketplace_users mu ON l.seller_id = mu.id ORDER BY l.created_at DESC').all();
-    const orders = db.prepare('SELECT bo.*, mu.name as buyer_name FROM buy_orders bo JOIN marketplace_users mu ON bo.buyer_id = mu.id ORDER BY bo.created_at DESC').all();
-    const trades = db.prepare('SELECT t.*, s.name as seller_name, b.name as buyer_name FROM trades t JOIN marketplace_users s ON t.seller_id = s.id JOIN marketplace_users b ON t.buyer_id = b.id ORDER BY t.created_at DESC').all();
+    const [
+      { data: appUsers },
+      { data: marketplaceUsers },
+      { data: chats },
+      { data: listingsRaw },
+      { data: ordersRaw },
+      { data: tradesRaw },
+    ] = await Promise.all([
+      db.from('users').select('id, name, email, district, created_at').order('created_at', { ascending: false }),
+      db.from('marketplace_users').select('id, name, email, phone, district, role, is_subscribed, created_at').order('created_at', { ascending: false }),
+      db.from('chats').select('id, user_email, role, content, image_url, timestamp').order('timestamp', { ascending: false }),
+      db.from('listings').select('*, marketplace_users!seller_id(name)').order('created_at', { ascending: false }),
+      db.from('buy_orders').select('*, marketplace_users!buyer_id(name)').order('created_at', { ascending: false }),
+      db.from('trades').select('*, seller:marketplace_users!seller_id(name), buyer:marketplace_users!buyer_id(name)').order('created_at', { ascending: false }),
+    ]);
 
-    return NextResponse.json({
-      appUsers,
-      marketplaceUsers,
-      chats,
-      listings,
-      orders,
-      trades
-    });
+    const listings = (listingsRaw || []).map((l: any) => ({ ...l, seller_name: l.marketplace_users?.name, marketplace_users: undefined }));
+    const orders = (ordersRaw || []).map((o: any) => ({ ...o, buyer_name: o.marketplace_users?.name, marketplace_users: undefined }));
+    const trades = (tradesRaw || []).map((t: any) => ({ ...t, seller_name: t.seller?.name, buyer_name: t.buyer?.name, seller: undefined, buyer: undefined }));
+
+    return NextResponse.json({ appUsers: appUsers || [], marketplaceUsers: marketplaceUsers || [], chats: chats || [], listings, orders, trades });
   } catch (error) {
     console.error('Admin data fetch error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -34,33 +40,28 @@ export async function GET(req: Request) {
 export async function DELETE(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const secret = searchParams.get('secret');
-    const { type, id } = await req.json();
-
-    if (secret !== 'admin2026') {
+    if (searchParams.get('secret') !== ADMIN_SECRET) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    if (type === 'app-user') {
-      db.prepare('DELETE FROM users WHERE id = ?').run(id);
-    } else if (type === 'marketplace-user') {
-      // Delete dependent records that don't have cascade
-      db.prepare('DELETE FROM trades WHERE seller_id = ? OR buyer_id = ?').run(id, id);
-      db.prepare('DELETE FROM marketplace_users WHERE id = ?').run(id);
-    } else if (type === 'chat') {
-      db.prepare('DELETE FROM chats WHERE id = ?').run(id);
-    } else if (type === 'listing') {
-      // Delete trades associated with this listing
-      db.prepare('DELETE FROM trades WHERE listing_id = ?').run(id);
-      db.prepare('DELETE FROM listings WHERE id = ?').run(id);
-    } else if (type === 'order') {
-      // Delete trades associated with this order
-      db.prepare('DELETE FROM trades WHERE buy_order_id = ?').run(id);
-      db.prepare('DELETE FROM buy_orders WHERE id = ?').run(id);
-    } else if (type === 'trade') {
-      db.prepare('DELETE FROM trades WHERE id = ?').run(id);
-    }
+    const { type, id } = await req.json();
 
+    if (type === 'app-user') {
+      await db.from('users').delete().eq('id', id);
+    } else if (type === 'marketplace-user') {
+      await db.from('trades').delete().or(`seller_id.eq.${id},buyer_id.eq.${id}`);
+      await db.from('marketplace_users').delete().eq('id', id);
+    } else if (type === 'chat') {
+      await db.from('chats').delete().eq('id', id);
+    } else if (type === 'listing') {
+      await db.from('trades').delete().eq('listing_id', id);
+      await db.from('listings').delete().eq('id', id);
+    } else if (type === 'order') {
+      await db.from('trades').delete().eq('buy_order_id', id);
+      await db.from('buy_orders').delete().eq('id', id);
+    } else if (type === 'trade') {
+      await db.from('trades').delete().eq('id', id);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {
@@ -71,21 +72,23 @@ export async function DELETE(req: Request) {
 export async function PATCH(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
-    const secret = searchParams.get('secret');
-    const { type, id, data } = await req.json();
-
-    if (secret !== 'admin2026') {
+    if (searchParams.get('secret') !== ADMIN_SECRET) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
+    const { type, id, data } = await req.json();
+
     if (type === 'app-user') {
-      db.prepare('UPDATE users SET name = ?, email = ?, district = ? WHERE id = ?').run(data.name, data.email, data.district, id);
+      await db.from('users').update({ name: data.name, email: data.email, district: data.district }).eq('id', id);
     } else if (type === 'marketplace-user') {
-      db.prepare('UPDATE marketplace_users SET name = ?, email = ?, phone = ?, district = ?, role = ?, is_subscribed = ? WHERE id = ?').run(data.name, data.email, data.phone, data.district, data.role, data.is_subscribed, id);
+      await db.from('marketplace_users').update({
+        name: data.name, email: data.email, phone: data.phone,
+        district: data.district, role: data.role, is_subscribed: data.is_subscribed,
+      }).eq('id', id);
     } else if (type === 'listing') {
-      db.prepare('UPDATE listings SET crop = ?, quantity_kg = ?, price_per_kg = ? WHERE id = ?').run(data.crop, data.quantity_kg, data.price_per_kg, id);
+      await db.from('listings').update({ crop: data.crop, quantity_kg: data.quantity_kg, price_per_kg: data.price_per_kg }).eq('id', id);
     } else if (type === 'order') {
-      db.prepare('UPDATE buy_orders SET crop = ?, quantity_kg = ?, max_price_per_kg = ? WHERE id = ?').run(data.crop, data.quantity_kg, data.max_price_per_kg, id);
+      await db.from('buy_orders').update({ crop: data.crop, quantity_kg: data.quantity_kg, max_price_per_kg: data.max_price_per_kg }).eq('id', id);
     }
 
     return NextResponse.json({ ok: true });

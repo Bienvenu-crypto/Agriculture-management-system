@@ -6,26 +6,26 @@ export async function POST(req: Request) {
   try {
     const cookieStore = await cookies();
     const sessionId = cookieStore.get('mp_session')?.value;
-    if (!sessionId) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!sessionId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const session = db
-      .prepare('SELECT user_id FROM marketplace_sessions WHERE id = ?')
-      .get(sessionId) as any;
+    const { data: session } = await db
+      .from('marketplace_sessions')
+      .select('user_id')
+      .eq('id', sessionId)
+      .maybeSingle();
 
-    if (!session) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { phone } = await req.json();
-    console.log(`Processing 100,000 UGX payment from ${phone} to +256765636479`);
+    console.log(`Processing 100,000 UGX payment from ${phone}`);
 
     // Simulate payment processing delay
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Update user subscription status
-    db.prepare('UPDATE marketplace_users SET is_subscribed = 1 WHERE id = ?').run(session.user_id);
+    await db
+      .from('marketplace_users')
+      .update({ is_subscribed: true })
+      .eq('id', session.user_id);
 
     return NextResponse.json({ success: true });
   } catch (error: any) {

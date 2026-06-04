@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import db from '@/lib/db';
+import { db } from '@/lib/db';
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -10,46 +10,47 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Missing lat or lon' }, { status: 400 });
   }
 
-  // Rounded to ~1km precision for caching
   const roundedLat = parseFloat(lat).toFixed(2);
   const roundedLon = parseFloat(lon).toFixed(2);
-  const cacheKey = `${roundedLat},${roundedLon}`;
+  const cacheKey = `geo:${roundedLat},${roundedLon}`;
 
   try {
-    // Check cache (we reuse weather_cache table or similar if we can, but let's check lib/db for a generic one)
-    // Actually, I'll check lib/db to see if it has a geocode_cache, otherwise I'll use it anyway.
+    // Check cache
     try {
-      const cached = db.prepare('SELECT data_json FROM weather_cache WHERE location_key = ? AND data_json LIKE ?').get(`geo:${cacheKey}`, '%address%') as { data_json: string } | undefined;
-      if (cached) {
+      const { data: cached } = await db
+        .from('weather_cache')
+        .select('data_json')
+        .eq('location_key', cacheKey)
+        .maybeSingle();
+      if (cached && cached.data_json.includes('address')) {
         return NextResponse.json(JSON.parse(cached.data_json));
       }
-    } catch (e) {}
+    } catch (e) { }
 
-    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&email=ndayishimiyebienvenu34@gmail.com`, {
-      headers: {
-        'Accept-Language': 'en',
-        'User-Agent': 'AgroBot/1.0 (ndayishimiyebienvenu34@gmail.com)'
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`,
+      {
+        headers: {
+          'Accept-Language': 'en',
+          'User-Agent': 'AgroBot/1.0 (ndayishimiyebienvenu34@gmail.com)',
+        },
       }
-    });
-
-    if (!response.ok) {
-      throw new Error(`Geocoding API returned ${response.status}`);
-    }
+    );
+    if (!response.ok) throw new Error(`Geocoding API returned ${response.status}`);
 
     const data = await response.json();
 
-    // Save to cache
     try {
-      db.prepare(`
-        INSERT INTO weather_cache (location_key, data_json, updated_at)
-        VALUES (?, ?, CURRENT_TIMESTAMP)
-        ON CONFLICT(location_key) DO UPDATE SET data_json = excluded.data_json, updated_at = CURRENT_TIMESTAMP
-      `).run(`geo:${cacheKey}`, JSON.stringify(data));
-    } catch (e) {}
+      await db.from('weather_cache').upsert({
+        location_key: cacheKey,
+        data_json: JSON.stringify(data),
+        updated_at: new Date().toISOString(),
+      }, { onConflict: 'location_key' });
+    } catch (e) { }
 
     return NextResponse.json(data);
   } catch (error: any) {
     console.error('Geocoding API Error:', error);
-    return NextResponse.json({ error: `Geocoding Service Error: ${error.message || 'Unknown error'}` }, { status: 500 });
+    return NextResponse.json({ error: `Geocoding Service Error: ${error.message}` }, { status: 500 });
   }
 }

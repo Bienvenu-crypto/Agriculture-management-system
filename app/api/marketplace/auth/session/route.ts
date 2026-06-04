@@ -8,20 +8,24 @@ export async function GET() {
     const sessionId = cookieStore.get('mp_session')?.value;
     if (!sessionId) return NextResponse.json({ user: null });
 
-    const session = db
-      .prepare('SELECT user_id, expires_at FROM marketplace_sessions WHERE id = ?')
-      .get(sessionId) as any;
+    const { data: session } = await db
+      .from('marketplace_sessions')
+      .select('user_id, expires_at')
+      .eq('id', sessionId)
+      .maybeSingle();
 
     if (!session) return NextResponse.json({ user: null });
 
     if (new Date(session.expires_at) < new Date()) {
-      db.prepare('DELETE FROM marketplace_sessions WHERE id = ?').run(sessionId);
+      await db.from('marketplace_sessions').delete().eq('id', sessionId);
       return NextResponse.json({ user: null });
     }
 
-    const user = db
-      .prepare('SELECT id, name, email, phone, district, role, is_subscribed FROM marketplace_users WHERE id = ?')
-      .get(session.user_id) as any;
+    const { data: user } = await db
+      .from('marketplace_users')
+      .select('id, name, email, phone, district, role, is_subscribed')
+      .eq('id', session.user_id)
+      .maybeSingle();
 
     return NextResponse.json({ user: user || null });
   } catch (error) {
@@ -34,7 +38,7 @@ export async function DELETE() {
     const cookieStore = await cookies();
     const sessionId = cookieStore.get('mp_session')?.value;
     if (sessionId) {
-      db.prepare('DELETE FROM marketplace_sessions WHERE id = ?').run(sessionId);
+      await db.from('marketplace_sessions').delete().eq('id', sessionId);
     }
     const response = NextResponse.json({ ok: true });
     response.cookies.delete('mp_session');
