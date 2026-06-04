@@ -296,7 +296,7 @@ export function InlineAuth({ onSuccess, defaultRole }: { onSuccess: (user: MpUse
 }
 
 // ─── Add Listing Modal ───────────────────────────────────────────────────────
-export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; onSuccess: () => void }) {
+export function AddListingModal({ onClose, onSuccess, onGoToAdvertising }: { onClose: () => void; onSuccess: () => void; onGoToAdvertising?: () => void }) {
   const [loading, setLoading] = useState(false);
   const [checkingSub, setCheckingSub] = useState(true);
   const [isSubscribed, setIsSubscribed] = useState(false);
@@ -401,9 +401,9 @@ export function AddListingModal({ onClose, onSuccess }: { onClose: () => void; o
             <button
               onClick={() => {
                 onClose();
-                // This is a hack since we can't easily trigger a parent state change here, 
-                // but usually the parent will handle the advertising tab navigation.
-                window.location.hash = 'advertising'; // or similar signal
+                if (onGoToAdvertising) {
+                  onGoToAdvertising();
+                }
               }}
               className="w-full bg-slate-900 text-white py-4 rounded-2xl font-black capitalize text-[10px] tracking-widest hover:bg-slate-800 transition-all"
             >
@@ -1015,10 +1015,11 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
         body: JSON.stringify({ phone: momoNumber })
       });
       if (res.ok) {
-        await fetchSession();
+        setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
         setShowPaymentModal(false);
         setMomoNumber('');
-        setActiveTab('advertising');
+        setActiveTab('my-listings');
+        fetchSession();
       } else {
         const data = await res.json();
         alert(data.error || 'Payment failed');
@@ -1056,6 +1057,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
             key="add-listing-modal"
             onClose={() => setShowAddListing(false)}
             onSuccess={() => { fetchListings(); setActiveTab('my-listings'); }}
+            onGoToAdvertising={() => { setShowAddListing(false); setActiveTab('advertising'); }}
           />
         )}
         {showAddBuyOrder && (

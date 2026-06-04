@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Plus, 
-  TrendingUp, 
-  ShieldCheck, 
+import {
+  Plus,
+  TrendingUp,
+  ShieldCheck,
   CreditCard,
   Trash2,
   Pencil,
@@ -78,8 +78,9 @@ export default function SellerPortal() {
         body: JSON.stringify({ phone: momoNumber })
       });
       if (res.ok) {
-        await fetchData();
+        setMpUser((prev: any) => prev ? { ...prev, is_subscribed: true } : prev);
         setShowPaymentModal(false);
+        fetchData();
       } else {
         alert('Payment failed');
       }
@@ -99,7 +100,7 @@ export default function SellerPortal() {
         body: JSON.stringify({ id })
       });
       fetchData();
-    } catch (err) {}
+    } catch (err) { }
   };
 
   if (loading) {
@@ -123,9 +124,9 @@ export default function SellerPortal() {
             <p className="text-slate-500 font-medium">Please sign in as a Seller to manage your products and commercial output.</p>
           </div>
           <div className="pt-4 flex justify-center">
-             <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl font-black text-[10px] capitalize tracking-widest border border-emerald-100 animate-pulse">
-               Open the Marketplace tab to Login
-             </div>
+            <div className="p-4 bg-emerald-50 text-emerald-600 rounded-2xl font-black text-[10px] capitalize tracking-widest border border-emerald-100 animate-pulse">
+              Open the Marketplace tab to Login
+            </div>
           </div>
         </div>
       </div>
@@ -142,7 +143,7 @@ export default function SellerPortal() {
               <h2 className="text-4xl font-black capitalize tracking-tighter">Activate Your Seller Store</h2>
               <p className="text-emerald-100 font-medium max-w-md">Start listing your agricultural products on the marketplace. A one-time activation fee is required to verify your store and enable commercial trading.</p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4">
               {[
                 'Unlimited Product Listings',
@@ -158,7 +159,7 @@ export default function SellerPortal() {
             </div>
 
             <div className="pt-6">
-              <button 
+              <button
                 onClick={() => setShowPaymentModal(true)}
                 className="bg-white text-emerald-700 px-10 py-5 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-50 transition-all shadow-2xl shadow-black/20 active:scale-95"
               >
@@ -172,28 +173,28 @@ export default function SellerPortal() {
         <AnimatePresence>
           {showPaymentModal && (
             <div className="fixed inset-0 z-[500] flex items-center justify-center p-6 bg-slate-950/60 backdrop-blur-md">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, scale: 0.9, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9, y: 20 }}
                 className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl"
               >
                 <div className="bg-emerald-600 p-8 text-white">
-                   <h3 className="text-2xl font-black capitalize tracking-tighter mb-1">Store Activation</h3>
-                   <p className="text-emerald-100 text-[10px] font-black capitalize tracking-widest">Mobile Money Secure Checkout</p>
+                  <h3 className="text-2xl font-black capitalize tracking-tighter mb-1">Store Activation</h3>
+                  <p className="text-emerald-100 text-[10px] font-black capitalize tracking-widest">Mobile Money Secure Checkout</p>
                 </div>
                 <div className="p-8 space-y-6">
                   <div>
                     <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-3">Your Mobile Number</label>
-                    <input 
-                      type="tel" 
+                    <input
+                      type="tel"
                       placeholder="+256 7xx xxx xxx"
                       value={momoNumber}
                       onChange={(e) => setMomoNumber(e.target.value)}
                       className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold focus:border-emerald-500 outline-none transition-all"
                     />
                   </div>
-                  <button 
+                  <button
                     onClick={handlePayment}
                     disabled={isPaying || !momoNumber}
                     className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-700 transition-all shadow-lg shadow-emerald-600/20 disabled:opacity-50"
@@ -228,7 +229,7 @@ export default function SellerPortal() {
             </div>
           </div>
         </div>
-        
+
         <div className="flex gap-3">
           <div className="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-3 shadow-sm">
             <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
@@ -239,9 +240,9 @@ export default function SellerPortal() {
               <p className="text-xs font-black text-slate-900 capitalize tracking-tight">Active Seller</p>
             </div>
           </div>
-          <button 
-             onClick={() => setShowAddListing(true)}
-             className="bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
+          <button
+            onClick={() => setShowAddListing(true)}
+            className="bg-emerald-700 text-white px-8 py-4 rounded-2xl font-black capitalize text-xs tracking-widest hover:bg-emerald-800 transition-all shadow-xl shadow-emerald-700/20 active:scale-95 flex items-center gap-2"
           >
             <Plus className="w-5 h-5" />
             Post New Listing
@@ -265,7 +266,7 @@ export default function SellerPortal() {
                 <p className="text-sm font-black text-slate-900 capitalize">No products listed yet</p>
                 <p className="text-xs text-slate-400 font-medium">Start selling your agricultural output to reach local buyers.</p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowAddListing(true)}
                 className="text-emerald-600 font-black text-[10px] capitalize tracking-widest hover:underline pt-4"
               >
@@ -291,14 +292,14 @@ export default function SellerPortal() {
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => setEditingListing(listing)}
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-amber-400 hover:text-amber-600 hover:bg-amber-50 transition-all"
                       title="Edit listing"
                     >
                       <Pencil className="w-4 h-4" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => deleteListing(listing.id)}
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-red-400 hover:text-red-600 hover:bg-red-50 transition-all"
                       title="Delete listing"
@@ -318,53 +319,53 @@ export default function SellerPortal() {
         {/* Sidebar / Tools */}
         <div className="col-span-12 lg:col-span-4 space-y-6">
           <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white relative overflow-hidden">
-             <div className="relative z-10 space-y-6">
-               <div className="space-y-1">
-                 <h3 className="text-xl font-black capitalize tracking-tighter">Store Health</h3>
-                 <p className="text-slate-400 text-[10px] font-bold capitalize tracking-widest">Verified Seller Account</p>
-               </div>
-               
-               <div className="space-y-4 pt-4 border-t border-white/10">
-                 <div className="flex justify-between items-center">
-                   <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest">Visibility</p>
-                   <p className="text-xs font-black text-emerald-400">Excellent</p>
-                 </div>
-                 <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-                   <div className="w-4/5 h-full bg-emerald-500 rounded-full" />
-                 </div>
-               </div>
+            <div className="relative z-10 space-y-6">
+              <div className="space-y-1">
+                <h3 className="text-xl font-black capitalize tracking-tighter">Store Health</h3>
+                <p className="text-slate-400 text-[10px] font-bold capitalize tracking-widest">Verified Seller Account</p>
+              </div>
 
-               <div className="pt-4 space-y-3">
-                 <div className="p-4 bg-white/5 rounded-2xl flex items-center gap-4">
-                   <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
-                     <ShieldCheck className="w-5 h-5" />
-                   </div>
-                   <div>
-                     <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Protection</p>
-                     <p className="text-xs font-black">Trade Secure Enabled</p>
-                   </div>
-                 </div>
-                 <div className="p-4 bg-white/5 rounded-2xl flex items-center gap-4">
-                   <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400">
-                     <CreditCard className="w-5 h-5" />
-                   </div>
-                   <div>
-                     <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Revenue</p>
-                     <p className="text-xs font-black">Daily Payouts Active</p>
-                   </div>
-                 </div>
-               </div>
-             </div>
-             <div className="absolute -left-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl" />
+              <div className="space-y-4 pt-4 border-t border-white/10">
+                <div className="flex justify-between items-center">
+                  <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest">Visibility</p>
+                  <p className="text-xs font-black text-emerald-400">Excellent</p>
+                </div>
+                <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                  <div className="w-4/5 h-full bg-emerald-500 rounded-full" />
+                </div>
+              </div>
+
+              <div className="pt-4 space-y-3">
+                <div className="p-4 bg-white/5 rounded-2xl flex items-center gap-4">
+                  <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                    <ShieldCheck className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Protection</p>
+                    <p className="text-xs font-black">Trade Secure Enabled</p>
+                  </div>
+                </div>
+                <div className="p-4 bg-white/5 rounded-2xl flex items-center gap-4">
+                  <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center text-blue-400">
+                    <CreditCard className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-black text-slate-400 capitalize tracking-widest leading-none mb-1">Revenue</p>
+                    <p className="text-xs font-black">Daily Payouts Active</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="absolute -left-10 -top-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl" />
           </div>
         </div>
       </div>
 
       <AnimatePresence>
         {showAddListing && (
-          <AddListingModal 
-            onClose={() => setShowAddListing(false)} 
-            onSuccess={() => { setShowAddListing(false); fetchData(); }} 
+          <AddListingModal
+            onClose={() => setShowAddListing(false)}
+            onSuccess={() => { setShowAddListing(false); fetchData(); }}
           />
         )}
         {editingListing && (
