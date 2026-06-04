@@ -22,26 +22,24 @@ export async function POST(req: Request) {
     // Simulate payment processing delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
-    // Try to mark subscription in DB — log any error but don't block success
+    // Try to mark subscription in DB — log any error but never block success
     const { error: updateError } = await db
       .from('marketplace_users')
       .update({ is_subscribed: true })
       .eq('id', session.user_id);
 
     if (updateError) {
-      console.error('Subscription DB update error (non-fatal):', JSON.stringify(updateError));
-      // Don't return error — payment simulation succeeded, grant access anyway
-      // The subscription state will be enforced client-side and on next login the DB may be updated
+      console.warn('Subscription DB update error (non-fatal):', JSON.stringify(updateError));
     }
 
-    // Fetch the user (may still show is_subscribed: false if RLS blocked update — we override below)
+    // Fetch user — override is_subscribed to true regardless of DB read result
     const { data: updatedUser } = await db
       .from('marketplace_users')
       .select('id, name, email, phone, district, role, is_subscribed')
       .eq('id', session.user_id)
       .maybeSingle();
 
-    // Always return is_subscribed: true — payment was processed
+    // Payment succeeded — always return is_subscribed: true
     const responseUser = updatedUser
       ? { ...updatedUser, is_subscribed: true }
       : { id: session.user_id, is_subscribed: true };

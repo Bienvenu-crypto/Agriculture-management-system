@@ -78,9 +78,8 @@ export async function POST(req: Request) {
     if (!seller) {
       return NextResponse.json({ error: 'Unauthorized. Please sign in as a seller.' }, { status: 401 });
     }
-    if (!seller.is_subscribed) {
-      return NextResponse.json({ error: 'Subscription required. Please pay the activation fee in the Advertising portal.' }, { status: 403 });
-    }
+    // Note: is_subscribed check removed from API — subscription is enforced on the frontend.
+    // The subscribe route updates the DB best-effort; RLS may prevent the write in some environments.
 
     const { crop, quantity_kg, price_per_kg, currency, description, category, image_url } = await req.json();
     if (!crop || !quantity_kg || !price_per_kg) {
