@@ -32,9 +32,6 @@ export default function AdminDashboard() {
   const [editingItem, setEditingItem] = useState<{ type: string, item: any } | null>(null);
   const [editLoading, setEditLoading] = useState(false);
 
-  // Last updated timestamp for marketplace tab
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
-
   // Search States
   const [searchChats, setSearchChats] = useState('');
   const [searchUsers, setSearchUsers] = useState('');
@@ -105,7 +102,6 @@ export default function AdminDashboard() {
       const data = await res.json();
       if (data.error) throw new Error(data.error);
       setAdminData(data);
-      setLastUpdated(new Date());
       setError('');
     } catch (err: any) {
       setError(err.message);
@@ -119,16 +115,6 @@ export default function AdminDashboard() {
       fetchAllData();
     }
   }, [isAuthenticated]);
-
-  // Auto-poll every 10 seconds when the marketplace tab is active so that
-  // subscription status updates immediately after a simulated payment.
-  useEffect(() => {
-    if (!isAuthenticated || activeTab !== 'marketplace') return;
-    const interval = setInterval(() => {
-      fetchAllData();
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [isAuthenticated, activeTab]);
 
   const handleDelete = async (type: string, id: string) => {
     if (!window.confirm(`Delete this ${type}? This cannot be undone.`)) return;
@@ -586,21 +572,8 @@ export default function AdminDashboard() {
                   <div>
                     <div className="flex items-center justify-between mb-6">
                       <div>
-                        <div className="flex items-center gap-3 mb-1">
-                          <h3 className="text-xl font-black text-slate-900">Market Participants</h3>
-                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 rounded-full">
-                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
-                            <span className="text-[9px] font-black text-emerald-600 capitalize tracking-widest">Live · Auto-refresh 10s</span>
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <p className="text-slate-400 text-xs font-medium">{adminData.marketplaceUsers.length} registered traders</p>
-                          {lastUpdated && (
-                            <p className="text-slate-300 text-[10px] font-bold">
-                              Last synced: {lastUpdated.toLocaleTimeString()}
-                            </p>
-                          )}
-                        </div>
+                        <h3 className="text-xl font-black text-slate-900 mb-1">Market Participants</h3>
+                        <p className="text-slate-400 text-xs font-medium">{adminData.marketplaceUsers.length} registered traders</p>
                       </div>
                       <div className="flex items-center gap-3">
                         <DateRangeExport data={filteredMarketplaceUsers} filename="marketplace_participants" />
@@ -652,9 +625,9 @@ export default function AdminDashboard() {
                                   </span>
                                 </td>
                                 <td className="px-6 py-4">
-                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize tracking-wide ${Boolean(u.is_subscribed) ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
-                                    <span className={`w-1.5 h-1.5 rounded-full ${Boolean(u.is_subscribed) ? 'bg-emerald-500' : 'bg-amber-500'}`} />
-                                    {Boolean(u.is_subscribed) ? 'Active' : 'Unpaid'}
+                                  <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold capitalize tracking-wide ${u.is_subscribed ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'
+                                    }`}>
+                                    {u.is_subscribed ? 'Active' : 'Unpaid'}
                                   </span>
                                 </td>
                                 <td className="px-6 py-4 text-right">
