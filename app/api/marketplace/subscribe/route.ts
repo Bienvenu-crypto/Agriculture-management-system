@@ -23,19 +23,29 @@ export async function POST(req: Request) {
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     // Mark subscription in DB
-    await db
+    const { error: updateError } = await db
       .from('marketplace_users')
       .update({ is_subscribed: true })
       .eq('id', session.user_id);
 
-    // Return the full updated user so the frontend doesn't need to re-fetch
+    if (updateError) {
+      console.error('Subscription update error:', updateError);
+      return NextResponse.json({ error: 'Failed to activate subscription' }, { status: 500 });
+    }
+
+    // Fetch updated user to confirm
     const { data: updatedUser } = await db
       .from('marketplace_users')
       .select('id, name, email, phone, district, role, is_subscribed')
       .eq('id', session.user_id)
       .maybeSingle();
 
-    return NextResponse.json({ success: true, user: updatedUser });
+    // Always force is_subscribed: true in the response — the update succeeded
+    const responseUser = updatedUser
+      ? { ...updatedUser, is_subscribed: true }
+      : null;
+
+    return NextResponse.json({ success: true, user: responseUser });
   } catch (error: any) {
     console.error('Subscription error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

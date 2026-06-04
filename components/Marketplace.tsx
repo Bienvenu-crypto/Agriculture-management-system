@@ -313,14 +313,17 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, already
   });
 
   useEffect(() => {
-    if (alreadySubscribed) return; // skip fetch — parent already confirmed subscription
+    // Always fetch to populate `user` — only skip subscription re-check if parent confirmed it
     const checkStatus = async () => {
       try {
         const res = await fetch('/api/marketplace/auth/session');
         const data = await res.json();
         if (data.user) {
           setUser(data.user);
-          setIsSubscribed(!!data.user.is_subscribed);
+          // If parent passed alreadySubscribed=true, trust it; otherwise use DB value
+          if (!alreadySubscribed) {
+            setIsSubscribed(!!data.user.is_subscribed);
+          }
         }
       } catch (e) { } finally {
         setCheckingSub(false);
@@ -372,7 +375,7 @@ export function AddListingModal({ onClose, onSuccess, onGoToAdvertising, already
     );
   }
 
-  if (!user || user.role !== 'seller') {
+  if (!alreadySubscribed && (!user || user.role !== 'seller')) {
     return (
       <AuthModal
         onClose={onClose}
@@ -1015,8 +1018,11 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        // Use the user returned by the API — no re-fetch needed, no race condition
-        setMpUser(data.user ?? ((prev: any) => prev ? { ...prev, is_subscribed: true } : prev));
+        // Always force is_subscribed: true — payment confirmed, don't rely on DB round-trip value
+        setMpUser((prev: any) => {
+          const base = data.user || prev || {};
+          return { ...base, is_subscribed: true };
+        });
         setShowPaymentModal(false);
         setMomoNumber('');
         setActiveTab('my-listings');

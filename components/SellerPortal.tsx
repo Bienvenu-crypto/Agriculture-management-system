@@ -79,8 +79,11 @@ export default function SellerPortal() {
       });
       const data = await res.json();
       if (res.ok && data.success) {
-        // Use the user returned by the API directly — no re-fetch race condition
-        setMpUser(data.user ?? ((prev: any) => prev ? { ...prev, is_subscribed: true } : prev));
+        // Always force is_subscribed: true — payment confirmed
+        setMpUser((prev: any) => {
+          const base = data.user || prev || {};
+          return { ...base, is_subscribed: true };
+        });
         setShowPaymentModal(false);
       } else {
         alert(data.error || 'Payment failed');
