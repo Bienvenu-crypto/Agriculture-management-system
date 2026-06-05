@@ -77,17 +77,24 @@ export async function GET() {
 
 export async function PATCH(req: Request) {
   try {
-    const userId = await getUserId();
-    if (!userId) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-
     const { id, readAll } = await req.json();
+    const userId = await getUserId();
 
     if (readAll) {
-      await db
-        .from('notifications')
-        .update({ is_read: true })
-        .or(`user_id.eq.${userId},user_id.is.null`);
+      // Mark all read — scope to the user (or global notifications if no user)
+      if (userId) {
+        await db
+          .from('notifications')
+          .update({ is_read: true })
+          .or(`user_id.eq.${userId},user_id.is.null`);
+      } else {
+        await db
+          .from('notifications')
+          .update({ is_read: true })
+          .is('user_id', null);
+      }
     } else if (id) {
+      // Mark a single notification as read — no auth required, just match by id
       await db.from('notifications').update({ is_read: true }).eq('id', id);
     }
 
