@@ -25,7 +25,7 @@ const FEATURES = [
   },
   {
     title: 'Weather Monitoring',
-    description: 'Real-time weather data and 7-day forecasts tailored to your farm\'s specific geographic location.'
+    description: 'Real-time weather data and 3-day forecasts tailored to your farm\'s specific geographic location.'
   },
   {
     title: 'Advertising Tools',
