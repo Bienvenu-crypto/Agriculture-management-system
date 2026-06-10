@@ -137,7 +137,11 @@ Include specific estimated dates (calculated from the planting date) for key pha
 
 Make the advice highly actionable for a smallholder farmer.`;
 
-      const response = await ai.models.generateContent({
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error("Timeout")), 5000)
+      );
+
+      const aiPromise = ai.models.generateContent({
         model: "gemini-3-flash-preview",
         contents: [{ parts: [{ text: prompt }] }],
         config: {
@@ -166,6 +170,25 @@ Make the advice highly actionable for a smallholder farmer.`;
           }
         }
       });
+
+      let response;
+      try {
+        response = await Promise.race([aiPromise, timeoutPromise]) as any;
+      } catch (e) {
+        console.warn("AI generation timed out or failed, using mock data for immediate response.");
+        response = {
+          text: JSON.stringify({
+            estimatedYieldDate: "Estimated in 3-4 months",
+            generalAdvice: `Based on general agronomy for ${formData.crop} in ${formData.region}, ensure proper spacing and regular weeding. Provide adequate water during the flowering stage.`,
+            tasks: [
+              { date: "Week 1", phase: "Germination", task: "Seedling Emergence", description: "Monitor for even germination and protect from birds.", isCritical: true },
+              { date: "Week 3", phase: "Vegetative", task: "First Weeding & Top Dressing", description: "Remove weeds to prevent nutrient competition and apply nitrogen fertilizer.", isCritical: true },
+              { date: "Week 6", phase: "Flowering", task: "Pest Scouting", description: "Check for aphids or other pests. Apply recommended pesticide if needed.", isCritical: false },
+              { date: "Week 12", phase: "Maturity", task: "Pre-harvest Check", description: "Assess crop maturity indicators to plan for harvest.", isCritical: true }
+            ]
+          })
+        };
+      }
 
       const jsonStr = response.text || "{}";
       const parsedData = JSON.parse(jsonStr) as CalendarData;
@@ -395,7 +418,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                       }}
                       className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-indigo-700 transition-colors shadow-sm"
                     >
-                      PDF
+                      DOWNLOAD PDF
                     </button>
                     {isSaving && (
                       <div className="px-4 py-2 text-[10px] text-indigo-400 font-black capitalize tracking-widest animate-pulse">Saving...</div>

@@ -88,33 +88,19 @@ export default function CropRecommendation({ location }: CropRecommendationProps
 
 Based on these parameters, recommend the top 3 most suitable crops to plant. For each crop, briefly explain WHY it is suitable and give one quick tip for maximizing yield. Format the response clearly using Markdown.`;
 
-      const executeWithRetry = async (retries = 3, initialDelay = 2000) => {
-        for (let i = 0; i < retries; i++) {
-          try {
-            return await ai.models.generateContent({
-              model: "gemini-3-flash-preview",
-              contents: [{ parts: [{ text: prompt }] }],
-            });
-          } catch (err: any) {
-            console.warn(`Recommendation attempt ${i + 1} failed:`, err);
-            const isRetryable = err.status === 503 || err.status === 429 ||
-              err.message?.includes('503') || err.message?.includes('429') ||
-              err.message?.includes('demand') || err.message?.includes('quota');
+      const responseStream = await ai.models.generateContentStream({
+        model: "gemini-3-flash-preview",
+        contents: [{ parts: [{ text: prompt }] }],
+      });
 
-            if (isRetryable && i < retries - 1) {
-              const waitTime = initialDelay * Math.pow(2, i);
-              await new Promise(resolve => setTimeout(resolve, waitTime));
-              continue;
-            }
-            throw err;
-          }
+      let fullText = '';
+      setResult(''); // Clear result to start streaming
+      for await (const chunk of responseStream) {
+        if (chunk.text) {
+          fullText += chunk.text;
+          setResult(fullText);
         }
-      };
-
-      const response = await executeWithRetry();
-      if (!response) throw new Error("Service busy");
-
-      setResult(response.text || "Could not generate recommendations. Please try again.");
+      }
     } catch (error) {
       console.error("Recommendation Error:", error);
       setResult("An error occurred while generating recommendations. Please check your connection and try again.");
