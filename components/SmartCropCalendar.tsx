@@ -381,7 +381,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                 </div>
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                   <div className="px-4 py-3 text-xs text-indigo-800 max-w-md font-medium">
-                    <span className="font-black block mb-1 capitalize text-[9px] tracking-widest opacity-50 text-indigo-950">System Guidance</span>
+                    <span className="font-black block mb-1 capitalize text-sm tracking-widest text-black">System Guidance</span>
                     {data.generalAdvice}
                   </div>
                   <div className="flex gap-2">
