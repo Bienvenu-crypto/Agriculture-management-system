@@ -227,7 +227,7 @@ export async function PATCH(req: Request) {
 
     const { error: updateError } = await db
       .from('listings')
-      .update({ is_promoted: is_promoted ? true : false })
+      .update({ is_promoted: is_promoted ? Math.floor(Date.now() / 1000) : 0 })
       .eq('id', id);
 
     if (updateError) {

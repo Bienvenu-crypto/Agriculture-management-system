@@ -1002,7 +1002,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
     if (promotingId) return; // prevent double-click
     setPromotingId(id);
     // Optimistic update — flip immediately so button responds at once
-    setListings(prev => prev.map(l => l.id === id ? { ...l, is_promoted: currentStatus ? 0 : 1 } : l));
+    setListings(prev => prev.map(l => l.id === id ? { ...l, is_promoted: currentStatus ? 0 : Math.floor(Date.now() / 1000) } : l));
     try {
       const res = await fetch('/api/marketplace/listings', {
         method: 'PATCH',
@@ -1252,16 +1252,16 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                         key={listing.id}
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className={`flex items-center justify-between p-3.5 rounded-xl transition-all group ${listing.is_promoted === 1 ? 'bg-amber-50 border border-amber-200 hover:bg-amber-100' : 'bg-slate-50 hover:bg-emerald-50'}`}
+                        className={`flex items-center justify-between p-3.5 rounded-xl transition-all group ${listing.is_promoted > 0 ? 'bg-amber-50 border border-amber-200 hover:bg-amber-100' : 'bg-slate-50 hover:bg-emerald-50'}`}
                       >
                         <div className="flex items-center gap-3 min-w-0">
-                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-[9px] capitalize tracking-tighter flex-shrink-0 ${listing.is_promoted === 1 ? 'bg-amber-200 text-amber-800' : 'bg-emerald-100 text-emerald-700'}`}>
-                            {listing.is_promoted === 1 ? '★' : 'Crop'}
+                          <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-[9px] capitalize tracking-tighter flex-shrink-0 ${listing.is_promoted > 0 ? 'bg-amber-200 text-amber-800' : 'bg-emerald-100 text-emerald-700'}`}>
+                            {listing.is_promoted > 0 ? '★' : 'Crop'}
                           </div>
                           <div className="min-w-0">
                             <p className="font-black text-slate-900 text-sm capitalize tracking-tighter flex items-center gap-2">
                               {listing.crop}
-                              {listing.is_promoted === 1 && (
+                              {listing.is_promoted > 0 && (
                                 <span className="px-1.5 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded capitalize tracking-widest">★ Featured</span>
                               )}
                             </p>
@@ -1593,7 +1593,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                       </div>
                     ) : (
                       <div className="space-y-3">
-                        {listings.map((listing: Listing) => (
+                        {[...listings].sort((a, b) => (b.is_promoted || 0) - (a.is_promoted || 0)).map((listing: Listing) => (
                           <div key={listing.id} className="flex items-center justify-between p-5 bg-slate-50 rounded-[1.5rem] border border-transparent hover:border-blue-200 transition-all group">
                             <div className="flex items-center gap-4">
                               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 font-black text-xs shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -1602,8 +1602,8 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                               <div>
                                 <p className="font-black text-slate-950 capitalize tracking-tighter leading-none mb-1">
                                   {listing.crop}
-                                  {listing.is_promoted === 1 && (
-                                    <span className="ml-2 px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[7px] font-black rounded capitalize tracking-[0.2em] border border-amber-200">Promoted</span>
+                                  {listing.is_promoted > 0 && (
+                                    <span className="ml-2 px-1.5 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded capitalize tracking-widest">★ Featured</span>
                                   )}
                                 </p>
                                 <p className="text-[10px] text-slate-500 font-bold capitalize tracking-widest">
@@ -1817,19 +1817,19 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
                       {myListings.length > 0 ? (
                         <div className="space-y-2">
                           {myListings.map((listing: Listing) => (
-                            <div key={listing.id} className={`flex items-center justify-between p-3 rounded-xl transition-all ${listing.is_promoted === 1 ? 'bg-amber-500/20 border border-amber-400/30' : 'bg-white/5 hover:bg-white/10'}`}>
+                            <div key={listing.id} className={`flex items-center justify-between p-3 rounded-xl transition-all ${listing.is_promoted > 0 ? 'bg-amber-500/20 border border-amber-400/30' : 'bg-white/5 hover:bg-white/10'}`}>
                               <span className="font-bold text-sm capitalize tracking-tight flex items-center gap-2">
                                 {listing.crop} <span className="text-white/50 font-medium">·</span> <span className="text-white/60 text-xs font-medium">{listing.quantity_kg.toLocaleString()}kg</span>
-                                {listing.is_promoted === 1 && <span className="px-2 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded tracking-widest">★ FEATURED</span>}
+                                {listing.is_promoted > 0 && <span className="px-2 py-0.5 bg-amber-400 text-white text-[7px] font-black rounded tracking-widest">★ FEATURED</span>}
                               </span>
                               <button
-                                onClick={() => togglePromotion(listing.id, listing.is_promoted === 1)}
+                                onClick={() => togglePromotion(listing.id, listing.is_promoted > 0)}
                                 disabled={promotingId === listing.id}
-                                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[9px] font-black capitalize tracking-widest transition-all active:scale-95 disabled:opacity-60 disabled:cursor-wait ${listing.is_promoted === 1 ? 'bg-white/10 text-slate-300 hover:bg-white/20' : 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/30'}`}
+                                className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-[9px] font-black capitalize tracking-widest transition-all active:scale-95 disabled:opacity-60 disabled:cursor-wait ${listing.is_promoted > 0 ? 'bg-white/10 text-slate-300 hover:bg-white/20' : 'bg-emerald-500 text-white hover:bg-emerald-400 shadow-lg shadow-emerald-500/30'}`}
                               >
                                 {promotingId === listing.id ? (
                                   <><span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin inline-block" /> Processing…</>
-                                ) : listing.is_promoted === 1 ? '✕ Unpromote' : '★ Promote'}
+                                ) : listing.is_promoted > 0 ? '✕ Unpromote' : '★ Promote'}
                               </button>
                             </div>
                           ))}
