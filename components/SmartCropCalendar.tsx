@@ -200,7 +200,7 @@ Make the advice highly actionable for a smallholder farmer.`;
         {user && (
           <button
             onClick={() => setShowHistory(!showHistory)}
-            className="p-2 hover:bg-slate-50 rounded-xl transition-colors text-slate-400 hover:text-indigo-600 flex items-center gap-2"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl transition-colors flex items-center gap-2"
             title="Calendar History"
           >
             <span className="text-[10px] font-black capitalize tracking-widest">Archives</span>
@@ -393,7 +393,7 @@ Make the advice highly actionable for a smallholder farmer.`;
                         });
                         doc.save(`crop_calendar_${formData.crop.toLowerCase()}.pdf`);
                       }}
-                      className="px-4 py-2 bg-white text-indigo-600 rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-indigo-50 transition-colors shadow-sm"
+                      className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-[10px] font-black capitalize tracking-widest hover:bg-indigo-700 transition-colors shadow-sm"
                     >
                       PDF
                     </button>
