@@ -823,22 +823,7 @@ export default function WeatherWidget() {
             </div>
           </motion.div>
 
-          {/* Moon Phase */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 text-center"
-          >
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-3">
-              Moon Phase
-            </h3>
-            <span className="text-5xl block mb-2">{moonPhase.phaseIcon}</span>
-            <p className="text-sm font-black text-slate-800">{moonPhase.phaseName}</p>
-            <p className="text-[10px] text-slate-400 font-medium mt-1">
-              New Moon in {moonPhase.daysToNew} days · {moonPhase.nextNewStr}
-            </p>
-          </motion.div>
+
 
           {/* Active Alerts */}
           {alerts.length > 0 && (
