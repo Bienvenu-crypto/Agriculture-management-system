@@ -1124,7 +1124,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <h3 className="text-xl font-black capitalize tracking-tighter">AgroMarket</h3>
-                <span className="px-2 py-0.5 bg-white/20 rounded-full text-[9px] font-black capitalize tracking-[0.2em]">Verified</span>
+
               </div>
               <p className={`${(forcedTab === 'buy-orders' || activeTab === 'buy-orders' || (mpUser?.role === 'buyer' && activeTab === 'browse')) ? 'text-blue-100' : 'text-emerald-100'} text-[10px] font-bold capitalize tracking-widest`}>
                 Agricultural Output Exchange
