@@ -139,7 +139,7 @@ export default function Page() {
             onClick={() => switchView('about')}
             className={`w-full text-left px-6 py-4 rounded-2xl text-[14px] font-black transition-all duration-300 flex items-center gap-3 ${activeView === 'about'
               ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/30'
-              : 'text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white'
+              : 'text-white bg-white/5 hover:bg-white/10'
               }`}
           >
             About
@@ -149,7 +149,7 @@ export default function Page() {
           <div className="space-y-1">
             <button
               onClick={() => toggleMenu('advisory')}
-              className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
+              className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-white flex items-center justify-between hover:text-white"
             >
               Advisory
               <span>{expandedMenus.advisory ? '−' : '+'}</span>
@@ -158,7 +158,7 @@ export default function Page() {
               <div className="space-y-1 pl-4">
                 <button
                   onClick={() => switchView('chatbot')}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'chatbot' ? 'text-emerald-400 bg-emerald-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                  className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'chatbot' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
                 >
                   Chatbot
                 </button>
@@ -166,13 +166,13 @@ export default function Page() {
                   <>
                     <button
                       onClick={() => switchView('recommendation')}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'recommendation' ? 'text-emerald-400 bg-emerald-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'recommendation' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
                     >
                       Crop Recommendation
                     </button>
                     <button
                       onClick={() => switchView('calendar')}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'calendar' ? 'text-emerald-400 bg-emerald-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'calendar' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
                     >
                       Smart Crop Calendar
                     </button>
@@ -187,7 +187,7 @@ export default function Page() {
             <div className="space-y-1">
               <button
                 onClick={() => toggleMenu('crops')}
-                className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-slate-500 flex items-center justify-between hover:text-slate-300"
+                className="w-full text-left px-6 py-2 text-[11px] font-black capitalize tracking-widest text-white flex items-center justify-between hover:text-white"
               >
                 Marketplace
                 <span>{expandedMenus.crops ? '−' : '+'}</span>
@@ -196,19 +196,19 @@ export default function Page() {
                 <div className="space-y-1 pl-4">
                   <button
                     onClick={() => switchView('orders')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'text-blue-400 bg-blue-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'text-blue-400 bg-blue-400/10' : 'text-white hover:bg-white/5'}`}
                   >
                     Orders
                   </button>
                   <button
                     onClick={() => switchView('listings')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'listings' ? 'text-emerald-400 bg-emerald-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'listings' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
                   >
                     Listings
                   </button>
                   <button
                     onClick={() => switchView('advertising')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'advertising' ? 'text-amber-400 bg-amber-400/10' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'advertising' ? 'text-amber-400 bg-amber-400/10' : 'text-white hover:bg-white/5'}`}
                   >
                     Advertising
                   </button>
@@ -221,7 +221,7 @@ export default function Page() {
             onClick={() => switchView('weather')}
             className={`w-full text-left px-6 py-4 rounded-2xl text-[14px] font-black transition-all duration-300 flex items-center gap-3 ${activeView === 'weather'
               ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/30'
-              : 'text-slate-400 bg-white/5 hover:bg-white/10 hover:text-white'
+              : 'text-white bg-white/5 hover:bg-white/10'
               }`}
           >
             Weather
