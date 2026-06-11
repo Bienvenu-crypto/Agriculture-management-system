@@ -52,8 +52,7 @@ export default function ChatInterface({ location }: LocationProps) {
     { code: 'en', name: 'English', welcome: "Hello! I am your Agriculture Management System advisor. I can help you with expert agricultural guidance tailored to your specific location and climate. How can I help you with your crops today?" },
     { code: 'fr', name: 'Français', welcome: "Bonjour ! Je suis votre conseiller du Système Adaptatif de Gestion Agricole. Je peux vous aider avec des conseils agricoles experts adaptés à votre emplacement et à votre climat. Comment puis-je vous aider avec vos cultures aujourd'hui ?" },
     { code: 'lg', name: 'Luganda', welcome: "Ki kati! Nze mubiwabuzibwa wo mu nteekateeka y'okuddukanya ebyobulimi ekyemala. Nyinza okukuyamba n'obubaka obukuguse obw'ebyo obulimi obukwatagana n'ekifo kyo n'obudde. Nnyinza okukuyamba ntya n'ebirime byo leero?" },
-    { code: 'sw', name: 'Swahili', welcome: "Habari! Mimi ni mshauri wako wa Mfumo wa Kusimamia Kilimo Unaojirekebisha. Naweza kukusaidia kwa mwongozo wa kitaalamu wa kilimo uliowekwa kulingana na eneo lako na hali ya hewa. Naweza kukusaidia vipi na mazao yako leo?" },
-    { code: 'rw', name: 'Kinyarwanda', welcome: "Muraho! Ndi umujyanama wanyu wa Sisitemu yo Gucunga Ubuhinzi Buhinduka. Nshobora kubafasha n’inama z’obuhinzi z’inzobere zihuye n’akarere kanyu n’ikirere. Nabafasha nte kubuhinzi bwanyu uyu munsi?" }
+    { code: 'sw', name: 'Swahili', welcome: "Habari! Mimi ni mshauri wako wa Mfumo wa Kusimamia Kilimo Unaojirekebisha. Naweza kukusaidia kwa mwongozo wa kitaalamu wa kilimo uliowekwa kulingana na eneo lako na hali ya hewa. Naweza kukusaidia vipi na mazao yako leo?" }
   ];
 
   const handleLangChange = (langCode: string) => {
