@@ -125,7 +125,7 @@ export default function Page() {
       />
 
       {/* Desktop Sidebar */}
-      <nav className="fixed left-0 top-0 bottom-0 w-72 bg-[#0B1223] p-8 hidden lg:flex flex-col z-50 overflow-y-auto custom-scrollbar shadow-2xl">
+      <nav className="fixed left-0 top-0 bottom-0 w-72 bg-sky-900 p-8 hidden lg:flex flex-col z-50 overflow-y-auto custom-scrollbar shadow-2xl">
         <div
           className="flex flex-col mb-12 cursor-pointer"
           onClick={() => switchView('about')}
@@ -138,8 +138,8 @@ export default function Page() {
           <button
             onClick={() => switchView('about')}
             className={`w-full text-left px-6 py-4 rounded-2xl text-[14px] font-black transition-all duration-300 flex items-center gap-3 ${activeView === 'about'
-              ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/30'
-              : 'text-white bg-white/5 hover:bg-white/10'
+              ? 'bg-white text-sky-900 shadow-xl'
+              : 'text-white bg-white/5 hover:bg-white hover:text-sky-900'
               }`}
           >
             About
@@ -158,7 +158,7 @@ export default function Page() {
               <div className="space-y-1 pl-4">
                 <button
                   onClick={() => switchView('chatbot')}
-                  className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'chatbot' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
+                  className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'chatbot' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                 >
                   Chatbot
                 </button>
@@ -166,13 +166,13 @@ export default function Page() {
                   <>
                     <button
                       onClick={() => switchView('recommendation')}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'recommendation' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'recommendation' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                     >
                       Crop Recommendation
                     </button>
                     <button
                       onClick={() => switchView('calendar')}
-                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'calendar' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
+                      className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-bold transition-all ${activeView === 'calendar' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                     >
                       Smart Crop Calendar
                     </button>
@@ -196,19 +196,19 @@ export default function Page() {
                 <div className="space-y-1 pl-4">
                   <button
                     onClick={() => switchView('orders')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'text-blue-400 bg-blue-400/10' : 'text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'orders' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                   >
                     Orders
                   </button>
                   <button
                     onClick={() => switchView('listings')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'listings' ? 'text-emerald-400 bg-emerald-400/10' : 'text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'listings' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                   >
                     Listings
                   </button>
                   <button
                     onClick={() => switchView('advertising')}
-                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'advertising' ? 'text-amber-400 bg-amber-400/10' : 'text-white hover:bg-white/5'}`}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-[13px] font-bold transition-all ${activeView === 'advertising' ? 'bg-white text-sky-900 shadow-sm' : 'text-white hover:bg-white hover:text-sky-900'}`}
                   >
                     Advertising
                   </button>
@@ -220,8 +220,8 @@ export default function Page() {
           <button
             onClick={() => switchView('weather')}
             className={`w-full text-left px-6 py-4 rounded-2xl text-[14px] font-black transition-all duration-300 flex items-center gap-3 ${activeView === 'weather'
-              ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/30'
-              : 'text-white bg-white/5 hover:bg-white/10'
+              ? 'bg-white text-sky-900 shadow-xl'
+              : 'text-white bg-white/5 hover:bg-white hover:text-sky-900'
               }`}
           >
             Weather
@@ -235,7 +235,7 @@ export default function Page() {
           <div className="mt-auto pt-8 space-y-3">
             <button
               onClick={() => openAuthModal('login')}
-              className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest text-slate-300 bg-white/5 w-full hover:bg-white/10"
+              className="px-4 py-3 rounded-xl text-[10px] font-black capitalize tracking-widest text-slate-300 bg-white/5 w-full hover:bg-white hover:text-sky-900"
             >
               Sign In
             </button>
