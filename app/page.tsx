@@ -252,7 +252,7 @@ export default function Page() {
       {/* Desktop Top Header */}
       <div className="hidden lg:flex fixed top-0 right-0 left-72 h-24 items-center justify-between px-12 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100 shadow-sm">
         <h1 className="flex flex-col leading-none">
-          <span className="text-3xl font-black text-emerald-950 tracking-tighter">
+          <span className="text-3xl font-black text-black tracking-tighter">
             Smart Farming <span className="text-emerald-600">Intelligence</span>
           </span>
         </h1>
