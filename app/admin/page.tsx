@@ -165,8 +165,8 @@ export default function AdminDashboard() {
         <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] bg-cyan-400/20 rounded-full blur-[150px] animate-pulse"></div>
         <div className="absolute bottom-[10%] right-[20%] w-[600px] h-[600px] bg-blue-400/10 rounded-full blur-[150px] animate-pulse" style={{ animationDelay: '1s' }}></div>
 
-        <Link href="/" className="absolute top-10 left-10 text-[10px] font-black text-white hover:bg-emerald-600 capitalize tracking-[0.3em] transition-all z-10 px-6 py-3 rounded-full bg-emerald-500 shadow-md shadow-emerald-500/20 border border-emerald-600 flex items-center gap-2">
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+        <Link href="/" className="absolute top-10 left-10 text-sm font-semibold text-slate-600 hover:text-slate-900 bg-white hover:bg-slate-50 transition-all z-10 px-5 py-2.5 rounded-full shadow-sm border border-slate-200 flex items-center gap-2">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           Return Home
         </Link>
 
@@ -174,44 +174,47 @@ export default function AdminDashboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="bg-white p-10 sm:p-14 rounded-[3rem] w-full max-w-[420px] relative z-10 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-slate-100"
+          className="bg-white p-10 sm:p-14 rounded-3xl w-full max-w-[420px] relative z-10 shadow-2xl shadow-slate-900/10 border border-slate-100"
         >
           <div className="flex justify-center mb-8">
-            <div className="flex items-center justify-center w-16 h-16 rounded-3xl bg-cyan-50 border border-cyan-100 shadow-sm relative">
-              <div className="absolute inset-0 rounded-3xl bg-cyan-400/20 blur-md"></div>
-              <div className="w-6 h-6 bg-cyan-500 rounded-full shadow-[0_0_10px_rgba(6,182,212,0.4)] relative z-10"></div>
+            <div className="flex items-center justify-center w-16 h-16 rounded-2xl bg-cyan-50 text-cyan-600 shadow-sm relative border border-cyan-100/50">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
             </div>
           </div>
 
-          <h1 className="text-3xl font-black text-center text-slate-900 mb-2 capitalize tracking-tighter">Admin Portal</h1>
-          <p className="text-[10px] font-bold text-slate-400 text-center mb-10 px-4 capitalize tracking-[0.3em]">System Authorization Required</p>
+          <h1 className="text-3xl font-extrabold text-center text-slate-900 mb-2 tracking-tight">Admin Portal</h1>
+          <p className="text-sm font-medium text-slate-500 text-center mb-10 px-4">System Authorization Required</p>
 
-          <form onSubmit={handleLogin} className="space-y-6" autoComplete="off">
+          <form onSubmit={handleLogin} className="space-y-5" autoComplete="off">
             <div className="relative group">
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="ENTER ACCESS TOKEN"
+                placeholder="Enter access token"
                 autoComplete="new-password"
-                className="w-full px-6 py-5 rounded-2xl bg-slate-50 text-slate-900 border border-slate-200 focus:ring-4 focus:ring-cyan-500/10 focus:border-cyan-500 outline-none transition-all font-black text-[10px] capitalize tracking-[0.4em] placeholder:text-slate-400 text-center"
+                className="w-full px-6 py-4 rounded-xl bg-slate-50/50 text-slate-900 border border-slate-200 focus:bg-white focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 outline-none transition-all font-semibold text-sm placeholder:text-slate-400 text-center"
               />
             </div>
 
             {error && (
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }}
-                className="text-red-500 text-[10px] font-black capitalize tracking-widest text-center bg-red-50 py-2 rounded-lg border border-red-100"
+                className="flex items-center justify-center gap-2 text-red-600 text-sm font-medium text-center bg-red-50 py-3 rounded-xl border border-red-100"
               >
-                {error}
-              </motion.p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <span>{error}</span>
+              </motion.div>
             )}
 
             <button
               type="submit"
-              className="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-[11px] capitalize tracking-[0.4em] hover:bg-slate-800 active:scale-[0.98] transition-all shadow-xl shadow-slate-900/10"
+              className="w-full bg-slate-900 text-white py-4 rounded-xl font-bold text-sm hover:bg-slate-800 active:scale-[0.98] transition-all shadow-lg shadow-slate-900/20"
             >
-              Authenticate
+              Login
             </button>
           </form>
         </motion.div>
