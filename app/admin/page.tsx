@@ -230,7 +230,7 @@ export default function AdminDashboard() {
       }}
       className={`w-full text-left px-5 py-3.5 rounded-xl font-bold text-sm transition-all relative flex items-center gap-3 ${activeTab === id
         ? 'bg-cyan-500/10 text-cyan-400'
-        : 'text-slate-400 hover:text-white hover:bg-white/5'
+        : 'text-white hover:bg-white/10'
         }`}
     >
       {activeTab === id && <div className="w-1 h-5 bg-cyan-400 rounded-full mr-2" />}
