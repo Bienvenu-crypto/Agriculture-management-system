@@ -1,6 +1,32 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@theme {
+  --color-emerald-50: #e5f8f0;
+  --color-emerald-100: #c0efdc;
+  --color-emerald-200: #8ee0c1;
+  --color-emerald-300: #54cba3;
+  --color-emerald-400: #29b28a;
+  --color-emerald-500: #0bb177;
+  --color-emerald-600: #0bb177;
+  --color-emerald-700: #099a67;
+  --color-emerald-800: #0bb177;
+  --color-emerald-900: #099a67;
+  --color-emerald-950: #07764f;
+
+  --color-green-50: #e5f8f0;
+  --color-green-100: #c0efdc;
+  --color-green-200: #8ee0c1;
+  --color-green-300: #54cba3;
+  --color-green-400: #29b28a;
+  --color-green-500: #0bb177;
+  --color-green-600: #0bb177;
+  --color-green-700: #099a67;
+  --color-green-800: #0bb177;
+  --color-green-900: #099a67;
+  --color-green-950: #07764f;
+}
+
 * {
   cursor: pointer !important;
 }

@@ -105,13 +105,13 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
             <button
               onClick={onGetStarted}
-              className="px-8 py-4 bg-emerald-800 text-white rounded-2xl text-sm font-black hover:bg-emerald-900 transition-all shadow-xl shadow-emerald-800/20 w-full sm:w-auto"
+              className="px-8 py-4 bg-emerald-500 text-white rounded-2xl text-sm font-black hover:bg-emerald-600 transition-all shadow-xl shadow-emerald-500/20 w-full sm:w-auto"
             >
               Get Started Free
             </button>
             <button
               onClick={handleLearnMore}
-              className="px-8 py-4 bg-white text-emerald-800 border-2 border-emerald-100 rounded-2xl text-sm font-black hover:bg-emerald-50 transition-all w-full sm:w-auto"
+              className="px-8 py-4 bg-white text-emerald-600 border-2 border-emerald-100 rounded-2xl text-sm font-black hover:bg-emerald-50 transition-all w-full sm:w-auto"
             >
               Learn More
             </button>
