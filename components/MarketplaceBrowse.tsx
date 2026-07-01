@@ -394,7 +394,7 @@ export default function MarketplaceBrowse({
       {/* Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <h2 className="text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-800 tracking-tight flex items-center gap-2">
             {viewMode === 'seller' ? (
               <>My Listings and Received Orders</>
             ) : (
@@ -426,7 +426,7 @@ export default function MarketplaceBrowse({
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
                 <div className="flex items-center gap-3">
-                  <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Crops Catalog</h3>
+                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">Your Crops Catalog</h3>
                   <span className="bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-md text-[10px] font-black capitalize tracking-widest border border-emerald-100 shrink-0 whitespace-nowrap">
                     {filteredCatalog.length} Active Crops
                   </span>
@@ -538,7 +538,7 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Orders Received from Buyers</h3>
+                <h3 className="text-xl font-bold text-slate-900 tracking-tight">Orders Received from Buyers</h3>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Purchases initiated and paid by buyers for your crops</p>
               </div>
               <div className="flex items-center gap-3">
@@ -684,7 +684,7 @@ export default function MarketplaceBrowse({
           {/* Grid of Browse Listings */}
           <div className="space-y-6">
             <div className="flex justify-between items-center px-2">
-              <h3 className="text-lg font-black text-slate-900 capitalize tracking-tighter">Available Crops for Purchase</h3>
+              <h3 className="text-xl font-bold text-slate-900 tracking-tight">Available Crops for Purchase</h3>
               <p className="text-[11px] font-black text-slate-400 capitalize tracking-widest">
                 Showing {sortedBuyerListings.length} of {totalCount} listings
               </p>
@@ -814,7 +814,7 @@ export default function MarketplaceBrowse({
           <div className="space-y-6">
             <div className="flex justify-between items-center border-b border-slate-50 pb-4">
               <div>
-                <h3 className="text-lg font-black text-slate-950 capitalize tracking-tighter">Your Purchase History</h3>
+                <h3 className="text-xl font-bold text-slate-900 tracking-tight">Your Purchase History</h3>
                 <p className="text-xs text-slate-400 font-bold capitalize tracking-wider mt-0.5">Orders you have placed and paid over time</p>
               </div>
               <div className="flex items-center gap-3">
