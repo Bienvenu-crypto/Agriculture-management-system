@@ -130,8 +130,8 @@ export default function Page() {
           className="flex flex-col mb-12 cursor-pointer"
           onClick={() => switchView('about')}
         >
-          <span className="text-[1.3rem] font-bold text-white leading-[1.2] tracking-tight">Agriculture</span>
-          <span className="text-[1.3rem] font-bold text-emerald-400 leading-[1.2] tracking-tight">Management System</span>
+          <span className="text-[1.3rem] font-bold text-emerald-200 leading-[1.2] tracking-tight">Agriculture Hub</span>
+          <span className="text-[1.3rem] font-bold text-emerald-400 leading-[1.2] tracking-tight"></span>
         </div>
 
         <div className="flex-1 space-y-4">

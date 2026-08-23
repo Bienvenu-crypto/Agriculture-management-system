@@ -153,7 +153,7 @@ export default function AboutPage({ onGetStarted }: AboutPageProps) {
               </h3>
               <div className="bg-white p-8 rounded-3xl shadow-lg shadow-slate-200/40 border border-slate-100 space-y-6">
                 <p className="text-slate-600 font-medium leading-relaxed">
-                  Welcome to our Agricultural Management System. By using this platform to buy, sell, or manage your farm, you agree to abide by the following rules to ensure a secure and fair marketplace for all users.
+                  Welcome to our Agriculture Hub. By using this platform to buy, sell, or manage your farm, you agree to abide by the following rules to ensure a secure and fair marketplace for all users.
                 </p>
                 <div className="bg-red-50 border-2 border-red-100 p-5 rounded-2xl text-red-800 font-bold text-sm shadow-inner">
                   <div className="flex items-start gap-3">
