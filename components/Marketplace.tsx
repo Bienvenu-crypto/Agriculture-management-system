@@ -1094,7 +1094,7 @@ export default function Marketplace({ forcedTab, onLogout }: { forcedTab?: strin
             key="add-listing-modal"
             onClose={() => setShowAddListing(false)}
             onSuccess={() => { fetchListings(); setActiveTab('my-listings'); }}
-            onGoToAdvertising={() => { setShowAddListing(false); setActiveTab('advertising'); }}
+            onGoToAdvertising={() => { setShowAddListing(false); setShowPaymentModal(true); }}
             alreadySubscribed={!!mpUser?.is_subscribed}
           />
         )}

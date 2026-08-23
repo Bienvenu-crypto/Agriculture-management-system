@@ -112,6 +112,11 @@ export default function MarketplaceBrowse({
   const [showAddListingModal, setShowAddListingModal] = useState(false);
   const [editingListing, setEditingListing] = useState<Listing | null>(null);
 
+  // Subscription Payment State
+  const [showSubscriptionPaymentModal, setShowSubscriptionPaymentModal] = useState(false);
+  const [subscriptionMomoNumber, setSubscriptionMomoNumber] = useState('');
+  const [isPayingSubscription, setIsPayingSubscription] = useState(false);
+
   const [catalogSearch, setCatalogSearch] = useState('');
   const [ordersReceivedSearch, setOrdersReceivedSearch] = useState('');
   const [purchaseHistorySearch, setPurchaseHistorySearch] = useState('');
@@ -201,6 +206,30 @@ export default function MarketplaceBrowse({
   useEffect(() => {
     fetchListings();
   }, [fetchListings]);
+
+  const handleSubscriptionPayment = async () => {
+    if (!subscriptionMomoNumber) return;
+    setIsPayingSubscription(true);
+    try {
+      const res = await fetch('/api/marketplace/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone: subscriptionMomoNumber })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setMpUser((prev: any) => ({ ...prev, is_subscribed: true }));
+        setShowSubscriptionPaymentModal(false);
+        setSubscriptionMomoNumber('');
+      } else {
+        alert(data.error || 'Payment failed');
+      }
+    } catch (err) {
+      alert('Network error during payment');
+    } finally {
+      setIsPayingSubscription(false);
+    }
+  };
 
   useEffect(() => {
     if (mpUser) {
@@ -953,8 +982,73 @@ export default function MarketplaceBrowse({
               setShowAddListingModal(false);
               fetchListings();
             }}
+            onGoToAdvertising={() => {
+              setShowAddListingModal(false);
+              setShowSubscriptionPaymentModal(true);
+            }}
+            alreadySubscribed={!!mpUser?.is_subscribed}
           />
         )}
+
+        {/* Subscription Payment Modal */}
+        <AnimatePresence>
+          {showSubscriptionPaymentModal && (
+            <div className="fixed inset-0 z-[600] flex items-center justify-center p-6 bg-slate-950/60 backdrop-blur-md">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="bg-white w-full max-w-md rounded-[2.5rem] overflow-hidden shadow-2xl"
+              >
+                <div className="bg-emerald-600 p-8 text-white">
+                  <div className="flex justify-between items-start mb-6">
+                    <div>
+                      <h3 className="text-2xl font-black capitalize tracking-tighter mb-1">Payment Portal</h3>
+                      <p className="text-emerald-100 text-[10px] font-black capitalize tracking-widest">Secure Mobile Money Transfer</p>
+                    </div>
+                    <button onClick={() => setShowSubscriptionPaymentModal(false)} className="text-white/60 hover:text-white transition-colors">✕</button>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-4 border border-white/10">
+                    <p className="text-[10px] font-black capitalize tracking-widest text-emerald-200 mb-1">Recipient Number</p>
+                    <p className="text-xl font-black tracking-tighter">+256 765 636 479</p>
+                  </div>
+                </div>
+
+                <div className="p-8 space-y-6">
+                  <div>
+                    <label className="block text-[10px] font-black text-slate-400 capitalize tracking-widest mb-3">Your Mobile Money Number</label>
+                    <input
+                      type="tel"
+                      placeholder="e.g. +256 7xx xxx xxx"
+                      value={subscriptionMomoNumber}
+                      onChange={(e) => setSubscriptionMomoNumber(e.target.value)}
+                      className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 text-sm font-bold focus:border-emerald-500 focus:ring-0 transition-all outline-none"
+                    />
+                  </div>
+
+                  <div className="p-4 bg-amber-50 rounded-2xl border border-amber-100">
+                    <div className="flex gap-3">
+                      <span className="text-amber-500 font-black">ℹ</span>
+                      <p className="text-[10px] text-amber-900 font-bold leading-relaxed capitalize tracking-tight">
+                        A prompt will be sent to your phone to authorize the deduction of <span className="text-amber-600">100,000 UGX</span>.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={handleSubscriptionPayment}
+                    disabled={isPayingSubscription || !subscriptionMomoNumber}
+                    className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-black capitalize text-xs tracking-[0.2em] shadow-xl shadow-emerald-500/20 hover:bg-emerald-700 transition-all disabled:opacity-50 active:scale-[0.98]"
+                  >
+                    {isPayingSubscription ? 'Confirming Transfer...' : 'Confirm & Pay'}
+                  </button>
+
+                  <button onClick={() => setShowSubscriptionPaymentModal(false)} className="w-full text-[10px] font-black capitalize tracking-widest text-slate-400 hover:text-slate-600 transition-colors">?</button>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>
 
         {editingListing && (
           <EditListingModal

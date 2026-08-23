@@ -370,6 +370,8 @@ export default function SellerPortal() {
           <AddListingModal
             onClose={() => setShowAddListing(false)}
             onSuccess={() => { setShowAddListing(false); fetchData(); }}
+            onGoToAdvertising={() => { setShowAddListing(false); setShowPaymentModal(true); }}
+            alreadySubscribed={!!mpUser?.is_subscribed}
           />
         )}
         {editingListing && (
